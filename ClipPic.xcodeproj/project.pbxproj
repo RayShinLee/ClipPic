@@ -1,0 +1,626 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2F9285888BF00ABA14D /* AppDelegate.swift */; };
+		8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FB285888BF00ABA14D /* SceneDelegate.swift */; };
+		8740C2FE285888BF00ABA14D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FD285888BF00ABA14D /* ViewController.swift */; };
+		8740C301285888BF00ABA14D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8740C2FF285888BF00ABA14D /* Main.storyboard */; };
+		8740C304285888BF00ABA14D /* ClipPic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */; };
+		8740C306285888C600ABA14D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8740C305285888C600ABA14D /* Assets.xcassets */; };
+		8740C309285888C600ABA14D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8740C307285888C600ABA14D /* LaunchScreen.storyboard */; };
+		8740C314285888C600ABA14D /* ClipPicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C313285888C600ABA14D /* ClipPicTests.swift */; };
+		8740C31E285888C600ABA14D /* ClipPicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C31D285888C600ABA14D /* ClipPicUITests.swift */; };
+		8740C320285888C600ABA14D /* ClipPicUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8740C310285888C600ABA14D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8740C2EE285888BF00ABA14D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8740C2F5285888BF00ABA14D;
+			remoteInfo = ClipPic;
+		};
+		8740C31A285888C600ABA14D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8740C2EE285888BF00ABA14D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8740C2F5285888BF00ABA14D;
+			remoteInfo = ClipPic;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8740C2F6285888BF00ABA14D /* ClipPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8740C2F9285888BF00ABA14D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8740C2FB285888BF00ABA14D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		8740C2FD285888BF00ABA14D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8740C300285888BF00ABA14D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8740C303285888BF00ABA14D /* ClipPic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClipPic.xcdatamodel; sourceTree = "<group>"; };
+		8740C305285888C600ABA14D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8740C308285888C600ABA14D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8740C30A285888C600ABA14D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8740C30F285888C600ABA14D /* ClipPicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipPicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8740C313285888C600ABA14D /* ClipPicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicTests.swift; sourceTree = "<group>"; };
+		8740C319285888C600ABA14D /* ClipPicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipPicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8740C31D285888C600ABA14D /* ClipPicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicUITests.swift; sourceTree = "<group>"; };
+		8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8740C2F3285888BF00ABA14D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8740C30C285888C600ABA14D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8740C316285888C600ABA14D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8740C2ED285888BF00ABA14D = {
+			isa = PBXGroup;
+			children = (
+				8740C2F8285888BF00ABA14D /* ClipPic */,
+				8740C312285888C600ABA14D /* ClipPicTests */,
+				8740C31C285888C600ABA14D /* ClipPicUITests */,
+				8740C2F7285888BF00ABA14D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8740C2F7285888BF00ABA14D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8740C2F6285888BF00ABA14D /* ClipPic.app */,
+				8740C30F285888C600ABA14D /* ClipPicTests.xctest */,
+				8740C319285888C600ABA14D /* ClipPicUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8740C2F8285888BF00ABA14D /* ClipPic */ = {
+			isa = PBXGroup;
+			children = (
+				8740C2F9285888BF00ABA14D /* AppDelegate.swift */,
+				8740C2FB285888BF00ABA14D /* SceneDelegate.swift */,
+				8740C2FD285888BF00ABA14D /* ViewController.swift */,
+				8740C2FF285888BF00ABA14D /* Main.storyboard */,
+				8740C305285888C600ABA14D /* Assets.xcassets */,
+				8740C307285888C600ABA14D /* LaunchScreen.storyboard */,
+				8740C30A285888C600ABA14D /* Info.plist */,
+				8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */,
+			);
+			path = ClipPic;
+			sourceTree = "<group>";
+		};
+		8740C312285888C600ABA14D /* ClipPicTests */ = {
+			isa = PBXGroup;
+			children = (
+				8740C313285888C600ABA14D /* ClipPicTests.swift */,
+			);
+			path = ClipPicTests;
+			sourceTree = "<group>";
+		};
+		8740C31C285888C600ABA14D /* ClipPicUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8740C31D285888C600ABA14D /* ClipPicUITests.swift */,
+				8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */,
+			);
+			path = ClipPicUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8740C2F5285888BF00ABA14D /* ClipPic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8740C323285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPic" */;
+			buildPhases = (
+				8740C2F2285888BF00ABA14D /* Sources */,
+				8740C2F3285888BF00ABA14D /* Frameworks */,
+				8740C2F4285888BF00ABA14D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClipPic;
+			productName = ClipPic;
+			productReference = 8740C2F6285888BF00ABA14D /* ClipPic.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8740C30E285888C600ABA14D /* ClipPicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8740C326285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPicTests" */;
+			buildPhases = (
+				8740C30B285888C600ABA14D /* Sources */,
+				8740C30C285888C600ABA14D /* Frameworks */,
+				8740C30D285888C600ABA14D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8740C311285888C600ABA14D /* PBXTargetDependency */,
+			);
+			name = ClipPicTests;
+			productName = ClipPicTests;
+			productReference = 8740C30F285888C600ABA14D /* ClipPicTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8740C318285888C600ABA14D /* ClipPicUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8740C329285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPicUITests" */;
+			buildPhases = (
+				8740C315285888C600ABA14D /* Sources */,
+				8740C316285888C600ABA14D /* Frameworks */,
+				8740C317285888C600ABA14D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8740C31B285888C600ABA14D /* PBXTargetDependency */,
+			);
+			name = ClipPicUITests;
+			productName = ClipPicUITests;
+			productReference = 8740C319285888C600ABA14D /* ClipPicUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8740C2EE285888BF00ABA14D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1320;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					8740C2F5285888BF00ABA14D = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					8740C30E285888C600ABA14D = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 8740C2F5285888BF00ABA14D;
+					};
+					8740C318285888C600ABA14D = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 8740C2F5285888BF00ABA14D;
+					};
+				};
+			};
+			buildConfigurationList = 8740C2F1285888BF00ABA14D /* Build configuration list for PBXProject "ClipPic" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8740C2ED285888BF00ABA14D;
+			productRefGroup = 8740C2F7285888BF00ABA14D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8740C2F5285888BF00ABA14D /* ClipPic */,
+				8740C30E285888C600ABA14D /* ClipPicTests */,
+				8740C318285888C600ABA14D /* ClipPicUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8740C2F4285888BF00ABA14D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8740C309285888C600ABA14D /* LaunchScreen.storyboard in Resources */,
+				8740C306285888C600ABA14D /* Assets.xcassets in Resources */,
+				8740C301285888BF00ABA14D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8740C30D285888C600ABA14D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8740C317285888C600ABA14D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8740C2F2285888BF00ABA14D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8740C304285888BF00ABA14D /* ClipPic.xcdatamodeld in Sources */,
+				8740C2FE285888BF00ABA14D /* ViewController.swift in Sources */,
+				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
+				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8740C30B285888C600ABA14D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8740C314285888C600ABA14D /* ClipPicTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8740C315285888C600ABA14D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8740C31E285888C600ABA14D /* ClipPicUITests.swift in Sources */,
+				8740C320285888C600ABA14D /* ClipPicUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8740C311285888C600ABA14D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8740C2F5285888BF00ABA14D /* ClipPic */;
+			targetProxy = 8740C310285888C600ABA14D /* PBXContainerItemProxy */;
+		};
+		8740C31B285888C600ABA14D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8740C2F5285888BF00ABA14D /* ClipPic */;
+			targetProxy = 8740C31A285888C600ABA14D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8740C2FF285888BF00ABA14D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8740C300285888BF00ABA14D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8740C307285888C600ABA14D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8740C308285888C600ABA14D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8740C321285888C600ABA14D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8740C322285888C600ABA14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8740C324285888C600ABA14D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 937JA74FPR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClipPic/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8740C325285888C600ABA14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 937JA74FPR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClipPic/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8740C327285888C600ABA14D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 937JA74FPR;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipPic.app/ClipPic";
+			};
+			name = Debug;
+		};
+		8740C328285888C600ABA14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 937JA74FPR;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipPic.app/ClipPic";
+			};
+			name = Release;
+		};
+		8740C32A285888C600ABA14D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 937JA74FPR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPicUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ClipPic;
+			};
+			name = Debug;
+		};
+		8740C32B285888C600ABA14D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 937JA74FPR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPicUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ClipPic;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8740C2F1285888BF00ABA14D /* Build configuration list for PBXProject "ClipPic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8740C321285888C600ABA14D /* Debug */,
+				8740C322285888C600ABA14D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8740C323285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8740C324285888C600ABA14D /* Debug */,
+				8740C325285888C600ABA14D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8740C326285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8740C327285888C600ABA14D /* Debug */,
+				8740C328285888C600ABA14D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8740C329285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPicUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8740C32A285888C600ABA14D /* Debug */,
+				8740C32B285888C600ABA14D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8740C303285888BF00ABA14D /* ClipPic.xcdatamodel */,
+			);
+			currentVersion = 8740C303285888BF00ABA14D /* ClipPic.xcdatamodel */;
+			path = ClipPic.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 8740C2EE285888BF00ABA14D /* Project object */;
+}
