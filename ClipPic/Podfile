@@ -6,6 +6,8 @@ target 'ClipPic' do
   use_frameworks!
 
   # Pods for ClipPic
+  pod 'SwiftLint'
+
 
   target 'ClipPicTests' do
     inherit! :search_paths
