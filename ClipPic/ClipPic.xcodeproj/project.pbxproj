@@ -17,6 +17,8 @@
 		8740C314285888C600ABA14D /* ClipPicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C313285888C600ABA14D /* ClipPicTests.swift */; };
 		8740C31E285888C600ABA14D /* ClipPicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C31D285888C600ABA14D /* ClipPicUITests.swift */; };
 		8740C320285888C600ABA14D /* ClipPicUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */; };
+		87839F542859739800620513 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F532859739700620513 /* ContentCollectionViewCell.swift */; };
+		87839F5628597BF900620513 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5528597BF900620513 /* TabBarViewController.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -58,6 +60,8 @@
 		8740C319285888C600ABA14D /* ClipPicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipPicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8740C31D285888C600ABA14D /* ClipPicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicUITests.swift; sourceTree = "<group>"; };
 		8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		87839F532859739700620513 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
+		87839F5528597BF900620513 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 				8740C307285888C600ABA14D /* LaunchScreen.storyboard */,
 				8740C30A285888C600ABA14D /* Info.plist */,
 				8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */,
+				87839F532859739700620513 /* ContentCollectionViewCell.swift */,
+				87839F5528597BF900620513 /* TabBarViewController.swift */,
 			);
 			path = ClipPic;
 			sourceTree = "<group>";
@@ -175,6 +181,7 @@
 			buildConfigurationList = 8740C323285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPic" */;
 			buildPhases = (
 				1B710F4E361C1740A0CB3661 /* [CP] Check Pods Manifest.lock */,
+				87839F5728598BB500620513 /* ShellScript */,
 				8740C2F2285888BF00ABA14D /* Sources */,
 				8740C2F3285888BF00ABA14D /* Frameworks */,
 				8740C2F4285888BF00ABA14D /* Resources */,
@@ -362,6 +369,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		87839F5728598BB500620513 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -373,6 +397,8 @@
 				8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
+				87839F5628597BF900620513 /* TabBarViewController.swift in Sources */,
+				87839F542859739800620513 /* ContentCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,53 +9,48 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    //MARK: - Properties
+    // MARK: - Properties
     
-    var homeCollectionView: UICollectionView?
+    var fullScreenSize: CGSize!
     
-    //MARK: - UI Properties
+    // MARK: - UI Properties
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .white
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        return collectionView
-    }()
-
-    //MARK: - Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpCollectionView()
-        homeCollectionView?.dataSource = self
-        homeCollectionView?.delegate = self
-        homeCollectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
     }
     
-    //MARK: - methods
+    // MARK: - methods
     
     func setUpCollectionView() {
+        fullScreenSize = UIScreen.main.bounds.size
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        // layout.minimumLineSpacing = 10
+        layout.itemSize = CGSize(
+            width: CGFloat(fullScreenSize.width)/2 - 15.0,
+            height: CGFloat(fullScreenSize.width)/2 - 5.0)
+        layout.scrollDirection = .vertical
         
-        guard let homeCollectionView = homeCollectionView else {
-            return
-        }
+        let homeCollectionView = UICollectionView(frame: CGRect(
+              x: 0, y: 20,
+              width: fullScreenSize.width,
+              height: fullScreenSize.height - 20),
+            collectionViewLayout: layout)
         
-        view.addSubview(homeCollectionView)
-        homeCollectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        homeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        homeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        homeCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        homeCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
+
+        homeCollectionView.delegate = self
+        homeCollectionView.dataSource = self
+
+        self.view.addSubview(homeCollectionView)
     }
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    
+    /*
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 30, height: 50)
     }
@@ -67,27 +62,26 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
+     */
 }
 
 extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //count of posts
+        // count of posts
         return 10
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
+        -> UICollectionViewCell {
         
         let contentCell = collectionView.dequeueReusableCell(withReuseIdentifier: "contentCell", for: indexPath)
         contentCell.backgroundColor = UIColor.blue
+        contentCell.layer.cornerRadius = 20
+        
         return contentCell
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-    
 }
