@@ -23,6 +23,8 @@ class TabBarViewController: UITabBarController {
             image: UIImage(named: "Icons_36px_Home_Normal"),
             selectedImage: UIImage(named: "Icons_36px_Home_Selected"))
         
+        UITabBar.appearance().barTintColor = .white
+        
         viewControllers = [homeViewController]
     }
 
