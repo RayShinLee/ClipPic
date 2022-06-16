@@ -23,30 +23,73 @@ class HomeViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
-        collectionView.register(HomeCategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
+    }()
+    
+    private let categoryCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(HomeCategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
+    }()
+    
+    var postButton: UIButton = {
+        let postButton = UIButton.init(type: .custom)
+        postButton.translatesAutoresizingMaskIntoConstraints = false
+        postButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        postButton.imageView?.tintColor = .systemBackground
+        return postButton
     }()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         self.navigationController?.isNavigationBarHidden = true
         
-        setUpCollectionView()
+        setUpViews()
+        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
     }
     
     // MARK: - methods
     
-    func setUpCollectionView() {
+    func setUpViews() {
         view.addSubview(homeCollectionView)
         homeCollectionView.delegate = self
         homeCollectionView.dataSource = self
-        homeCollectionView.backgroundColor = .white
+        homeCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85).isActive = true
         homeCollectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         homeCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         homeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        homeCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        view.addSubview(categoryCollectionView)
+        categoryCollectionView.delegate = self
+        categoryCollectionView.dataSource = self
+        categoryCollectionView.topAnchor.constraint(equalTo: homeCollectionView.bottomAnchor).isActive = true
+        categoryCollectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        categoryCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        categoryCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        homeCollectionView.addSubview(postButton)
+        homeCollectionView.bringSubviewToFront(postButton)
+        postButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        postButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        postButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
+        postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100).isActive = true
+        postButton.backgroundColor = .lightGray
+        postButton.layer.cornerRadius = 22
+    }
+    
+    
+    @objc func tapPublishPost() {
+        let publishVC = PublishViewController()
+        self.show(publishVC, sender: nil)
+        self.navigationController?.isNavigationBarHidden = true
     }
     /*
     func setUpImageCollectionView() {
@@ -74,68 +117,66 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
+        if collectionView == self.homeCollectionView {
+            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        } else {
+            return UIEdgeInsets(top: 3, left: 10, bottom: 5, right: 10)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         fullScreenSize = UIScreen.main.bounds.size
 
-        if indexPath.section == 0 {
+        if collectionView == self.homeCollectionView {
             return CGSize(
                 width: CGFloat(fullScreenSize.width)/2 - 15.0,
-                height: CGFloat(fullScreenSize.width)/2 - 5.0)
+                height: 300) // CGFloat(fullScreenSize.width)/2 - 5.0)
         } else {
             return CGSize(
-                width: CGFloat(fullScreenSize.width)/4,
-                height: 50)
+                width: CGFloat(fullScreenSize.width)/3,
+                height: 30)
         }
     }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if section == 0 {
+        if collectionView == self.homeCollectionView {
             return 10 // count of posts
         } else {
             return 5 // count of categories
         }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
-        -> UICollectionViewCell {
-            
-            switch indexPath.section {
-            case 0:
-                let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "contentCell", for: indexPath)
-                
-                guard let contentCell = imageCell as? ContentCollectionViewCell else {
-                    return imageCell
-                }
-                contentCell.backgroundColor = .blue
-                contentCell.layer.cornerRadius = 20
-                return contentCell
-            case 1:
-                let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath)
-                guard let category = categoryCell as? HomeCategoryCollectionViewCell else {
-                    return categoryCell
-                }
-                category.categoryTitle?.text = "LifeStyle"
-                category.backgroundColor = .gray
-                category.layer.cornerRadius = 20
-                return category
-            default:
-                assert(false)
+    -> UICollectionViewCell {
+        
+        if collectionView == self.homeCollectionView {
+            let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "contentCell", for: indexPath)
+            guard let contentCell = imageCell as? ContentCollectionViewCell else {
+                return imageCell
             }
+            contentCell.backgroundColor = .blue
+            contentCell.layer.cornerRadius = 20
+            return contentCell
+        } else {
+            let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath)
+            guard let category = categoryCell as? HomeCategoryCollectionViewCell else {
+                return categoryCell
+            }
+            category.categoryTitle?.text = "LifeStyle"
+            category.backgroundColor = .gray
+            category.layer.cornerRadius = 10
+            return category
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageVC = ImageViewController()
         self.show(imageVC, sender: nil)
+        self.navigationController?.isNavigationBarHidden = true
     }
 }
 
