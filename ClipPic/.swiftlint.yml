@@ -1,0 +1,19 @@
+excluded:
+  - Pods
+disabled_rules:
+  - trailing_whitespace
+  - unused_closure_parameter
+  - redundant_discardable_let
+identifier_name:
+  excluded: # excluded via string array
+    - id
+    - URL
+    - url
+    - app
+line_length: 140
+file_length:
+  warning: 500
+  error: 800
+type_body_length:
+  - 500 # warning
+  - 700 # error
