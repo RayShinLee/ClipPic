@@ -85,33 +85,11 @@ class HomeViewController: UIViewController {
         postButton.layer.cornerRadius = 22
     }
     
-    
     @objc func tapPublishPost() {
         let publishVC = PublishViewController()
         self.show(publishVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
     }
-    /*
-    func setUpImageCollectionView() {
-        fullScreenSize = UIScreen.main.bounds.size
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        // layout.minimumLineSpacing = 10
-        layout.itemSize = CGSize(
-            width: CGFloat(fullScreenSize.width)/2 - 15.0,
-            height: CGFloat(fullScreenSize.width)/2 - 5.0)
-        layout.scrollDirection = .vertical
-        
-        let homeCollectionView = UICollectionView(frame: CGRect(
-              x: 0, y: 20,
-              width: fullScreenSize.width,
-              height: fullScreenSize.height - 50),
-            collectionViewLayout: layout)
-        
-        homeCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
-        homeCollectionView.delegate = self
-        homeCollectionView.dataSource = self
-        self.view.addSubview(homeCollectionView)
-    } */
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
@@ -147,7 +125,6 @@ extension HomeViewController: UICollectionViewDataSource {
         } else {
             return 5 // count of categories
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
