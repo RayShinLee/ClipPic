@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5FEB3826566316281773F22B /* Pods_ClipPicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF11A23085A283591335FC6 /* Pods_ClipPicTests.framework */; };
+		87395FA3285DB6AF0028D217 /* categoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA2285DB6AF0028D217 /* categoryModel.swift */; };
+		87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA4285DB7880028D217 /* SearchViewController.swift */; };
+		87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */; };
+		87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */; };
 		8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2F9285888BF00ABA14D /* AppDelegate.swift */; };
 		8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FB285888BF00ABA14D /* SceneDelegate.swift */; };
 		8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FD285888BF00ABA14D /* HomeViewController.swift */; };
@@ -51,6 +55,10 @@
 		455DF6817F8F4C20CAF42D29 /* Pods-ClipPicTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPicTests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPicTests/Pods-ClipPicTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4AF11A23085A283591335FC6 /* Pods_ClipPicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E59B4F91EE347B4F2B8A63 /* Pods-ClipPic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.debug.xcconfig"; sourceTree = "<group>"; };
+		87395FA2285DB6AF0028D217 /* categoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryModel.swift; sourceTree = "<group>"; };
+		87395FA4285DB7880028D217 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBottomSheet.swift; sourceTree = "<group>"; };
+		87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPIManager.swift; sourceTree = "<group>"; };
 		8740C2F6285888BF00ABA14D /* ClipPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8740C2F9285888BF00ABA14D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8740C2FB285888BF00ABA14D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +134,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		87395FA1285D65B90028D217 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				87395FA2285DB6AF0028D217 /* categoryModel.swift */,
+				87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		8740C2ED285888BF00ABA14D = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +168,7 @@
 		8740C2F8285888BF00ABA14D /* ClipPic */ = {
 			isa = PBXGroup;
 			children = (
+				87395FA1285D65B90028D217 /* Model */,
 				8740C2F9285888BF00ABA14D /* AppDelegate.swift */,
 				8740C2FB285888BF00ABA14D /* SceneDelegate.swift */,
 				8740C2FD285888BF00ABA14D /* HomeViewController.swift */,
@@ -164,6 +182,8 @@
 				8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */,
 				87839F532859739700620513 /* ContentCollectionViewCell.swift */,
 				87839F582859B41D00620513 /* HomeCategoryCollectionViewCell.swift */,
+				87395FA4285DB7880028D217 /* SearchViewController.swift */,
+				87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */,
 			);
 			path = ClipPic;
 			sourceTree = "<group>";
@@ -443,13 +463,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8740C304285888BF00ABA14D /* ClipPic.xcdatamodeld in Sources */,
+				87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */,
 				8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */,
+				87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */,
 				87839F592859B41D00620513 /* HomeCategoryCollectionViewCell.swift in Sources */,
+				87395FA3285DB6AF0028D217 /* categoryModel.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
 				87839F5628597BF900620513 /* TabBarViewController.swift in Sources */,
 				87839F5B2859C69300620513 /* ImageViewController.swift in Sources */,
 				87839F542859739800620513 /* ContentCollectionViewCell.swift in Sources */,
+				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

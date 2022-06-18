@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseStorage
 
 class PublishViewController: UIViewController {
     
@@ -41,7 +42,7 @@ class PublishViewController: UIViewController {
                                                        categoryCollectionView,
                                                        publishButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        //stackView.distribution  = UIStackView.Distribution.equalSpacing
+        //  stackView.distribution  = UIStackView.Distribution.equalSpacing
         stackView.alignment = UIStackView.Alignment.center
         stackView.axis = .vertical
         stackView.spacing = 30
@@ -87,7 +88,6 @@ class PublishViewController: UIViewController {
         return destinationLinkTextField
     }()
     
-    //  add category section
     let categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -116,15 +116,11 @@ class PublishViewController: UIViewController {
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
+        publishButton.addTarget(self, action: #selector(publishAction), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        stackView.layoutIfNeeded()
-    }
-    
-    // MARK: - methods
+    // MARK: - Action methods
     
     @objc func tapBackButton() {
         self.navigationController?.popViewController(animated: true)
@@ -151,10 +147,18 @@ class PublishViewController: UIViewController {
         showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
     }
     
+    // MARK: - methods
+
     func addNewPost(title: String, description: String, destinationLink: String, category: String) {
         let posts = Firestore.firestore().collection("PublishContent")
         let document = posts.document()
         let timeStamp = Date().timeIntervalSince1970
+        guard let image = toPostImageView.image,
+              let imageData = image.jpegData(compressionQuality: 1.0) else {
+                  return
+              }
+        let imageName = UUID().uuidString
+        let imageReference = Storage.storage().reference().child(imageName)
 
         let data: [String: Any] = [
             "userId": "1234",
@@ -226,13 +230,19 @@ class PublishViewController: UIViewController {
     }
 }
 
+    // MARK: - CollectionView
+
 extension PublishViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
             return UIEdgeInsets(top: 3, left: 10, bottom: 3, right: 10)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         fullScreenSize = UIScreen.main.bounds.size
         return CGSize(
             width: CGFloat(fullScreenSize.width)/3,
@@ -251,18 +261,22 @@ extension PublishViewController: UICollectionViewDataSource, UICollectionViewDel
             return categoryCell
         }
         category.categoryTitle?.text = "LifeStyle"
+        category.categoryTitle?.textColor = .label
         category.backgroundColor = .gray
         category.layer.cornerRadius = 10
         return category
     }
 }
 
+    // MARK: - UIImagePickerController
+
 extension PublishViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            toPostImageView.contentMode = .scaleAspectFit
+            toPostImageView.contentMode = .scaleAspectFill
+            toPostImageView.clipsToBounds = true
             toPostImageView.image = pickedImage
         }
         dismiss(animated: true, completion: nil)

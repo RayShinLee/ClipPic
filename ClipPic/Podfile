@@ -11,6 +11,7 @@ target 'ClipPic' do
   pod 'Firebase/Database'
   pod 'Firebase/Core'
   pod 'FirebaseFirestore'
+  pod 'FirebaseStorage'
   pod 'IQKeyboardManagerSwift'
 
   target 'ClipPicTests' do

@@ -14,6 +14,13 @@ class HomeViewController: UIViewController {
     
     var fullScreenSize: CGSize!
     let layout = UICollectionViewFlowLayout()
+    let category = [
+        CategoryModel(categoryTitle: "For you"),
+        CategoryModel(categoryTitle: "LifeStyle"),
+        CategoryModel(categoryTitle: "Beauty"),
+        CategoryModel(categoryTitle: "Home"),
+        CategoryModel(categoryTitle: "Places"),
+    ]
     
     // MARK: - UI Properties
     
@@ -123,7 +130,7 @@ extension HomeViewController: UICollectionViewDataSource {
         if collectionView == self.homeCollectionView {
             return 10 // count of posts
         } else {
-            return 5 // count of categories
+            return category.count // count of categories
         }
     }
     
@@ -135,7 +142,8 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let contentCell = imageCell as? ContentCollectionViewCell else {
                 return imageCell
             }
-            contentCell.backgroundColor = .blue
+            contentCell.homeImageView.image = UIImage(named: "lemon")
+            contentCell.homeImageView.contentMode = .scaleAspectFill
             contentCell.layer.cornerRadius = 20
             return contentCell
         } else {
@@ -143,7 +151,7 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let category = categoryCell as? HomeCategoryCollectionViewCell else {
                 return categoryCell
             }
-            category.categoryTitle?.text = "LifeStyle"
+            category.categoryTitle?.text = "Category"
             category.backgroundColor = .gray
             category.layer.cornerRadius = 10
             return category

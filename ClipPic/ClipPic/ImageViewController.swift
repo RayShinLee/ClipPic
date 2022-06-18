@@ -20,6 +20,7 @@ class ImageViewController: UIViewController {
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -53,13 +54,62 @@ class ImageViewController: UIViewController {
         return saveButton
     }()
     
+    var postCommentButton: UIButton = {
+        let postCommentButton = UIButton()
+        postCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        postCommentButton.setTitle("Post", for: .normal)
+        postCommentButton.setTitleColor(.systemBlue, for: .normal)
+        return postCommentButton
+    }()
+    
+    var seeMoreCommentsButton: UIButton = {
+       let seeMoreCommentsButton = UIButton()
+        seeMoreCommentsButton.translatesAutoresizingMaskIntoConstraints = false
+        seeMoreCommentsButton.setTitle("See More", for: .normal)
+        seeMoreCommentsButton.setTitleColor(.white, for: .normal)
+        seeMoreCommentsButton.backgroundColor = .black
+        seeMoreCommentsButton.layer.cornerRadius = 10
+        return seeMoreCommentsButton
+    }()
+    
     var contentImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(named: "Icons_24px_Visa")
-        image.contentMode = .scaleToFill
-        image.layer.cornerRadius = 20
+        image.image = UIImage(named: "lemon")
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 25
+        image.clipsToBounds = true
         return image
+    }()
+    
+    var commentUserPicImageView: UIImageView = {
+        let commentUserPicView = UIImageView()
+        commentUserPicView.translatesAutoresizingMaskIntoConstraints = false
+        commentUserPicView.image = UIImage(named: "Quokdog")
+        commentUserPicView.contentMode = .scaleAspectFill
+        commentUserPicView.layer.cornerRadius = 25
+        commentUserPicView.clipsToBounds = true
+        return commentUserPicView
+    }()
+    
+    var commentCreatorImageView: UIImageView = {
+        let commentCreatorImageView = UIImageView()
+        commentCreatorImageView.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorImageView.image = UIImage(named: "lemon")
+        commentCreatorImageView.contentMode = .scaleAspectFill
+        commentCreatorImageView.layer.cornerRadius = 25
+        commentCreatorImageView.clipsToBounds = true
+        return commentCreatorImageView
+    }()
+    
+    var commentCreatorImageView2: UIImageView = {
+        let commentCreatorImageView2 = UIImageView()
+        commentCreatorImageView2.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorImageView2.image = UIImage(named: "Gardener")
+        commentCreatorImageView2.contentMode = .scaleAspectFill
+        commentCreatorImageView2.layer.cornerRadius = 25
+        commentCreatorImageView2.clipsToBounds = true
+        return commentCreatorImageView2
     }()
     
     var postDescriptionView: UIView = {
@@ -78,15 +128,6 @@ class ImageViewController: UIViewController {
         return commentSectionView
     }()
     
-    var commentUserPicView: UIImageView = {
-        let commentUserPicView = UIImageView()
-        commentUserPicView.translatesAutoresizingMaskIntoConstraints = false
-        commentUserPicView.image = UIImage(named: "Icons_24px_Visa")
-        commentUserPicView.contentMode = .scaleToFill
-        commentUserPicView.layer.cornerRadius = 25
-        return commentUserPicView
-    }()
-    
     var commentTextField: UITextField = {
         let commentTextField = UITextField()
         commentTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -95,12 +136,22 @@ class ImageViewController: UIViewController {
         return commentTextField
     }()
     
-    var postCommentButton: UIButton = {
-        let postCommentButton = UIButton()
-        postCommentButton.translatesAutoresizingMaskIntoConstraints = false
-        postCommentButton.setTitle("Post", for: .normal)
-        postCommentButton.setTitleColor(.systemBlue, for: .normal)
-        return postCommentButton
+    var commentCreatorThreadLabel: UILabel = {
+        let commentCreatorThreadLabel = UILabel()
+        commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorThreadLabel.numberOfLines = 3
+        commentCreatorThreadLabel.text = "Creator comment appears here. Creator comment appears here"
+        commentCreatorThreadLabel.textColor = .label
+        return commentCreatorThreadLabel
+    }()
+    
+    var commentCreatorThreadLabel2: UILabel = {
+        let commentCreatorThreadLabel2 = UILabel()
+        commentCreatorThreadLabel2.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorThreadLabel2.numberOfLines = 3
+        commentCreatorThreadLabel2.text = "Creator comment appears here. Creator comment appears here"
+        commentCreatorThreadLabel2.textColor = .label
+        return commentCreatorThreadLabel2
     }()
     
     // MARK: - Lifecycle
@@ -108,7 +159,7 @@ class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setUpViews()
+        setUpView()
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
     }
@@ -154,7 +205,7 @@ class ImageViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func setUpViews() {
+    func setUpView() {
         
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -183,12 +234,12 @@ class ImageViewController: UIViewController {
         //  save button
         contentImageView.addSubview(saveButton)
         contentImageView.bringSubviewToFront(saveButton)
-        saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        saveButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        saveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        saveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
         saveButton.bottomAnchor.constraint(equalTo: contentImageView.bottomAnchor, constant: -8).isActive = true
         
-        //  image descripton
+        //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         postDescriptionView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.2).isActive = true
         
@@ -196,20 +247,53 @@ class ImageViewController: UIViewController {
         commentSectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         commentSectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3).isActive = true
         
-        commentSectionView.addSubview(commentUserPicView)
-        commentUserPicView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
-        commentUserPicView.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -40).isActive = true
-        commentUserPicView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentUserPicView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        //  comment profile pic
+        commentSectionView.addSubview(commentCreatorImageView)
+        commentCreatorImageView.topAnchor.constraint(equalTo: commentSectionView.topAnchor, constant: 20).isActive = true
+        commentCreatorImageView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
+        commentCreatorImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        commentCreatorImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        commentSectionView.addSubview(commentCreatorImageView2)
+        commentCreatorImageView2.topAnchor.constraint(equalTo: commentCreatorImageView.bottomAnchor, constant: 10).isActive = true
+        commentCreatorImageView2.leadingAnchor.constraint(equalTo: commentCreatorImageView.leadingAnchor).isActive = true
+        commentCreatorImageView2.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        commentCreatorImageView2.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        commentSectionView.addSubview(commentUserPicImageView)
+        commentUserPicImageView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
+        commentUserPicImageView.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -50).isActive = true
+        commentUserPicImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        commentUserPicImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        //  comment content
+        commentSectionView.addSubview(commentCreatorThreadLabel)
+        commentCreatorThreadLabel.leadingAnchor.constraint(equalTo: commentCreatorImageView.trailingAnchor, constant: 5).isActive = true
+        commentCreatorThreadLabel.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
+        commentCreatorThreadLabel.centerYAnchor.constraint(equalTo: commentCreatorImageView.centerYAnchor).isActive = true
+        commentCreatorThreadLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        commentSectionView.addSubview(commentCreatorThreadLabel2)
+        commentCreatorThreadLabel2.leadingAnchor.constraint(equalTo: commentCreatorThreadLabel.leadingAnchor).isActive = true
+        commentCreatorThreadLabel2.trailingAnchor.constraint(equalTo: commentCreatorThreadLabel.trailingAnchor).isActive = true
+        commentCreatorThreadLabel2.centerYAnchor.constraint(equalTo: commentCreatorImageView2.centerYAnchor).isActive = true
+        commentCreatorThreadLabel2.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         commentSectionView.addSubview(commentTextField)
-        commentTextField.centerYAnchor.constraint(equalTo: commentUserPicView.centerYAnchor).isActive = true
-        commentTextField.leadingAnchor.constraint(equalTo: commentUserPicView.trailingAnchor, constant: 5).isActive = true
-        commentTextField.heightAnchor.constraint(equalTo: commentUserPicView.heightAnchor).isActive = true
+        commentTextField.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
+        commentTextField.leadingAnchor.constraint(equalTo: commentUserPicImageView.trailingAnchor, constant: 5).isActive = true
+        commentTextField.heightAnchor.constraint(equalTo: commentUserPicImageView.heightAnchor).isActive = true
         
+        //  comment buttons
         commentSectionView.addSubview(postCommentButton)
-        postCommentButton.centerYAnchor.constraint(equalTo: commentUserPicView.centerYAnchor).isActive = true
+        postCommentButton.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
         postCommentButton.leadingAnchor.constraint(equalTo: commentTextField.trailingAnchor, constant: 5).isActive = true
         postCommentButton.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
+        
+        commentSectionView.addSubview(seeMoreCommentsButton)
+        seeMoreCommentsButton.centerXAnchor.constraint(equalTo: commentSectionView.centerXAnchor).isActive = true
+        seeMoreCommentsButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        seeMoreCommentsButton.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        seeMoreCommentsButton.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -10).isActive = true
     }
 }
