@@ -19,9 +19,12 @@ class PublishViewController: UIViewController {
 
     // MARK: - UI Properties
     
-    var scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentInsetAdjustmentBehavior = .never
+        let tabBarHeight = tabBarController?.tabBar.bounds.height ?? 0
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
         return scrollView
     }()
     

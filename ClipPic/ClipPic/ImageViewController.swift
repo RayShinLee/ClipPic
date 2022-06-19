@@ -17,10 +17,13 @@ class ImageViewController: UIViewController {
     
     // MARK: - UI Properties
     
-    var scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInsetAdjustmentBehavior = .never
+        let tabBarHeight = tabBarController?.tabBar.bounds.height ?? 0
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
         return scrollView
     }()
     
@@ -29,8 +32,8 @@ class ImageViewController: UIViewController {
                                                        postDescriptionView,
                                                        commentSectionView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        //  stackView.distribution  = UIStackView.Distribution.equalSpacing
-        stackView.alignment = UIStackView.Alignment.center
+        stackView.distribution  = .equalSpacing
+        stackView.alignment = .fill
         stackView.axis = .vertical
         stackView.spacing = 5
         return stackView
@@ -215,37 +218,42 @@ class ImageViewController: UIViewController {
         
         scrollView.addSubview(stackView)
         stackView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        stackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         
-        scrollView.addSubview(backButton)
-        scrollView.bringSubviewToFront(backButton)
+        view.addSubview(backButton)
         backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         //   image
-        contentImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5).isActive = true
-        contentImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        contentImageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.5).isActive = true
+        contentImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
         //  save button
         contentImageView.addSubview(saveButton)
-        contentImageView.bringSubviewToFront(saveButton)
         saveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
         saveButton.bottomAnchor.constraint(equalTo: contentImageView.bottomAnchor, constant: -8).isActive = true
         
         //  image description
-        postDescriptionView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
-        postDescriptionView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.2).isActive = true
+        postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.2).isActive = true
         
+        setUpCommentSection()
+    }
+    
+    func setUpContentImageView() {
+        
+    }
+    
+    func setUpCommentSection() {
         //  comment section
-        commentSectionView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        commentSectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3).isActive = true
+        commentSectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        commentSectionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
         
         //  comment profile pic
         commentSectionView.addSubview(commentCreatorImageView)
