@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-class ImageViewController: UIViewController {
+class PostViewController: UIViewController {
     
     // MARK: - Properties
     
