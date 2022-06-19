@@ -33,4 +33,23 @@ class FirebaseStorageManager {
             }
         }
     }
+    
+    func uploadSearchImage(with data: Data, completion: @escaping ((URL?) -> Void)) {
+        let storageRef = storage.reference()
+        let timeStamp = "\(Date().timeIntervalSince1970)"
+        let imagesRef = storageRef.child("search/\(timeStamp).jpeg")
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+
+        imagesRef.putData(data, metadata: metadata) { (metadata, error) in
+            imagesRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    completion(nil)
+                    return
+                }
+                completion(downloadURL)
+            }
+        }
+    }
 }

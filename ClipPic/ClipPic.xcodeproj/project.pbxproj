@@ -34,6 +34,9 @@
 		878E1091285F04DF00FF87C2 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1090285F04DF00FF87C2 /* Comment.swift */; };
 		878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1098285F0FE800FF87C2 /* NetworkError.swift */; };
 		878E109C285F162B00FF87C2 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E109B285F162B00FF87C2 /* FirebaseStorageManager.swift */; };
+		878E109E285F27B500FF87C2 /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */; };
+		878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */; };
+		878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A6285F311300FF87C2 /* SerpImage.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -92,6 +95,9 @@
 		878E1090285F04DF00FF87C2 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		878E1098285F0FE800FF87C2 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		878E109B285F162B00FF87C2 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
+		878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchViewController.swift; sourceTree = "<group>"; };
+		878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerpAPIManager.swift; sourceTree = "<group>"; };
+		878E10A6285F311300FF87C2 /* SerpImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerpImage.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -219,8 +225,8 @@
 			isa = PBXGroup;
 			children = (
 				878E1098285F0FE800FF87C2 /* NetworkError.swift */,
-				878E1087285F044700FF87C2 /* FirestoreManager.swift */,
-				878E109B285F162B00FF87C2 /* FirebaseStorageManager.swift */,
+				878E10A3285F2F8200FF87C2 /* Serp */,
+				878E10A2285F2F1F00FF87C2 /* Firebase */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -232,6 +238,7 @@
 				878E108C285F049300FF87C2 /* User.swift */,
 				878E108E285F04A600FF87C2 /* Category.swift */,
 				878E1090285F04DF00FF87C2 /* Comment.swift */,
+				878E10A6285F311300FF87C2 /* SerpImage.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -244,6 +251,7 @@
 				878E1093285F053C00FF87C2 /* Home */,
 				878E1096285F05BA00FF87C2 /* Post */,
 				878E1097285F07A500FF87C2 /* Publish */,
+				878E10A1285F2E5B00FF87C2 /* ImageSearch */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -296,6 +304,31 @@
 				87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		878E10A1285F2E5B00FF87C2 /* ImageSearch */ = {
+			isa = PBXGroup;
+			children = (
+				878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */,
+			);
+			path = ImageSearch;
+			sourceTree = "<group>";
+		};
+		878E10A2285F2F1F00FF87C2 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				878E1087285F044700FF87C2 /* FirestoreManager.swift */,
+				878E109B285F162B00FF87C2 /* FirebaseStorageManager.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		878E10A3285F2F8200FF87C2 /* Serp */ = {
+			isa = PBXGroup;
+			children = (
+				878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */,
+			);
+			path = Serp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -563,6 +596,7 @@
 				87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */,
 				87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */,
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
+				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
 				878E1085285ECF7800FF87C2 /* HomeCollectionView.swift in Sources */,
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
@@ -571,7 +605,9 @@
 				878E108F285F04A600FF87C2 /* Category.swift in Sources */,
 				87839F5628597BF900620513 /* TabBarViewController.swift in Sources */,
 				87839F5B2859C69300620513 /* PostViewController.swift in Sources */,
+				878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */,
 				87839F542859739800620513 /* ContentCollectionViewCell.swift in Sources */,
+				878E109E285F27B500FF87C2 /* ImageSearchViewController.swift in Sources */,
 				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 				878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */,

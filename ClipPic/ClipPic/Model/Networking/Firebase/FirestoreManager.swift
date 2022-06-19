@@ -41,6 +41,10 @@ extension FireStoreManager {
 
 // MARK: - Post
 extension FireStoreManager {
+    func fetchPosts() {
+        
+    }
+    
     func publishPost(imageURL: String, title: String, category: Category, referenceLink: String?, description: String) {
         let newDocument = Firestore.firestore().collection("Post").document()
         let data: [String: Any] = [

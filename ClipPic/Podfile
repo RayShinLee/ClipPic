@@ -14,6 +14,7 @@ target 'ClipPic' do
   pod 'FirebaseStorage'
   pod 'IQKeyboardManagerSwift'
   pod 'Alamofire'
+  pod 'Kingfisher'
 
   target 'ClipPicTests' do
     inherit! :search_paths

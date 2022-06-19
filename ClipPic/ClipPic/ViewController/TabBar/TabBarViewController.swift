@@ -37,9 +37,13 @@ class TabBarViewController: UITabBarController {
         searchNavigation.tabBarItem = UITabBarItem(
             title: "Search", image: UIImage(named: "Icons_24x_search"), selectedImage: UIImage(named: "Icons_24x_search"))
         
+        let searchImageController = ImageSearchViewController()
+        let searchImageNavigation = UINavigationController(rootViewController: searchImageController)
+        searchImageNavigation.tabBarItem = UITabBarItem(title: "Images", image: UIImage(named: "Icons_24px_Starred"), selectedImage: UIImage(named: "Icons_24px_Starred"))
+        
         UITabBar.appearance().barTintColor = .systemBackground
         
-        viewControllers = [homeNavigation, searchNavigation]
+        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation]
     }
 
 }
