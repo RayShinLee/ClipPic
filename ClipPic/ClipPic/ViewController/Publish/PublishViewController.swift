@@ -14,8 +14,6 @@ class PublishViewController: UIViewController {
     var categories: [Category] = []
     
     var fullScreenSize: CGSize!
-    let imagePicker = UIImagePickerController()
-
     // MARK: - UI Properties
     
     lazy var scrollView: UIScrollView = {
@@ -61,7 +59,7 @@ class PublishViewController: UIViewController {
     var addImageButton: UIButton = {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
-        addImageButton.setTitle("Upload an image", for: .normal)
+        addImageButton.setTitle("Select an image", for: .normal)
         addImageButton.backgroundColor = .black
         return addImageButton
     }()
@@ -117,7 +115,7 @@ class PublishViewController: UIViewController {
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
-        publishButton.addTarget(self, action: #selector(publishAction), for: .touchUpInside)
+        publishButton.addTarget(self, action: #selector(publish), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         
         fetchCategories()
@@ -141,23 +139,39 @@ class PublishViewController: UIViewController {
     }
     
     @objc func uploadImage() {
+        let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true)
     }
     
-    @objc func publishAction() {
-        guard let title = titleTextField.text,
-              let description = descriptionTextField.text,
-              let destinationLink = destinationLinkTextField.text,
-              !title.isEmpty,
-              !description.isEmpty,
-              !destinationLink.isEmpty else {
-                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
-                  return
-              }
-        showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
+    @objc func publish() {
+//        guard let title = titleTextField.text,
+//              let description = descriptionTextField.text,
+//              let destinationLink = destinationLinkTextField.text,
+//              !title.isEmpty,
+//              !description.isEmpty,
+//              !destinationLink.isEmpty else {
+//                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+//                  return
+//              }
+//        showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
+        
+        // 1. Upload image to firebase storage
+        guard let toUploadData = toPostImageView.image?.jpegData(compressionQuality: 1.0) else {
+            print("Fail to convert UIImage into data")
+            return
+        }
+        FirebaseStorageManager.shared.uploadPostImage(with: toUploadData) { (downloadURL) in
+            guard let downloadURL = downloadURL else {
+                // upload fail
+                return
+            }
+            print(downloadURL)
+            // 2. Pubish post to fireStore database
+            
+        }
     }
     
     // MARK: - methods
@@ -251,8 +265,7 @@ extension PublishViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-    // MARK: - UIImagePickerController
-
+    // MARK: - UIImagePickerController Delegate
 extension PublishViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController,
@@ -262,10 +275,10 @@ extension PublishViewController: UIImagePickerControllerDelegate, UINavigationCo
             toPostImageView.clipsToBounds = true
             toPostImageView.image = pickedImage
         }
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 }
