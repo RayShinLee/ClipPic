@@ -12,7 +12,6 @@ class SearchViewController: UIViewController {
     //  MARK: - Properties
     
     
-    
     //  MARK: - UI Properties
     
     var searchTextField: UITextField = {
