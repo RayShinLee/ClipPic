@@ -41,7 +41,24 @@ extension FireStoreManager {
 
 // MARK: - Post
 extension FireStoreManager {
-    func publishPost() {
-        
+    func publishPost(imageURL: String, title: String, category: Category, referenceLink: String?, description: String) {
+        let newDocument = Firestore.firestore().collection("Post").document()
+        let data: [String: Any] = [
+           "author": [
+               "id": "b79Ms0w1mEEKdHb6VbmE",
+               "name": "rayshinlee"
+           ],
+           "title": title,
+           "image_url": imageURL,
+           "description": description,
+           "reference_link": referenceLink,
+           "category": ["id": category.id, "name": category.name]
+        ]
+        newDocument.setData(data) { error in
+            if let error = error {
+                print(error)
+            }
+            print("success")
+        }
     }
 }

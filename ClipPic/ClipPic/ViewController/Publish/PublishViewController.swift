@@ -12,6 +12,7 @@ class PublishViewController: UIViewController {
     
     // MARK: - Properties
     var categories: [Category] = []
+    var selectedCategory: Category? = nil
     
     var fullScreenSize: CGSize!
     // MARK: - UI Properties
@@ -147,30 +148,27 @@ class PublishViewController: UIViewController {
     }
     
     @objc func publish() {
-//        guard let title = titleTextField.text,
-//              let description = descriptionTextField.text,
-//              let destinationLink = destinationLinkTextField.text,
-//              !title.isEmpty,
-//              !description.isEmpty,
-//              !destinationLink.isEmpty else {
-//                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
-//                  return
-//              }
-//        showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
-        
+        guard let title = titleTextField.text,
+              let description = descriptionTextField.text,
+              !title.isEmpty,
+              !description.isEmpty,
+              let imageData = toPostImageView.image?.jpegData(compressionQuality: 1.0),
+              let category = selectedCategory else {
+                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+                  return
+              }
         // 1. Upload image to firebase storage
-        guard let toUploadData = toPostImageView.image?.jpegData(compressionQuality: 1.0) else {
-            print("Fail to convert UIImage into data")
-            return
-        }
-        FirebaseStorageManager.shared.uploadPostImage(with: toUploadData) { (downloadURL) in
+        FirebaseStorageManager.shared.uploadPostImage(with: imageData) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 // upload fail
                 return
             }
-            print(downloadURL)
             // 2. Pubish post to fireStore database
-            
+            FireStoreManager.shared.publishPost(imageURL: "\(downloadURL)",
+                                                title: title,
+                                                category: category,
+                                                referenceLink: self.destinationLinkTextField.text,
+                                                description: description)
         }
     }
     
@@ -261,7 +259,18 @@ extension PublishViewController: UICollectionViewDataSource, UICollectionViewDel
         }
         let category = categories[indexPath.item]
         categoryCell.titleLabel.text = category.name
+        if selectedCategory?.id == category.id {
+            categoryCell.titleLabel.textColor = .systemRed
+        } else {
+            categoryCell.titleLabel.textColor = .label
+        }
         return categoryCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let category = categories[indexPath.item]
+        selectedCategory = category
+        collectionView.reloadData()
     }
 }
 
