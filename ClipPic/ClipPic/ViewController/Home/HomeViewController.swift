@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(HomeCategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
+        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
@@ -108,10 +108,10 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
         let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath)
-        guard let category = categoryCell as? HomeCategoryCollectionViewCell else {
+        guard let category = categoryCell as? CategoryCollectionViewCell else {
             return categoryCell
         }
-        category.categoryTitle?.text = "Category"
+//        category.categoryTitle?.text = "Category"
         category.backgroundColor = .gray
         category.layer.cornerRadius = 10
         return category
@@ -120,7 +120,7 @@ extension HomeViewController: UICollectionViewDataSource {
 
 extension HomeViewController: HomeCollectionViewDelegate {
     func didSelectItemAt(at index: IndexPath) {
-        let imageVC = ImageViewController()
+        let imageVC = PostViewController()
         self.show(imageVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
     }

@@ -8,11 +8,9 @@
 import UIKit
 
 class SearchViewController: UIViewController {
+    // MARK: - Properties
     
-    //  MARK: - Properties
-    
-    
-    //  MARK: - UI Properties
+    // MARK: - UI Properties
     
     var searchTextField: UITextField = {
         let searchTextField = UITextField()
@@ -28,7 +26,7 @@ class SearchViewController: UIViewController {
         return searchTextField
     }()
     
-    //  MARK: - Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

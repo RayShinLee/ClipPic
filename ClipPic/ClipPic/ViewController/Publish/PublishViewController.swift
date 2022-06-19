@@ -7,13 +7,12 @@
 
 import UIKit
 import FirebaseFirestore
-import FirebaseStorage
 
 class PublishViewController: UIViewController {
     
     // MARK: - Properties
+    var categories: [Category] = []
     
-    var dataBase: Firestore!
     var fullScreenSize: CGSize!
     let imagePicker = UIImagePickerController()
 
@@ -96,7 +95,7 @@ class PublishViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(HomeCategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
+        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
@@ -114,13 +113,25 @@ class PublishViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        dataBase = Firestore.firestore()
         setUpViews()
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
         publishButton.addTarget(self, action: #selector(publishAction), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        
+        fetchCategories()
+    }
+    
+    func fetchCategories() {
+        FireStoreManager.shared.fetchCategories() { (categories, error) in
+            if let error = error {
+                print("Fail to fetch categories with error: \(error)")
+            } else {
+                self.categories = categories ?? []
+                self.categoryCollectionView.reloadData()
+            }
+        }
     }
     
     // MARK: - Action methods
@@ -146,37 +157,10 @@ class PublishViewController: UIViewController {
                   showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
                   return
               }
-        addNewPost(title: title, description: description, destinationLink: destinationLink, category: "0")
         showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
     }
     
     // MARK: - methods
-
-    func addNewPost(title: String, description: String, destinationLink: String, category: String) {
-        let posts = Firestore.firestore().collection("PublishContent")
-        let document = posts.document()
-        let timeStamp = Date().timeIntervalSince1970
-        guard let image = toPostImageView.image,
-              let imageData = image.jpegData(compressionQuality: 1.0) else {
-                  return
-              }
-        let imageName = UUID().uuidString
-        let imageReference = Storage.storage().reference().child(imageName)
-
-        let data: [String: Any] = [
-            "userId": "1234",
-            "imageURL": "",
-            "destinationLink": destinationLink,
-            "category": category,
-            "title": title,
-            "description": description,
-            "createdTime": timeStamp,
-            "id": document.documentID
-        ]
-    
-        document.setData(data)
-    }
-    
     func showAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
@@ -185,7 +169,6 @@ class PublishViewController: UIViewController {
     }
     
     func setUpViews() {
-        
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -255,19 +238,16 @@ extension PublishViewController: UICollectionViewDelegateFlowLayout {
 
 extension PublishViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath)
-        guard let category = categoryCell as? HomeCategoryCollectionViewCell else {
-            return categoryCell
+        guard let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as? CategoryCollectionViewCell else {
+            return UICollectionViewCell()
         }
-        category.categoryTitle?.text = "LifeStyle"
-        category.categoryTitle?.textColor = .label
-        category.backgroundColor = .gray
-        category.layer.cornerRadius = 10
-        return category
+        let category = categories[indexPath.item]
+        categoryCell.titleLabel.text = category.name
+        return categoryCell
     }
 }
 
