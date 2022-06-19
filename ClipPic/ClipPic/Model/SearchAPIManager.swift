@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import Alamofire
+
+class SearchAPIManager {
+    
+    func getSeachImages() {
+        
+    }
+}
