@@ -8,13 +8,13 @@
 import UIKit
 import Kingfisher
 
-protocol HomeCollectionViewDelegate: AnyObject {
-    func didSelectItemAt(at index: IndexPath)
+protocol PostListCollectionViewDelegate: AnyObject {
+    func didSelectItemAt(post: Post)
 }
 
 class PostListCollectionView: UICollectionView {
     
-    weak var interactionDelegate: HomeCollectionViewDelegate?
+    weak var interactionDelegate: PostListCollectionViewDelegate?
     var posts: [Post] = [] {
         didSet {
             reloadData()
@@ -69,7 +69,6 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
         
         let postImage = posts[indexPath.item]
         contentCell.homeImageView.kf.setImage(with: URL(string: postImage.imageUrl))
-        //contentCell.homeImageView.image = UIImage(named: "lemon")
         contentCell.homeImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20
         return contentCell
@@ -77,6 +76,6 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
     
     // MARK: Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        interactionDelegate?.didSelectItemAt(at: indexPath)
+        interactionDelegate?.didSelectItemAt(post: posts[indexPath.item])
     }
 }

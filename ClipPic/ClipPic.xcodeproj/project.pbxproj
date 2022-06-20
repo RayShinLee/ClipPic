@@ -38,6 +38,8 @@
 		878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */; };
 		878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A6285F311300FF87C2 /* SerpImage.swift */; };
 		878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */; };
+		878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10AD28606C0500FF87C2 /* CommentViewController.swift */; };
+		878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B228606C4E00FF87C2 /* ProfileViewController.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -100,6 +102,8 @@
 		878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerpAPIManager.swift; sourceTree = "<group>"; };
 		878E10A6285F311300FF87C2 /* SerpImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerpImage.swift; sourceTree = "<group>"; };
 		878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
+		878E10AD28606C0500FF87C2 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		878E10B228606C4E00FF87C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -200,8 +204,6 @@
 				8740C30A285888C600ABA14D /* Info.plist */,
 				87839F5E285B02F100620513 /* GoogleService-Info.plist */,
 				8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */,
-				87395FA4285DB7880028D217 /* SearchViewController.swift */,
-				87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */,
 			);
 			path = ClipPic;
 			sourceTree = "<group>";
@@ -248,6 +250,9 @@
 		878E1092285F052600FF87C2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				878E10B128606C3D00FF87C2 /* Profile */,
+				878E10AC28606BE800FF87C2 /* Comment */,
+				878E10AB28606BCB00FF87C2 /* Search */,
 				878E109A285F123C00FF87C2 /* Common */,
 				878E1095285F05A100FF87C2 /* TabBar */,
 				878E1093285F053C00FF87C2 /* Home */,
@@ -312,6 +317,7 @@
 		878E10A1285F2E5B00FF87C2 /* ImageSearch */ = {
 			isa = PBXGroup;
 			children = (
+				878E10B028606C1F00FF87C2 /* View */,
 				878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */,
 			);
 			path = ImageSearch;
@@ -332,6 +338,46 @@
 				878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */,
 			);
 			path = Serp;
+			sourceTree = "<group>";
+		};
+		878E10AB28606BCB00FF87C2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				87395FA4285DB7880028D217 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		878E10AC28606BE800FF87C2 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				878E10AF28606C0C00FF87C2 /* View */,
+				878E10AD28606C0500FF87C2 /* CommentViewController.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		878E10AF28606C0C00FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10B028606C1F00FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10B128606C3D00FF87C2 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				878E10B228606C4E00FF87C2 /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -601,6 +647,8 @@
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
 				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
+				878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */,
+				878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */,
 				878E1085285ECF7800FF87C2 /* PostListCollectionView.swift in Sources */,
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
 				878E108B285F046E00FF87C2 /* Post.swift in Sources */,

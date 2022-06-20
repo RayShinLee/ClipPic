@@ -41,6 +41,20 @@ extension FireStoreManager {
 
 // MARK: - Post
 extension FireStoreManager {
+    
+    func fetchPost(postId: String, completion: @escaping ((Post?, Error?) -> Void)) {
+        dataBase.collection("Post").document(postId).getDocument { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let post = Post(documentId: postId, dictionary: data)
+            completion(post, nil)
+        }
+    }
+    
     func fetchPosts(completion: @escaping (([Post]?, Error?) -> Void)) {
         dataBase.collection("Post").getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
@@ -78,5 +92,47 @@ extension FireStoreManager {
             }
             print("success")
         }
+    }
+}
+
+extension FireStoreManager {
+    func publishComment(text: String, post: Post) {
+        let newDocument = Firestore.firestore().collection("Comment").document()
+        let timeStamp = Date().timeIntervalSince1970
+
+        let data: [String: Any] = [
+            "creator": [
+                "id": "b79Ms0w1mEEKdHb6VbmE",
+                "name": "rayshinlee"
+                //  "avatar": "",
+            ],
+            "text": text,
+            "created_time": timeStamp,
+            "post_id": post.id
+        ]
+        newDocument.setData(data) { error in
+            if let error = error {
+                print(error)
+            }
+            print("success")
+        }
+    }
+    
+    func fetchComments(completion: @escaping (([Comment]?, Error?) -> Void)) {
+        dataBase.collection("Comment").getDocuments { snapShot, error in
+            guard let snapshot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            var comments: [Comment] = []
+            snapshot.documents.forEach() { element in
+                let comment = Comment(documentId: element.documentID, dictionary: element.data())
+                comments.append(comment)
+            }
+            
+            completion(comments, nil)
+        }
+        
     }
 }

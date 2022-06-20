@@ -6,14 +6,21 @@
 //
 
 import UIKit
-import FirebaseFirestore
+import Kingfisher
 
 class PostViewController: UIViewController {
     
     // MARK: - Properties
     
-    var dataBase: Firestore!
-    var allPosts: [[String: Any]] = []
+    var comments: [Comment] = []
+    
+    var postId: String
+    
+    var post: Post! {
+        didSet {
+            contentImageView.kf.setImage(with: URL(string: post.imageUrl))
+        }
+    }
     
     // MARK: - UI Properties
     
@@ -69,8 +76,8 @@ class PostViewController: UIViewController {
        let seeMoreCommentsButton = UIButton()
         seeMoreCommentsButton.translatesAutoresizingMaskIntoConstraints = false
         seeMoreCommentsButton.setTitle("See More", for: .normal)
-        seeMoreCommentsButton.setTitleColor(.white, for: .normal)
-        seeMoreCommentsButton.backgroundColor = .black
+        seeMoreCommentsButton.setTitleColor(.systemBackground, for: .normal)
+        seeMoreCommentsButton.backgroundColor = .label
         seeMoreCommentsButton.layer.cornerRadius = 10
         return seeMoreCommentsButton
     }()
@@ -78,7 +85,6 @@ class PostViewController: UIViewController {
     var contentImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(named: "lemon")
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 25
         image.clipsToBounds = true
@@ -131,33 +137,58 @@ class PostViewController: UIViewController {
         return commentSectionView
     }()
     
-    var commentTextField: UITextField = {
-        let commentTextField = UITextField()
-        commentTextField.translatesAutoresizingMaskIntoConstraints = false
-        commentTextField.attributedPlaceholder = NSAttributedString(
-            string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
-        return commentTextField
+    var commentTextView: UITextView = {
+        let commentTextView = UITextView()
+        commentTextView.translatesAutoresizingMaskIntoConstraints = false
+        commentTextView.backgroundColor = .clear
+        //NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        return commentTextView
     }()
     
-    var commentCreatorThreadLabel: UILabel = {
-        let commentCreatorThreadLabel = UILabel()
+    var commentCreatorThreadLabel: UITextView = {
+        let commentCreatorThreadLabel = UITextView()
         commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel.numberOfLines = 3
-        commentCreatorThreadLabel.text = "Creator comment appears here. Creator comment appears here"
+        commentCreatorThreadLabel.text = "Creator comment appears here. Creator comment appears here. Creator comment appears here. Creator comment appears here. Creator comment appears here. Creator comment appears here"
+        commentCreatorThreadLabel.font?.pointSize
         commentCreatorThreadLabel.textColor = .label
+        commentCreatorThreadLabel.backgroundColor = .clear
         return commentCreatorThreadLabel
     }()
     
     var commentCreatorThreadLabel2: UILabel = {
         let commentCreatorThreadLabel2 = UILabel()
         commentCreatorThreadLabel2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel2.numberOfLines = 3
         commentCreatorThreadLabel2.text = "Creator comment appears here. Creator comment appears here"
         commentCreatorThreadLabel2.textColor = .label
         return commentCreatorThreadLabel2
     }()
     
+    var commentCreatorName1: UILabel = {
+        let commentCreatorName1 = UILabel()
+        commentCreatorName1.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorName1.text = "Creator 1"
+        commentCreatorName1.textColor = .label
+        return commentCreatorName1
+    }()
+    
+    var commentCreatorName2: UILabel = {
+        let commentCreatorName2 = UILabel()
+        commentCreatorName2.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorName2.text = "Creator 2"
+        commentCreatorName2.textColor = .label
+        return commentCreatorName2
+    }()
+    
     // MARK: - Lifecycle
+    
+    init(with postId: String) {
+        self.postId = postId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,6 +196,7 @@ class PostViewController: UIViewController {
         setUpView()
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
+        fetchPost()
     }
     
     // MARK: - Action Methods
@@ -174,31 +206,29 @@ class PostViewController: UIViewController {
     }
     
     @objc func postCommentAction() {
-        guard let comment = commentTextField.text,
+        guard let comment = commentTextView.text,
               !comment.isEmpty else {
                   showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
                   return
               }
-        addNewComment(commentContent: comment)
-        showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
-        commentTextField.text = ""
+        showAlert(title: "Success", message: "", optionTitle: "Ok")
+        commentTextView.text = ""
+        
+        //FireStoreManager.shared.publishComment(text: comment, post: )
     }
-    
+
     // MARK: - Methods
     
-    func addNewComment(commentContent: String) {
-        let posts = Firestore.firestore().collection("Comment")
-        let document = posts.document()
-        let timeStamp = Date().timeIntervalSince1970
-
-        let data: [String: Any] = [
-            "userId": "1234",
-            "postId": "",
-            "commentContent": commentContent,
-            "createdTime": timeStamp
-        ]
-    
-        document.setData(data)
+    func fetchPost() {
+        FireStoreManager.shared.fetchPost(postId: postId) { post, error in
+            if let error = error {
+                print("Fail to fetch post with error: \(error)")
+            }
+            guard let post = post else {
+                return
+            }
+            self.post = post
+        }
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
@@ -274,28 +304,37 @@ class PostViewController: UIViewController {
         commentUserPicImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         commentUserPicImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
+        //  comment name
+        commentSectionView.addSubview(commentCreatorName1)
+        commentCreatorName1.topAnchor.constraint(equalTo: commentCreatorImageView.topAnchor).isActive = true
+        commentCreatorName1.leadingAnchor.constraint(equalTo: commentCreatorImageView.trailingAnchor, constant: 5).isActive = true
+        
+        commentSectionView.addSubview(commentCreatorName2)
+        commentCreatorName2.topAnchor.constraint(equalTo: commentCreatorImageView2.topAnchor).isActive = true
+        commentCreatorName2.leadingAnchor.constraint(equalTo: commentCreatorImageView2.trailingAnchor, constant: 5).isActive = true
+        
         //  comment content
         commentSectionView.addSubview(commentCreatorThreadLabel)
-        commentCreatorThreadLabel.leadingAnchor.constraint(equalTo: commentCreatorImageView.trailingAnchor, constant: 5).isActive = true
+        commentCreatorThreadLabel.topAnchor.constraint(equalTo: commentCreatorName1.bottomAnchor).isActive = true
+        commentCreatorThreadLabel.leadingAnchor.constraint(equalTo: commentCreatorName1.leadingAnchor).isActive = true
         commentCreatorThreadLabel.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
-        commentCreatorThreadLabel.centerYAnchor.constraint(equalTo: commentCreatorImageView.centerYAnchor).isActive = true
         commentCreatorThreadLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         commentSectionView.addSubview(commentCreatorThreadLabel2)
-        commentCreatorThreadLabel2.leadingAnchor.constraint(equalTo: commentCreatorThreadLabel.leadingAnchor).isActive = true
+        commentCreatorThreadLabel2.topAnchor.constraint(equalTo: commentCreatorName2.bottomAnchor, constant: 1).isActive = true
+        commentCreatorThreadLabel2.leadingAnchor.constraint(equalTo: commentCreatorName2.leadingAnchor).isActive = true
         commentCreatorThreadLabel2.trailingAnchor.constraint(equalTo: commentCreatorThreadLabel.trailingAnchor).isActive = true
-        commentCreatorThreadLabel2.centerYAnchor.constraint(equalTo: commentCreatorImageView2.centerYAnchor).isActive = true
         commentCreatorThreadLabel2.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        commentSectionView.addSubview(commentTextField)
-        commentTextField.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
-        commentTextField.leadingAnchor.constraint(equalTo: commentUserPicImageView.trailingAnchor, constant: 5).isActive = true
-        commentTextField.heightAnchor.constraint(equalTo: commentUserPicImageView.heightAnchor).isActive = true
+        commentSectionView.addSubview(commentTextView)
+        commentTextView.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
+        commentTextView.leadingAnchor.constraint(equalTo: commentUserPicImageView.trailingAnchor, constant: 5).isActive = true
+        commentTextView.heightAnchor.constraint(equalTo: commentUserPicImageView.heightAnchor).isActive = true
         
         //  comment buttons
         commentSectionView.addSubview(postCommentButton)
         postCommentButton.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
-        postCommentButton.leadingAnchor.constraint(equalTo: commentTextField.trailingAnchor, constant: 5).isActive = true
+        postCommentButton.leadingAnchor.constraint(equalTo: commentTextView.trailingAnchor, constant: 5).isActive = true
         postCommentButton.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
         
         commentSectionView.addSubview(seeMoreCommentsButton)

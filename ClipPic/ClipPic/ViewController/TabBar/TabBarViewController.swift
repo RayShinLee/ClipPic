@@ -27,23 +27,31 @@ class TabBarViewController: UITabBarController {
     func addTabs() {
         let homeViewController = HomeViewController()
         let homeNavigation = UINavigationController(rootViewController: homeViewController)
-        homeNavigation.tabBarItem = UITabBarItem(
-            title: "Home",
-            image: UIImage(named: "Icons_36px_Home_Normal"),
-            selectedImage: UIImage(named: "Icons_36px_Home_Selected"))
+        homeNavigation.tabBarItem = UITabBarItem(title: "Home",
+                                                 image: UIImage(named: "Icons_36px_Home_Normal"),
+                                                 selectedImage: UIImage(named: "Icons_36px_Home_Selected"))
         
         let searchViewController = SearchViewController()
         let searchNavigation = UINavigationController(rootViewController: searchViewController)
-        searchNavigation.tabBarItem = UITabBarItem(
-            title: "Search", image: UIImage(named: "Icons_24x_search"), selectedImage: UIImage(named: "Icons_24x_search"))
+        searchNavigation.tabBarItem = UITabBarItem(title: "Search",
+                                                   image: UIImage(named: "Icons_24x_search"),
+                                                   selectedImage: UIImage(named: "Icons_24x_search"))
         
         let searchImageController = ImageSearchViewController()
         let searchImageNavigation = UINavigationController(rootViewController: searchImageController)
-        searchImageNavigation.tabBarItem = UITabBarItem(title: "Images", image: UIImage(named: "Icons_24px_Starred"), selectedImage: UIImage(named: "Icons_24px_Starred"))
+        searchImageNavigation.tabBarItem = UITabBarItem(title: "Images",
+                                                        image: UIImage(named: "Icons_24px_Starred"),
+                                                        selectedImage: UIImage(named: "Icons_24px_Starred"))
+        
+        let profileController = ProfileViewController()
+        let profileNavigation = UINavigationController(rootViewController: profileController)
+        profileNavigation.tabBarItem = UITabBarItem(title: "Profile",
+                                                    image: UIImage(named: "Icons_36px_Profile_Normal"),
+                                                    selectedImage: UIImage(named: "Icons_36px_Profile_Selected"))
         
         UITabBar.appearance().barTintColor = .systemBackground
         
-        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation]
+        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation]
     }
 
 }

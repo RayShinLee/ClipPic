@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     
     var fullScreenSize: CGSize!
-    var posts: [Post] = []
+    
     let layout = UICollectionViewFlowLayout()
     
     // MARK: - UI Properties
@@ -51,6 +51,7 @@ class HomeViewController: UIViewController {
         postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         
         fetchPosts()
+        fetchCategories()
     }
     
     // MARK: - methods
@@ -69,6 +70,17 @@ class HomeViewController: UIViewController {
                 self.homeCollectionView.posts = posts ?? []
             }
         })
+    }
+    
+    func fetchCategories() {
+        FireStoreManager.shared.fetchCategories() { (categories, error) in
+            if let error = error {
+                print("Fail to fetch categories with error: \(error)")
+            } else {
+                self.categoryCollectionView.categories = categories ?? []
+                self.categoryCollectionView.reloadData()
+            }
+        }
     }
     
     func setUpViews() {
@@ -90,15 +102,15 @@ class HomeViewController: UIViewController {
         postButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
         postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
-        postButton.backgroundColor = .lightGray
+        postButton.backgroundColor = .label
         postButton.layer.cornerRadius = 22
     }
 }
 
-extension HomeViewController: HomeCollectionViewDelegate {
-    func didSelectItemAt(at index: IndexPath) {
-        let imageVC = PostViewController()
-        self.show(imageVC, sender: nil)
+extension HomeViewController: PostListCollectionViewDelegate {
+    func didSelectItemAt(post: Post) {
+        let postVC = PostViewController.init(with: post.id)
+        self.show(postVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
     }
 }

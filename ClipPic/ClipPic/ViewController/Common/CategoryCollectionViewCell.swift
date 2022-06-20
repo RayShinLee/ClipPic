@@ -27,7 +27,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     func setUpViews() {
-        contentView.backgroundColor = .systemGray
         contentView.layer.cornerRadius = 10
         
         contentView.addSubview(titleLabel)

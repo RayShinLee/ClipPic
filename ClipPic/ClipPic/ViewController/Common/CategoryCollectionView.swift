@@ -11,8 +11,15 @@ class CategoryCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-    var categories: [Category] = []
-    //var selectedCategory: Category? = 0
+    var categories: [Category] = [] {
+        didSet {
+            if !categories.isEmpty {
+                selectedCategory = categories[0]
+            }
+        }
+    }
+    
+    var selectedCategory: Category?
     
     // MARK: - View life cycle
     init() {
@@ -38,7 +45,7 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 3, left: 10, bottom: 5, right: 10)
+        return UIEdgeInsets(top: 3, left: 10, bottom: 10, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -60,23 +67,24 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
         guard let category = categoryCell as? CategoryCollectionViewCell else {
             return categoryCell
         }
-        category.backgroundColor = .gray
         category.layer.cornerRadius = 10
         
         let categories = categories[indexPath.item]
         category.titleLabel.text = categories.name
-//        if selectedCategory?.id == categories.id {
-//            category.titleLabel.textColor = .systemRed
-//        } else {
-//            category.titleLabel.textColor = .label
-//        }
+        if selectedCategory?.id == categories.id {
+            category.backgroundColor = .label
+            category.titleLabel.textColor = .systemBackground
+        } else {
+            category.backgroundColor = .clear
+            category.titleLabel.textColor = .label
+        }
         return category
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let category = categories[indexPath.item]
-//        selectedCategory = category
-//        collectionView.reloadData()
+        let category = categories[indexPath.item]
+        selectedCategory = category
+        collectionView.reloadData()
     }
 
 }
