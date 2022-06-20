@@ -41,7 +41,21 @@ extension FireStoreManager {
 
 // MARK: - Post
 extension FireStoreManager {
-    func fetchPosts() {
+    func fetchPosts(completion: @escaping (([Post]?, Error?) -> Void)) {
+        dataBase.collection("Post").getDocuments { snapShot, error in
+            guard let snapshot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            var posts: [Post] = []
+            snapshot.documents.forEach() { element in
+//                let post = Post(id: element.documentID, author: element.data(), category: Category, description: String, imageUrl: String, referenceLink: String?, title: String)
+//                posts.append(post)
+            }
+            
+            completion(posts, nil)
+        }
         
     }
     

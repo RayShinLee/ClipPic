@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     
     var fullScreenSize: CGSize!
+    var posts: [Post] = []
     let layout = UICollectionViewFlowLayout()
     
     // MARK: - UI Properties
@@ -84,6 +85,17 @@ class HomeViewController: UIViewController {
         let publishVC = PublishViewController()
         self.show(publishVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    func fetchPosts() {
+        FireStoreManager.shared.fetchPosts(completion: { (posts, error) in
+            if let error = error {
+                print("Fail to fetch posts with error: \(error)")
+            } else {
+                self.posts = posts ?? []
+                self.homeCollectionView.reloadData()
+            }
+        })
     }
 }
 
