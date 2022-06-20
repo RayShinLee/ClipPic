@@ -6,6 +6,15 @@ target 'ClipPic' do
   use_frameworks!
 
   # Pods for ClipPic
+  pod 'SwiftLint'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Firebase/Core'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseStorage'
+  pod 'IQKeyboardManagerSwift'
+  pod 'Alamofire'
+  pod 'Kingfisher'
 
   target 'ClipPicTests' do
     inherit! :search_paths
