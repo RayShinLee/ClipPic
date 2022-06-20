@@ -9,24 +9,47 @@ import Foundation
 
 struct Post {
     let id: String
-    let author: [Author]
-    let category: [Category]
+    let author: Author
+    let category: Category
     let description: String
     let imageUrl: String
     let referenceLink: String?
     let title: String
+    
+    init(documentId: String, dictionary: [String: Any]) {
+        guard let description = dictionary["description"] as? String,
+              let imageUrl = dictionary["image_url"] as? String,
+              let title = dictionary["title"] as? String,
+              let author = dictionary["author"] as? [String: Any],
+              let authorId = author["id"] as? String,
+              let category = dictionary["category"] as? [String: Any],
+              let categoryId = dictionary["id"] as? String else {
+                  fatalError("Init fail: Post")
+              }
+ 
+        self.id = documentId
+        self.referenceLink = dictionary["reference_link"] as? String
+        self.author = Author(documentId: authorId, dictionary: author)
+        self.category = Category(documentId: categoryId, dictionary: category)
+        self.description = description
+        self.imageUrl = imageUrl
+        self.title = title
+    }
 }
 
 struct Author {
     let id: String
     let name: String
+    //  let avatar: String
     
     init(documentId: String, dictionary: [String: Any]) {
         guard let authorName = dictionary["name"] as? String else {
+              //    let avatar = dictionary["avatar"] as? String
             fatalError("Init fail: Author")
         }
         
         self.id = documentId
         self.name = authorName
+        //  self.avatar = avatar
     }
 }

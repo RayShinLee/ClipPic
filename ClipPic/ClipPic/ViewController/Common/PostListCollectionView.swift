@@ -6,20 +6,27 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol HomeCollectionViewDelegate: AnyObject {
     func didSelectItemAt(at index: IndexPath)
 }
 
-class HomeCollectionView: UICollectionView {
-    weak var interactionDelegate: HomeCollectionViewDelegate?
+class PostListCollectionView: UICollectionView {
     
-    // MARK: View life cycle
+    weak var interactionDelegate: HomeCollectionViewDelegate?
+    var posts: [Post] = [] {
+        didSet {
+            reloadData()
+        }
+    }
+    
+    // MARK: - View life cycle
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         super.init(frame: .zero, collectionViewLayout: layout)
-        register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
+        register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
         showsVerticalScrollIndicator = false
         
         dataSource = self
@@ -33,7 +40,7 @@ class HomeCollectionView: UICollectionView {
 }
 
 // MARK: - CollectionView DataSource & Delegate
-extension HomeCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     // MARK: FlowLayout
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -55,9 +62,12 @@ extension HomeCollectionView: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "contentCell", for: indexPath)
-        guard let contentCell = cell as? ContentCollectionViewCell else {
+        guard let contentCell = cell as? PostCollectionViewCell else {
             return cell
         }
+        
+        //  let postImage = posts[indexPath.item]
+        //  contentCell.homeImageView.kf.setImage(with: URL(string: postImage.imageUrl))
         contentCell.homeImageView.image = UIImage(named: "lemon")
         contentCell.homeImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20

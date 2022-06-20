@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContentCollectionViewCell: UICollectionViewCell {
+class PostCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     

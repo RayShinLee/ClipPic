@@ -170,6 +170,7 @@ class PublishViewController: UIViewController {
                                                 referenceLink: self.destinationLinkTextField.text,
                                                 description: description)
         }
+        showAlert(title: "Success", message: "", optionTitle: "Ok")
     }
     
     // MARK: - methods

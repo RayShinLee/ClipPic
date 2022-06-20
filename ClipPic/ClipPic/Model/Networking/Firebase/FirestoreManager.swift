@@ -50,8 +50,8 @@ extension FireStoreManager {
             
             var posts: [Post] = []
             snapshot.documents.forEach() { element in
-//                let post = Post(id: element.documentID, author: element.data(), category: Category, description: String, imageUrl: String, referenceLink: String?, title: String)
-//                posts.append(post)
+                let post = Post(documentId: element.documentID, dictionary: element.data())
+                posts.append(post)
             }
             
             completion(posts, nil)
