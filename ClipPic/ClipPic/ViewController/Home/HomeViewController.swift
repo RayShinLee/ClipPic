@@ -50,7 +50,7 @@ class HomeViewController: UIViewController {
         setUpViews()
         postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         
-        //fetchPosts()
+        fetchPosts()
     }
     
     // MARK: - methods
@@ -66,8 +66,7 @@ class HomeViewController: UIViewController {
             if let error = error {
                 print("Fail to fetch posts with error: \(error)")
             } else {
-                self.posts = posts ?? []
-                self.homeCollectionView.reloadData()
+                self.homeCollectionView.posts = posts ?? []
             }
         })
     }

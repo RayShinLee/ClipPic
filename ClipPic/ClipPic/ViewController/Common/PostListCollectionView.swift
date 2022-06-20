@@ -41,6 +41,7 @@ class PostListCollectionView: UICollectionView {
 
 // MARK: - CollectionView DataSource & Delegate
 extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     // MARK: FlowLayout
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -57,7 +58,7 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
     
     // MARK: DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -66,9 +67,9 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
             return cell
         }
         
-        //  let postImage = posts[indexPath.item]
-        //  contentCell.homeImageView.kf.setImage(with: URL(string: postImage.imageUrl))
-        contentCell.homeImageView.image = UIImage(named: "lemon")
+        let postImage = posts[indexPath.item]
+        contentCell.homeImageView.kf.setImage(with: URL(string: postImage.imageUrl))
+        //contentCell.homeImageView.image = UIImage(named: "lemon")
         contentCell.homeImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20
         return contentCell

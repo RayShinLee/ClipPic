@@ -9,8 +9,11 @@ import UIKit
 
 class CategoryCollectionView: UICollectionView {
     
+    // MARK: - Properties
     
-
+    var categories: [Category] = []
+    //var selectedCategory: Category? = 0
+    
     // MARK: - View life cycle
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -48,7 +51,7 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
     // MARK: DataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5 // count of categories
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
@@ -57,10 +60,23 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
         guard let category = categoryCell as? CategoryCollectionViewCell else {
             return categoryCell
         }
-//        category.categoryTitle?.text = "Category"
         category.backgroundColor = .gray
         category.layer.cornerRadius = 10
+        
+        let categories = categories[indexPath.item]
+        category.titleLabel.text = categories.name
+//        if selectedCategory?.id == categories.id {
+//            category.titleLabel.textColor = .systemRed
+//        } else {
+//            category.titleLabel.textColor = .label
+//        }
         return category
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let category = categories[indexPath.item]
+//        selectedCategory = category
+//        collectionView.reloadData()
     }
 
 }

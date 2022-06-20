@@ -23,17 +23,17 @@ struct Post {
               let author = dictionary["author"] as? [String: Any],
               let authorId = author["id"] as? String,
               let category = dictionary["category"] as? [String: Any],
-              let categoryId = dictionary["id"] as? String else {
+              let categoryId = category["id"] as? String else {
                   fatalError("Init fail: Post")
               }
  
-        self.id = documentId
-        self.referenceLink = dictionary["reference_link"] as? String
-        self.author = Author(documentId: authorId, dictionary: author)
-        self.category = Category(documentId: categoryId, dictionary: category)
         self.description = description
+        self.id = documentId
         self.imageUrl = imageUrl
+        self.category = Category(documentId: categoryId, dictionary: category)
+        self.referenceLink = dictionary["reference_link"] as? String
         self.title = title
+        self.author = Author(documentId: authorId, dictionary: author)
     }
 }
 
