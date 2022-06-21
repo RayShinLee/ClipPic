@@ -11,17 +11,21 @@ class CommentViewController: UIViewController {
     
     // MARK: - Properties
     
-    
     // MARK: - UI Properties
     
-    var backButton: UIButton = {
-        let backButton = UIButton.init(type: .custom)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        backButton.layer.cornerRadius = 20
-        backButton.imageView?.tintColor = .systemBackground
-        backButton.backgroundColor = .label
-        return backButton
+    var exitButton: UIButton = {
+        let exitButton = UIButton.init(type: .custom)
+        exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        exitButton.layer.cornerRadius = 20
+        exitButton.imageView?.tintColor = .label
+        return exitButton
+    }()
+    
+    var tableView: CommentTableView = {
+        let tableView = CommentTableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
 
     // MARK: - Lifecycle
@@ -29,7 +33,8 @@ class CommentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.isHidden = true
+        setUpView()
     }
     
     // MARK: - Action methods
@@ -41,14 +46,20 @@ class CommentViewController: UIViewController {
     // MARK: - Methods
     
     func buttonActions() {
-        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        exitButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
     }
     
     func setUpView() {
-        view.addSubview(backButton)
-        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        view.addSubview(tableView)
+        tableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        view.addSubview(exitButton)
+        exitButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        exitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
     }
 }

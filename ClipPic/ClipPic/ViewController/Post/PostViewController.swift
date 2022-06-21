@@ -204,7 +204,7 @@ class PostViewController: UIViewController {
     }
     
     @objc func seeMoreButton() {
-        self.show(CommentViewController(), sender: nil)
+        self.present(CommentViewController(), animated: true, completion: nil)
     }
     
     @objc func postCommentAction() {
