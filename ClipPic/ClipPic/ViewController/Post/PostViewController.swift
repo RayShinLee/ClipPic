@@ -121,7 +121,7 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapSeeMoreButton() {
-        self.present(CommentViewController(), animated: true, completion: nil)
+        self.present(CommentViewController(with: comments), animated: true, completion: nil)
     }
     
     @objc func postCommentAction() {

@@ -10,7 +10,7 @@ import UIKit
 class CommentViewController: UIViewController {
     
     // MARK: - Properties
-    
+        
     // MARK: - UI Properties
     
     var exitButton: UIButton = {
@@ -29,6 +29,15 @@ class CommentViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
+    
+    init(with comments: [Comment]) {
+        self.tableView.comments = comments
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -39,7 +39,7 @@ class CommentTableViewCell: UITableViewCell {
     var commentCreatorName: UILabel = {
         let commentCreatorName = UILabel()
         commentCreatorName.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName.text = "ooooooo"
+        commentCreatorName.text = "Name"
         commentCreatorName.textColor = .label
         return commentCreatorName
     }()
@@ -47,13 +47,22 @@ class CommentTableViewCell: UITableViewCell {
     var commentCreatorThreadLabel: UILabel = {
         let commentCreatorThreadLabel = UILabel()
         commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel.text = "xxxxxxx"
+        commentCreatorThreadLabel.text = "Text"
         commentCreatorThreadLabel.textColor = .label
         commentCreatorThreadLabel.backgroundColor = .clear
         return commentCreatorThreadLabel
     }()
 
     // MARK: - Lifecycle
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setUpView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

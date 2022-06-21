@@ -35,7 +35,7 @@ class CommentTableView: UITableView {
 
 extension CommentTableView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,7 +43,7 @@ extension CommentTableView: UITableViewDataSource, UITableViewDelegate {
         guard let commentCell = cell as? CommentTableViewCell else {
             return cell
         }
-        
+        // comment set to cell labels, fix constraints
         return commentCell
     }
 }
