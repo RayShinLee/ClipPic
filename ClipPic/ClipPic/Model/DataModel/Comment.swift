@@ -12,18 +12,20 @@ struct Comment {
     let creator: Creator
     let text: String
     let createdTime: String
-    //let postId: String
+    let postId: String
     
     init(documentId: String, dictionary: [String: Any]) {
         guard let creator = dictionary["creator"] as? [String: Any],
               let creatorId = creator["id"] as? String,
               let text = dictionary["text"] as? String,
+              let postId = dictionary["post_id"] as? String,
               let createdTime = dictionary["created_time"] as? String else {
                   fatalError("Init fail: Comment")
               }
  
         self.id = documentId
         self.text = text
+        self.postId = postId
         self.creator = Creator(documentId: creatorId, dictionary: creator)
         self.createdTime = createdTime
     }

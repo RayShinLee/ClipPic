@@ -96,7 +96,7 @@ extension FireStoreManager {
 }
 
 extension FireStoreManager {
-    func publishComment(text: String, post: Post) {
+    func publishComment(text: String, post: String) {
         let newDocument = Firestore.firestore().collection("Comment").document()
         let timeStamp = Date().timeIntervalSince1970
 
@@ -108,7 +108,7 @@ extension FireStoreManager {
             ],
             "text": text,
             "created_time": timeStamp,
-            "post_id": post.id
+            "post_id": post
         ]
         newDocument.setData(data) { error in
             if let error = error {

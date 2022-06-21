@@ -10,6 +10,8 @@ import UIKit
 class SearchViewController: UIViewController {
     // MARK: - Properties
     
+    var googleImages: [ImageItem] = []
+    
     // MARK: - UI Properties
     
     var searchTextField: UITextField = {
@@ -32,7 +34,14 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpViews()
-        // Do any additional setup after loading the view.
+        GoogleSearchAPIManager().getSeachImages(keyword: "beyonce") { image, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            self.googleImages = image ?? []
+            print(self.googleImages)
+        }
     }
     
     func setUpViews() {

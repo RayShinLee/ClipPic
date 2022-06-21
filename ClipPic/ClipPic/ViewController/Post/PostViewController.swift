@@ -59,8 +59,7 @@ class PostViewController: UIViewController {
     var saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setImage(UIImage(named: "bookmark-56-512"), for: .normal)
-        saveButton.setImage(UIImage(named: "bookmark-43-512"), for: .selected)
+        saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         return saveButton
     }()
     
@@ -148,8 +147,6 @@ class PostViewController: UIViewController {
     var commentCreatorThreadLabel: UITextView = {
         let commentCreatorThreadLabel = UITextView()
         commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel.text = "Creator comment appears here. Creator comment appears here. Creator comment appears here. Creator comment appears here. Creator comment appears here. Creator comment appears here"
-        commentCreatorThreadLabel.font?.pointSize
         commentCreatorThreadLabel.textColor = .label
         commentCreatorThreadLabel.backgroundColor = .clear
         return commentCreatorThreadLabel
@@ -158,7 +155,7 @@ class PostViewController: UIViewController {
     var commentCreatorThreadLabel2: UILabel = {
         let commentCreatorThreadLabel2 = UILabel()
         commentCreatorThreadLabel2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel2.text = "Creator comment appears here. Creator comment appears here"
+        commentCreatorThreadLabel2.text = ""
         commentCreatorThreadLabel2.textColor = .label
         return commentCreatorThreadLabel2
     }()
@@ -166,7 +163,7 @@ class PostViewController: UIViewController {
     var commentCreatorName1: UILabel = {
         let commentCreatorName1 = UILabel()
         commentCreatorName1.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName1.text = "Creator 1"
+        commentCreatorName1.text = ""
         commentCreatorName1.textColor = .label
         return commentCreatorName1
     }()
@@ -174,7 +171,7 @@ class PostViewController: UIViewController {
     var commentCreatorName2: UILabel = {
         let commentCreatorName2 = UILabel()
         commentCreatorName2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName2.text = "Creator 2"
+        commentCreatorName2.text = ""
         commentCreatorName2.textColor = .label
         return commentCreatorName2
     }()
@@ -197,6 +194,7 @@ class PostViewController: UIViewController {
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
         fetchPost()
+        fetchComments()
     }
     
     // MARK: - Action Methods
@@ -214,7 +212,7 @@ class PostViewController: UIViewController {
         showAlert(title: "Success", message: "", optionTitle: "Ok")
         commentTextView.text = ""
         
-        //FireStoreManager.shared.publishComment(text: comment, post: )
+        FireStoreManager.shared.publishComment(text: comment, post: postId)
     }
 
     // MARK: - Methods
@@ -229,6 +227,20 @@ class PostViewController: UIViewController {
             }
             self.post = post
         }
+    }
+    
+    func fetchComments() {
+        FireStoreManager.shared.fetchComments(completion: { (comment, error) in
+                if let error = error {
+                    print("Fail to fetch comments with error: \(error)")
+                } else {
+                    guard let comment = comment else {
+                        return
+                    }
+                    self.comments = comment
+                    self.commentSectionView.reloadInputViews()
+                }
+        })
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
@@ -264,8 +276,8 @@ class PostViewController: UIViewController {
         
         //  save button
         contentImageView.addSubview(saveButton)
-        saveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        saveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        saveButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
         saveButton.bottomAnchor.constraint(equalTo: contentImageView.bottomAnchor, constant: -8).isActive = true
         

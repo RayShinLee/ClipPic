@@ -10,7 +10,7 @@
 		5FEB3826566316281773F22B /* Pods_ClipPicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF11A23085A283591335FC6 /* Pods_ClipPicTests.framework */; };
 		87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA4285DB7880028D217 /* SearchViewController.swift */; };
 		87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */; };
-		87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */; };
+		87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */; };
 		8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2F9285888BF00ABA14D /* AppDelegate.swift */; };
 		8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FB285888BF00ABA14D /* SceneDelegate.swift */; };
 		8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FD285888BF00ABA14D /* HomeViewController.swift */; };
@@ -40,6 +40,7 @@
 		878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */; };
 		878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10AD28606C0500FF87C2 /* CommentViewController.swift */; };
 		878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B228606C4E00FF87C2 /* ProfileViewController.swift */; };
+		878E10B5286170EB00FF87C2 /* GoogleSearchImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -70,7 +71,7 @@
 		52E59B4F91EE347B4F2B8A63 /* Pods-ClipPic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.debug.xcconfig"; sourceTree = "<group>"; };
 		87395FA4285DB7880028D217 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBottomSheet.swift; sourceTree = "<group>"; };
-		87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPIManager.swift; sourceTree = "<group>"; };
+		87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchAPIManager.swift; sourceTree = "<group>"; };
 		8740C2F6285888BF00ABA14D /* ClipPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8740C2F9285888BF00ABA14D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8740C2FB285888BF00ABA14D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 		878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
 		878E10AD28606C0500FF87C2 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		878E10B228606C4E00FF87C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchImage.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -165,7 +167,7 @@
 			children = (
 				878E1089285F045B00FF87C2 /* DataModel */,
 				878E1086285F043000FF87C2 /* Networking */,
-				87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */,
+				87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -243,6 +245,7 @@
 				878E108E285F04A600FF87C2 /* Category.swift */,
 				878E1090285F04DF00FF87C2 /* Comment.swift */,
 				878E10A6285F311300FF87C2 /* SerpImage.swift */,
+				878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -642,7 +645,7 @@
 				87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */,
 				8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */,
 				878E108D285F049300FF87C2 /* User.swift in Sources */,
-				87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */,
+				87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */,
 				87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */,
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
 				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
@@ -658,6 +661,7 @@
 				87839F5B2859C69300620513 /* PostViewController.swift in Sources */,
 				878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */,
 				87839F542859739800620513 /* PostCollectionViewCell.swift in Sources */,
+				878E10B5286170EB00FF87C2 /* GoogleSearchImage.swift in Sources */,
 				878E109E285F27B500FF87C2 /* ImageSearchViewController.swift in Sources */,
 				878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */,
 				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
