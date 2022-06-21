@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol CategoryCollectionViewDelegate: AnyObject {
+    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, at index: Int)
+}
+
 class CategoryCollectionView: UICollectionView {
     
     // MARK: - Properties
+    
+    weak var interactionDelegate: CategoryCollectionViewDelegate?
     
     var categories: [Category] = [] {
         didSet {
@@ -81,10 +87,13 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
         return category
     }
     
+    // MARK: - Delegate
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let category = categories[indexPath.item]
         selectedCategory = category
         collectionView.reloadData()
+        
+        //interactionDelegate?.didSelectCategoryAt(self, at: selectedCategory)
     }
-
 }

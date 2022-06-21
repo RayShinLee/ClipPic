@@ -51,22 +51,25 @@ class HomeViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         setUpViews()
-        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
-        homeCollectionView.mj_header = MJRefreshStateHeader(refreshingBlock: {
-            self.fetchPosts()
-            self.header.lastUpdatedTimeLabel?.isHidden = true
-        })
         fetchPosts()
         fetchCategories()
+        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
+        
+        self.header.lastUpdatedTimeLabel?.isHidden = true
+        homeCollectionView.mj_header = MJRefreshStateHeader(refreshingBlock: {
+            self.fetchPosts()
+        })
     }
     
-    // MARK: - methods
+    // MARK: - Action methods
     
     @objc func tapPublishPost() {
         let publishVC = PublishViewController()
         self.show(publishVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
     }
+    
+    // MARK: - Methods
     
     func fetchPosts() {
         FireStoreManager.shared.fetchPosts(completion: { (posts, error) in
@@ -115,7 +118,11 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: PostListCollectionViewDelegate {
+extension HomeViewController: PostListCollectionViewDelegate, CategoryCollectionViewDelegate {
+    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, at index: Int) {
+        
+    }
+
     func didSelectItemAt(post: Post) {
         let postVC = PostViewController.init(with: post.id)
         self.show(postVC, sender: nil)

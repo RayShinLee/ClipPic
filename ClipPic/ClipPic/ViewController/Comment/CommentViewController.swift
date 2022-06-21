@@ -35,12 +35,13 @@ class CommentViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.isHidden = true
         setUpView()
+        buttonActions()
     }
     
     // MARK: - Action methods
     
     @objc func tapBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
     
     // MARK: - Methods

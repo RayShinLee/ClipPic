@@ -37,7 +37,8 @@ class PostViewController: UIViewController {
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [contentImageView,
                                                        postDescriptionView,
-                                                       commentSectionView])
+                                                       commentSectionStackView
+                                                       /*commentSectionView*/])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution  = .equalSpacing
         stackView.alignment = .fill
@@ -63,24 +64,6 @@ class PostViewController: UIViewController {
         return saveButton
     }()
     
-    var postCommentButton: UIButton = {
-        let postCommentButton = UIButton()
-        postCommentButton.translatesAutoresizingMaskIntoConstraints = false
-        postCommentButton.setTitle("Post", for: .normal)
-        postCommentButton.setTitleColor(.label, for: .normal)
-        return postCommentButton
-    }()
-    
-    var seeMoreCommentsButton: UIButton = {
-       let seeMoreCommentsButton = UIButton()
-        seeMoreCommentsButton.translatesAutoresizingMaskIntoConstraints = false
-        seeMoreCommentsButton.setTitle("See More", for: .normal)
-        seeMoreCommentsButton.setTitleColor(.systemBackground, for: .normal)
-        seeMoreCommentsButton.backgroundColor = .label
-        seeMoreCommentsButton.layer.cornerRadius = 10
-        return seeMoreCommentsButton
-    }()
-    
     var contentImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -88,36 +71,6 @@ class PostViewController: UIViewController {
         image.layer.cornerRadius = 25
         image.clipsToBounds = true
         return image
-    }()
-    
-    var commentUserPicImageView: UIImageView = {
-        let commentUserPicView = UIImageView()
-        commentUserPicView.translatesAutoresizingMaskIntoConstraints = false
-        commentUserPicView.image = UIImage(named: "Quokdog")
-        commentUserPicView.contentMode = .scaleAspectFill
-        commentUserPicView.layer.cornerRadius = 25
-        commentUserPicView.clipsToBounds = true
-        return commentUserPicView
-    }()
-    
-    var commentCreatorImageView: UIImageView = {
-        let commentCreatorImageView = UIImageView()
-        commentCreatorImageView.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorImageView.image = UIImage(named: "lemon")
-        commentCreatorImageView.contentMode = .scaleAspectFill
-        commentCreatorImageView.layer.cornerRadius = 25
-        commentCreatorImageView.clipsToBounds = true
-        return commentCreatorImageView
-    }()
-    
-    var commentCreatorImageView2: UIImageView = {
-        let commentCreatorImageView2 = UIImageView()
-        commentCreatorImageView2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorImageView2.image = UIImage(named: "Gardener")
-        commentCreatorImageView2.contentMode = .scaleAspectFill
-        commentCreatorImageView2.layer.cornerRadius = 25
-        commentCreatorImageView2.clipsToBounds = true
-        return commentCreatorImageView2
     }()
     
     var postDescriptionView: UIView = {
@@ -128,54 +81,18 @@ class PostViewController: UIViewController {
         return postDescriptionView
     }()
     
-    var commentSectionView: UIView = {
-        let commentSectionView = UIView()
-        commentSectionView.translatesAutoresizingMaskIntoConstraints = false
-        commentSectionView.layer.cornerRadius = 30
-        commentSectionView.backgroundColor = .systemFill
-        return commentSectionView
+    var commentSectionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layer.cornerRadius = 30
+        stackView.backgroundColor = .systemFill
+        stackView.distribution  = .fill
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        return stackView
     }()
     
-    var commentTextView: UITextView = {
-        let commentTextView = UITextView()
-        commentTextView.translatesAutoresizingMaskIntoConstraints = false
-        commentTextView.backgroundColor = .clear
-        //NSAttributedString(string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
-        return commentTextView
-    }()
-    
-    var commentCreatorThreadLabel: UILabel = {
-        let commentCreatorThreadLabel = UILabel()
-        commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel.text = "xxxxxxx"
-        commentCreatorThreadLabel.textColor = .label
-        commentCreatorThreadLabel.backgroundColor = .clear
-        return commentCreatorThreadLabel
-    }()
-    
-    var commentCreatorThreadLabel2: UILabel = {
-        let commentCreatorThreadLabel2 = UILabel()
-        commentCreatorThreadLabel2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel2.text = "xxxxxxxx"
-        commentCreatorThreadLabel2.textColor = .label
-        return commentCreatorThreadLabel2
-    }()
-    
-    var commentCreatorName1: UILabel = {
-        let commentCreatorName1 = UILabel()
-        commentCreatorName1.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName1.text = "ooooooo"
-        commentCreatorName1.textColor = .label
-        return commentCreatorName1
-    }()
-    
-    var commentCreatorName2: UILabel = {
-        let commentCreatorName2 = UILabel()
-        commentCreatorName2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName2.text = "oooooo"
-        commentCreatorName2.textColor = .label
-        return commentCreatorName2
-    }()
+    let addCommentView = AddCommentView()
     
     // MARK: - Lifecycle
     
@@ -192,7 +109,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        buttonActions()
+        setUpButtonActions()
         fetchPost()
         fetchComments()
     }
@@ -203,18 +120,18 @@ class PostViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func seeMoreButton() {
+    @objc func tapSeeMoreButton() {
         self.present(CommentViewController(), animated: true, completion: nil)
     }
     
     @objc func postCommentAction() {
-        guard let comment = commentTextView.text,
+        guard let comment = addCommentView.commentTextView.text,
               !comment.isEmpty else {
                   showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
                   return
               }
         showAlert(title: "Success", message: "", optionTitle: "Ok")
-        commentTextView.text = ""
+        addCommentView.commentTextView.text = ""
         
         FireStoreManager.shared.publishComment(text: comment, post: postId)
     }
@@ -234,20 +151,41 @@ class PostViewController: UIViewController {
     }
     
     func fetchComments() {
-        FireStoreManager.shared.fetchComments(completion: { (comment, error) in
+        FireStoreManager.shared.fetchComments(completion: { (comments, error) in
                 if let error = error {
                     print("Fail to fetch comments with error: \(error)")
                 } else {
-                    self.comments = comment ?? []
-                    //self.commentCreatorName1.text = comment.n
+                    self.comments = comments ?? []
+                    self.updateCommentSection()
                 }
         })
     }
     
-    func buttonActions() {
+    func updateCommentSection() {
+        if !comments.isEmpty {
+            for index in 0 ..< comments.count {
+                guard index < 2 else {
+                    break
+                }
+                let commentView = CommentView()
+                commentView.creatorNameLabel.text = comments[index].creator.name
+                commentView.creatorThreadLabel.text = comments[index].text
+                commentSectionStackView.addArrangedSubview(commentView)
+            }
+        }
+        
+        addCommentView.postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
+        commentSectionStackView.addArrangedSubview(addCommentView)
+        
+        if comments.count > 2 {
+            let seeMoreCommentView = SeeMoreCommentView()
+            seeMoreCommentView.seeMoreCommentsButton.addTarget(self, action: #selector(tapSeeMoreButton), for: .touchUpInside)
+            commentSectionStackView.addArrangedSubview(seeMoreCommentView)
+        }
+    }
+    
+    func setUpButtonActions() {
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
-        postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
-        seeMoreCommentsButton.addTarget(self, action: #selector(seeMoreButton), for: .touchUpInside)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
@@ -291,75 +229,9 @@ class PostViewController: UIViewController {
         //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.2).isActive = true
-        
-        setUpCommentSection()
     }
     
     func setUpContentImageView() {
         
-    }
-    
-    func setUpCommentSection() {
-        //  comment section
-        commentSectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        commentSectionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
-        
-        //  comment profile pic
-        commentSectionView.addSubview(commentCreatorImageView)
-        commentCreatorImageView.topAnchor.constraint(equalTo: commentSectionView.topAnchor, constant: 20).isActive = true
-        commentCreatorImageView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
-        commentCreatorImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentCreatorImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        commentSectionView.addSubview(commentCreatorImageView2)
-        commentCreatorImageView2.topAnchor.constraint(equalTo: commentCreatorImageView.bottomAnchor, constant: 10).isActive = true
-        commentCreatorImageView2.leadingAnchor.constraint(equalTo: commentCreatorImageView.leadingAnchor).isActive = true
-        commentCreatorImageView2.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentCreatorImageView2.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        commentSectionView.addSubview(commentUserPicImageView)
-        commentUserPicImageView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
-        commentUserPicImageView.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -50).isActive = true
-        commentUserPicImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentUserPicImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        //  comment name
-        commentSectionView.addSubview(commentCreatorName1)
-        commentCreatorName1.topAnchor.constraint(equalTo: commentCreatorImageView.topAnchor).isActive = true
-        commentCreatorName1.leadingAnchor.constraint(equalTo: commentCreatorImageView.trailingAnchor, constant: 5).isActive = true
-        
-        commentSectionView.addSubview(commentCreatorName2)
-        commentCreatorName2.topAnchor.constraint(equalTo: commentCreatorImageView2.topAnchor).isActive = true
-        commentCreatorName2.leadingAnchor.constraint(equalTo: commentCreatorImageView2.trailingAnchor, constant: 5).isActive = true
-        
-        //  comment content
-        commentSectionView.addSubview(commentCreatorThreadLabel)
-        commentCreatorThreadLabel.topAnchor.constraint(equalTo: commentCreatorName1.bottomAnchor).isActive = true
-        commentCreatorThreadLabel.leadingAnchor.constraint(equalTo: commentCreatorName1.leadingAnchor).isActive = true
-        commentCreatorThreadLabel.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
-        commentCreatorThreadLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        commentSectionView.addSubview(commentCreatorThreadLabel2)
-        commentCreatorThreadLabel2.topAnchor.constraint(equalTo: commentCreatorName2.bottomAnchor, constant: 1).isActive = true
-        commentCreatorThreadLabel2.leadingAnchor.constraint(equalTo: commentCreatorName2.leadingAnchor).isActive = true
-        commentCreatorThreadLabel2.trailingAnchor.constraint(equalTo: commentCreatorThreadLabel.trailingAnchor).isActive = true
-        commentCreatorThreadLabel2.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        commentSectionView.addSubview(commentTextView)
-        commentTextView.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
-        commentTextView.leadingAnchor.constraint(equalTo: commentUserPicImageView.trailingAnchor, constant: 5).isActive = true
-        commentTextView.heightAnchor.constraint(equalTo: commentUserPicImageView.heightAnchor).isActive = true
-        
-        //  comment buttons
-        commentSectionView.addSubview(postCommentButton)
-        postCommentButton.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
-        postCommentButton.leadingAnchor.constraint(equalTo: commentTextView.trailingAnchor, constant: 5).isActive = true
-        postCommentButton.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
-        
-        commentSectionView.addSubview(seeMoreCommentsButton)
-        seeMoreCommentsButton.centerXAnchor.constraint(equalTo: commentSectionView.centerXAnchor).isActive = true
-        seeMoreCommentsButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        seeMoreCommentsButton.widthAnchor.constraint(equalToConstant: 130).isActive = true
-        seeMoreCommentsButton.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -10).isActive = true
     }
 }
