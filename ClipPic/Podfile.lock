@@ -787,6 +787,7 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
+  - MJRefresh (3.7.5)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -804,6 +805,7 @@ DEPENDENCIES:
   - FirebaseStorage
   - IQKeyboardManagerSwift
   - Kingfisher
+  - MJRefresh
   - SwiftLint
 
 SPEC REPOS:
@@ -835,6 +837,7 @@ SPEC REPOS:
     - Kingfisher
     - leveldb-library
     - Libuv-gRPC
+    - MJRefresh
     - nanopb
     - PromisesObjC
     - SwiftLint
@@ -867,10 +870,11 @@ SPEC CHECKSUMS:
   Kingfisher: 184d4d1a8c36666e663caf8e08abe87898595c53
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
 
-PODFILE CHECKSUM: 53ca55cc22b4834a0c4d7fc5bbfeaa734067b8b0
+PODFILE CHECKSUM: faa004d7cd96695e791c2915f6c501a7b5ad9d32
 
 COCOAPODS: 1.11.3

@@ -7,6 +7,7 @@
 
 // swiftlint:disable all
 import UIKit
+import MJRefresh
 
 class HomeViewController: UIViewController {
     
@@ -15,6 +16,8 @@ class HomeViewController: UIViewController {
     var fullScreenSize: CGSize!
     
     let layout = UICollectionViewFlowLayout()
+    
+    let header = MJRefreshStateHeader()
     
     // MARK: - UI Properties
     
@@ -49,7 +52,10 @@ class HomeViewController: UIViewController {
         
         setUpViews()
         postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
-        
+        homeCollectionView.mj_header = MJRefreshStateHeader(refreshingBlock: {
+            self.fetchPosts()
+            self.header.lastUpdatedTimeLabel?.isHidden = true
+        })
         fetchPosts()
         fetchCategories()
     }
@@ -69,6 +75,8 @@ class HomeViewController: UIViewController {
             } else {
                 self.homeCollectionView.posts = posts ?? []
             }
+            self.homeCollectionView.reloadData()
+            self.homeCollectionView.mj_header?.endRefreshing()
         })
     }
     

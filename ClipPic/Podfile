@@ -15,6 +15,7 @@ target 'ClipPic' do
   pod 'IQKeyboardManagerSwift'
   pod 'Alamofire'
   pod 'Kingfisher'
+  pod 'MJRefresh'
 
   target 'ClipPicTests' do
     inherit! :search_paths
