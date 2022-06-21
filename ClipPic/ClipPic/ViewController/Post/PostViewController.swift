@@ -144,9 +144,10 @@ class PostViewController: UIViewController {
         return commentTextView
     }()
     
-    var commentCreatorThreadLabel: UITextView = {
-        let commentCreatorThreadLabel = UITextView()
+    var commentCreatorThreadLabel: UILabel = {
+        let commentCreatorThreadLabel = UILabel()
         commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentCreatorThreadLabel.text = "xxxxxxx"
         commentCreatorThreadLabel.textColor = .label
         commentCreatorThreadLabel.backgroundColor = .clear
         return commentCreatorThreadLabel
@@ -155,7 +156,7 @@ class PostViewController: UIViewController {
     var commentCreatorThreadLabel2: UILabel = {
         let commentCreatorThreadLabel2 = UILabel()
         commentCreatorThreadLabel2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel2.text = ""
+        commentCreatorThreadLabel2.text = "xxxxxxxx"
         commentCreatorThreadLabel2.textColor = .label
         return commentCreatorThreadLabel2
     }()
@@ -163,7 +164,7 @@ class PostViewController: UIViewController {
     var commentCreatorName1: UILabel = {
         let commentCreatorName1 = UILabel()
         commentCreatorName1.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName1.text = ""
+        commentCreatorName1.text = "ooooooo"
         commentCreatorName1.textColor = .label
         return commentCreatorName1
     }()
@@ -171,7 +172,7 @@ class PostViewController: UIViewController {
     var commentCreatorName2: UILabel = {
         let commentCreatorName2 = UILabel()
         commentCreatorName2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName2.text = ""
+        commentCreatorName2.text = "oooooo"
         commentCreatorName2.textColor = .label
         return commentCreatorName2
     }()
@@ -191,8 +192,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
-        postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
+        buttonActions()
         fetchPost()
         fetchComments()
     }
@@ -201,6 +201,10 @@ class PostViewController: UIViewController {
     
     @objc func tapBackButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func seeMoreButton() {
+        self.show(CommentViewController(), sender: nil)
     }
     
     @objc func postCommentAction() {
@@ -234,13 +238,16 @@ class PostViewController: UIViewController {
                 if let error = error {
                     print("Fail to fetch comments with error: \(error)")
                 } else {
-                    guard let comment = comment else {
-                        return
-                    }
-                    self.comments = comment
-                    self.commentSectionView.reloadInputViews()
+                    self.comments = comment ?? []
+                    //self.commentCreatorName1.text = comment.n
                 }
         })
+    }
+    
+    func buttonActions() {
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
+        seeMoreCommentsButton.addTarget(self, action: #selector(seeMoreButton), for: .touchUpInside)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {

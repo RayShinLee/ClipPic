@@ -11,15 +11,17 @@ struct Comment {
     let id: String
     let creator: Creator
     let text: String
-    let createdTime: String
+    let createdTime: Double
     let postId: String
     
     init(documentId: String, dictionary: [String: Any]) {
+        print("==============")
+        print(dictionary)
         guard let creator = dictionary["creator"] as? [String: Any],
               let creatorId = creator["id"] as? String,
               let text = dictionary["text"] as? String,
               let postId = dictionary["post_id"] as? String,
-              let createdTime = dictionary["created_time"] as? String else {
+              let createdTime = dictionary["created_time"] as? Double else {
                   fatalError("Init fail: Comment")
               }
  
