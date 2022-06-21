@@ -154,7 +154,7 @@ class PublishViewController: UIViewController {
               !description.isEmpty,
               let imageData = toPostImageView.image?.jpegData(compressionQuality: 1.0),
               let category = selectedCategory else {
-                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+                  showErrorAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
                   return
               }
         // 1. Upload image to firebase storage
@@ -170,13 +170,22 @@ class PublishViewController: UIViewController {
                                                 referenceLink: self.destinationLinkTextField.text,
                                                 description: description)
         }
-        showAlert(title: "Success", message: "", optionTitle: "Ok")
+        showSuccesAlert(title: "Success", message: "", optionTitle: "Ok")
     }
     
     // MARK: - methods
-    func showAlert(title: String, message: String, optionTitle: String) {
+    func showErrorAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showSuccesAlert(title: String, message: String, optionTitle: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: optionTitle, style: .default) { action in
+                self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }

@@ -49,10 +49,10 @@ class PostViewController: UIViewController {
     var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.layer.cornerRadius = 20
-        backButton.imageView?.tintColor = .white
-        backButton.backgroundColor = .white
+        backButton.imageView?.tintColor = .systemBackground
+        backButton.backgroundColor = .label
         return backButton
     }()
     
@@ -68,7 +68,7 @@ class PostViewController: UIViewController {
         let postCommentButton = UIButton()
         postCommentButton.translatesAutoresizingMaskIntoConstraints = false
         postCommentButton.setTitle("Post", for: .normal)
-        postCommentButton.setTitleColor(.systemBlue, for: .normal)
+        postCommentButton.setTitleColor(.label, for: .normal)
         return postCommentButton
     }()
     

@@ -34,14 +34,14 @@ class TabBarViewController: UITabBarController {
         let searchViewController = SearchViewController()
         let searchNavigation = UINavigationController(rootViewController: searchViewController)
         searchNavigation.tabBarItem = UITabBarItem(title: "Search",
-                                                   image: UIImage(named: "Icons_24x_search"),
-                                                   selectedImage: UIImage(named: "Icons_24x_search"))
+                                                   image: UIImage(systemName: "magnifyingglass"),
+                                                   selectedImage: UIImage(named: "magnifyingglass.fill"))
         
         let searchImageController = ImageSearchViewController()
         let searchImageNavigation = UINavigationController(rootViewController: searchImageController)
         searchImageNavigation.tabBarItem = UITabBarItem(title: "Images",
-                                                        image: UIImage(named: "Icons_24px_Starred"),
-                                                        selectedImage: UIImage(named: "Icons_24px_Starred"))
+                                                        image: UIImage(systemName: "photo"),
+                                                        selectedImage: UIImage(systemName: "photo.fill"))
         
         let profileController = ProfileViewController()
         let profileNavigation = UINavigationController(rootViewController: profileController)
