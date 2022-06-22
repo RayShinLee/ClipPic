@@ -26,27 +26,22 @@ class PublishViewController: UIViewController {
         return scrollView
     }()
     
-    var backButton: UIButton = {
-        let backButton = UIButton.init(type: .custom)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
-        backButton.imageView?.tintColor = .white
-        return backButton
-    }()
-    
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [toPostImageView,
                                                        addImageButton,
+                                                       enterTitleLabel,
                                                        titleTextField,
+                                                       enterDescriptionLabel,
                                                        descriptionTextField,
+                                                       enterDestinationLinkLabel,
                                                        destinationLinkTextField,
+                                                       categoryLabel,
                                                        categoryCollectionView,
                                                        publishButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        //  stackView.distribution  = UIStackView.Distribution.equalSpacing
         stackView.alignment = UIStackView.Alignment.center
         stackView.axis = .vertical
-        stackView.spacing = 30
+        stackView.spacing = 20
         return stackView
     }()
     
@@ -57,6 +52,14 @@ class PublishViewController: UIViewController {
         return imageToPost
     }()
     
+    var backButton: UIButton = {
+        let backButton = UIButton.init(type: .custom)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
+        backButton.imageView?.tintColor = .white
+        return backButton
+    }()
+    
     var addImageButton: UIButton = {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
@@ -65,27 +68,75 @@ class PublishViewController: UIViewController {
         return addImageButton
     }()
     
+    var publishButton: UIButton = {
+        let publishButton = UIButton()
+        publishButton.translatesAutoresizingMaskIntoConstraints = false
+        publishButton.setTitle("Publish", for: .normal)
+        publishButton.setTitleColor(.systemBackground, for: .normal)
+        publishButton.layer.cornerRadius = 5
+        publishButton.backgroundColor = .label
+        return publishButton
+    }()
+    
+    var enterTitleLabel: UILabel = {
+        let enterTitleLabel = UILabel()
+        enterTitleLabel.text = "Title"
+        enterTitleLabel.font = UIFont(name: "PingFang TC", size: 18.0)
+        enterTitleLabel.textColor = .label
+        return enterTitleLabel
+    }()
+    
+    var enterDescriptionLabel: UILabel = {
+        let enterDescriptionLabel = UILabel()
+        enterDescriptionLabel.text = "Description"
+        enterDescriptionLabel.font = UIFont(name: "PingFang TC", size: 18.0)
+        enterDescriptionLabel.textColor = .label
+        return enterDescriptionLabel
+    }()
+    
+    var enterDestinationLinkLabel: UILabel = {
+        let enterDestinationLinkLabel = UILabel()
+        enterDestinationLinkLabel.text = "Description"
+        enterDestinationLinkLabel.font = UIFont(name: "PingFang TC", size: 18.0)
+        enterDestinationLinkLabel.textColor = .label
+        return enterDestinationLinkLabel
+    }()
+    
+    var categoryLabel: UILabel = {
+        let categoryLabel = UILabel()
+        categoryLabel.text = "Category"
+        categoryLabel.font = UIFont(name: "PingFang TC", size: 18.0)
+        categoryLabel.textColor = .label
+        return categoryLabel
+    }()
+    
     var titleTextField: UITextField = {
         let titleTextField = UITextField()
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
-        titleTextField.placeholder = "Enter title"
-        titleTextField.layer.borderColor = CGColor.init(red: 0/255, green: 0/255, blue: 0.255, alpha: 1)
+        titleTextField.placeholder = " Enter title"
+        titleTextField.layer.cornerRadius = 10
+        titleTextField.layer.borderWidth = 2.0
+        titleTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         return titleTextField
     }()
     
     var descriptionTextField: UITextField = {
         let descriptionTextField = UITextField()
         descriptionTextField.translatesAutoresizingMaskIntoConstraints = false
-        descriptionTextField.placeholder = "Enter Description"
-        descriptionTextField.layer.borderColor = CGColor.init(red: 0/255, green: 0/255, blue: 0.255, alpha: 1)
+        descriptionTextField.placeholder = " Enter Description"
+        descriptionTextField.layer.cornerRadius = 10
+        descriptionTextField.layer.borderWidth = 2.0
+        descriptionTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         return descriptionTextField
     }()
     
     var destinationLinkTextField: UITextField = {
         let destinationLinkTextField = UITextField()
         destinationLinkTextField.translatesAutoresizingMaskIntoConstraints = false
-        destinationLinkTextField.placeholder = "Enter link"
-        destinationLinkTextField.layer.borderColor = CGColor.init(red: 0/255, green: 0/255, blue: 0.255, alpha: 1)
+        destinationLinkTextField.placeholder = " Enter link"
+        destinationLinkTextField.layer.cornerRadius = 10
+        destinationLinkTextField.layer.borderWidth = 2.0
+        destinationLinkTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         return destinationLinkTextField
     }()
     
@@ -95,16 +146,8 @@ class PublishViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
-        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
-    }()
-    
-    var publishButton: UIButton = {
-        let publishButton = UIButton()
-        publishButton.translatesAutoresizingMaskIntoConstraints = false
-        publishButton.setTitle("Post", for: .normal)
-        publishButton.backgroundColor = .black
-        return publishButton
     }()
     
     // MARK: - Lifecycle
@@ -112,7 +155,7 @@ class PublishViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setUpViews()
+        setUpBaseView()
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
@@ -184,18 +227,18 @@ class PublishViewController: UIViewController {
     func showSuccesAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default) { action in
-                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true)
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
     
-    func setUpViews() {
+    func setUpBaseView() {
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
         
         scrollView.addSubview(stackView)
         stackView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
@@ -204,37 +247,55 @@ class PublishViewController: UIViewController {
         stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
         
+        stackView.addSubview(backButton)
+        stackView.bringSubviewToFront(backButton)
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        backButton.backgroundColor = .white
+        backButton.layer.cornerRadius = 20
+        
+        setUpImageView()
+        setUpViewForPostDetails()
+    }
+    
+    func setUpImageView() {
         toPostImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         toPostImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.4).isActive = true
         toPostImageView.layer.cornerRadius = 20
         
         addImageButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    func setUpViewForPostDetails() {
+        enterTitleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        enterTitleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        titleTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+        enterDescriptionLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        enterDescriptionLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        enterDestinationLinkLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        enterDestinationLinkLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        categoryLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        categoryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        titleTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
         titleTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        descriptionTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
-        descriptionTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        descriptionTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        descriptionTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
-        destinationLinkTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+        destinationLinkTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
         destinationLinkTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         categoryCollectionView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
         categoryCollectionView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        publishButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
-        publishButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-        stackView.addSubview(backButton)
-        stackView.bringSubviewToFront(backButton)
-        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                            constant: 16).isActive = true
-        backButton.backgroundColor = .white
-        backButton.layer.cornerRadius = 20
+        publishButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        publishButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
 
@@ -264,13 +325,19 @@ extension PublishViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as? CategoryCollectionViewCell else {
+        guard let categoryCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "categoryCell",
+            for: indexPath) as? CategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
+        categoryCell.backgroundColor = .systemFill
+        categoryCell.layer.cornerRadius = 15
         let category = categories[indexPath.item]
         categoryCell.titleLabel.text = category.name
+        
         if selectedCategory?.id == category.id {
-            categoryCell.titleLabel.textColor = .systemRed
+            categoryCell.backgroundColor = .label
+            categoryCell.titleLabel.textColor = .systemBackground
         } else {
             categoryCell.titleLabel.textColor = .label
         }

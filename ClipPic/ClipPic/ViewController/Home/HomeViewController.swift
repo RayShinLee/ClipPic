@@ -55,8 +55,8 @@ class HomeViewController: UIViewController {
         fetchCategories()
         postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         
-        self.header.lastUpdatedTimeLabel?.isHidden = true
         homeCollectionView.mj_header = MJRefreshStateHeader(refreshingBlock: {
+            self.header.lastUpdatedTimeLabel?.isHidden = true
             self.fetchPosts()
         })
     }

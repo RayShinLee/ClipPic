@@ -58,7 +58,7 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let fullScreenSize = UIScreen.main.bounds.size
-        return CGSize(width: CGFloat(fullScreenSize.width)/3, height: 30)
+        return CGSize(width: CGFloat(fullScreenSize.width)/4, height: 30)
     }
     
     // MARK: DataSource
@@ -73,7 +73,7 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
         guard let category = categoryCell as? CategoryCollectionViewCell else {
             return categoryCell
         }
-        category.layer.cornerRadius = 10
+        category.layer.cornerRadius = 15
         
         let categories = categories[indexPath.item]
         category.titleLabel.text = categories.name
