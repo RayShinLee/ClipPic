@@ -9,6 +9,7 @@ import UIKit
 
 class AddCommentView: UIView {
 
+    // MARK: - UI Properties
     
     var userImageView: UIImageView = {
         let userImageView = UIImageView()
@@ -31,10 +32,13 @@ class AddCommentView: UIView {
     var commentTextView: UITextView = {
         let commentTextView = UITextView()
         commentTextView.translatesAutoresizingMaskIntoConstraints = false
-        commentTextView.backgroundColor = .red
+        commentTextView.font = UIFont(name: "PingFang TC", size: 18)
+        commentTextView.layer.cornerRadius = 20
         return commentTextView
     }()
 
+    // MARK: - Lifecycle
+    
     init() {
         super.init(frame: .zero)
         setUpViews()
@@ -43,6 +47,8 @@ class AddCommentView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     func setUpViews() {
         addSubview(userImageView)
@@ -54,12 +60,12 @@ class AddCommentView: UIView {
         
         addSubview(postCommentButton)
         postCommentButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        postCommentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        postCommentButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        postCommentButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        postCommentButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
         
         addSubview(commentTextView)
         commentTextView.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 5).isActive = true
-        commentTextView.trailingAnchor.constraint(equalTo: postCommentButton.leadingAnchor, constant: -5).isActive = true
+        commentTextView.trailingAnchor.constraint(equalTo: postCommentButton.leadingAnchor, constant: 5).isActive = true
         commentTextView.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         commentTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
     }

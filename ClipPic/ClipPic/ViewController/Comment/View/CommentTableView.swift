@@ -22,6 +22,7 @@ class CommentTableView: UITableView {
         super.init(frame: .zero, style: .plain)
         self.register(CommentTableViewCell.self, forCellReuseIdentifier: "commentCell")
         showsVerticalScrollIndicator = false
+        separatorStyle = .none
         
         dataSource = self
         delegate = self
@@ -43,7 +44,22 @@ extension CommentTableView: UITableViewDataSource, UITableViewDelegate {
         guard let commentCell = cell as? CommentTableViewCell else {
             return cell
         }
-        // comment set to cell labels, fix constraints
+        
+        let createdTime = Date(timeIntervalSince1970: comments[indexPath.row].createdTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY.MM.dd"
+        
+        commentCell.commentDateLabel.text = dateFormatter.string(from: createdTime)
+        commentCell.commentCreatorName.text = comments[indexPath.row].creator.name
+        commentCell.commentCreatorThreadLabel.text = comments[indexPath.row].text
         return commentCell
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }

@@ -22,6 +22,7 @@ class CommentView: UIView {
     var creatorThreadLabel: UILabel = {
         let creatorThreadLabel = UILabel()
         creatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
+        creatorThreadLabel.numberOfLines = 2
         creatorThreadLabel.textColor = .label
         creatorThreadLabel.backgroundColor = .clear
         return creatorThreadLabel
@@ -64,6 +65,6 @@ class CommentView: UIView {
         creatorThreadLabel.topAnchor.constraint(equalTo: creatorNameLabel.bottomAnchor).isActive = true
         creatorThreadLabel.leadingAnchor.constraint(equalTo: creatorNameLabel.leadingAnchor).isActive = true
         creatorThreadLabel.trailingAnchor.constraint(equalTo: creatorNameLabel.trailingAnchor).isActive = true
-        creatorThreadLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        creatorThreadLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 }

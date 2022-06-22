@@ -43,6 +43,7 @@ class CommentViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
         setUpView()
         buttonActions()
     }
@@ -61,8 +62,8 @@ class CommentViewController: UIViewController {
     
     func setUpView() {
         view.addSubview(tableView)
-        tableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85).isActive = true
-        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
