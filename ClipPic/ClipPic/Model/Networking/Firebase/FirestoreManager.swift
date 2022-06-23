@@ -95,6 +95,8 @@ extension FireStoreManager {
     }
 }
 
+// MARK: - Comments
+
 extension FireStoreManager {
     func publishComment(text: String, post: String) {
         let newDocument = Firestore.firestore().collection("Comment").document()
@@ -136,3 +138,12 @@ extension FireStoreManager {
         
     }
 }
+
+// MARK: - Save Post
+
+extension FireStoreManager {
+    func savePost() {
+        
+    }
+}
+

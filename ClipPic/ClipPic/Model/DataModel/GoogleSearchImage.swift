@@ -7,6 +7,11 @@
 
 import Foundation
 
+
+struct GoogleSearchImageResponse: Codable {
+    let items: [ImageItem]
+}
+
 struct ImageItem: Codable {
     let kind: Kind
     let title, htmlTitle: String

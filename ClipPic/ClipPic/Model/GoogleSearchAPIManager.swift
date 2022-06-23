@@ -30,7 +30,3 @@ class GoogleSearchAPIManager {
 
     }
 }
-
-struct GoogleSearchImageResponse: Codable {
-    let items: [ImageItem]
-}

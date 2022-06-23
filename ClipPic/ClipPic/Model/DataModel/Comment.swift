@@ -15,8 +15,6 @@ struct Comment {
     let postId: String
     
     init(documentId: String, dictionary: [String: Any]) {
-        print("==============")
-        print(dictionary)
         guard let creator = dictionary["creator"] as? [String: Any],
               let creatorId = creator["id"] as? String,
               let text = dictionary["text"] as? String,

@@ -60,7 +60,7 @@ class PostViewController: UIViewController {
     var saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        saveButton.setImage(UIImage(systemName: "paperclip.circle"), for: .normal)
         return saveButton
     }()
     
@@ -118,6 +118,10 @@ class PostViewController: UIViewController {
     
     @objc func tapBackButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func tapSaveButton() {
+        
     }
     
     @objc func tapSeeMoreButton() {
