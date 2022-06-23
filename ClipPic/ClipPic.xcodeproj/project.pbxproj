@@ -49,6 +49,8 @@
 		878E10C3286441D000FF87C2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C2286441CF00FF87C2 /* SettingsViewController.swift */; };
 		878E10C5286444CF00FF87C2 /* SavedPostsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */; };
 		878E10C7286444F000FF87C2 /* SavedPostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */; };
+		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
+		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -122,6 +124,8 @@
 		878E10C2286441CF00FF87C2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsCollectionView.swift; sourceTree = "<group>"; };
 		878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsCollectionViewCell.swift; sourceTree = "<group>"; };
+		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
+		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -364,6 +368,7 @@
 		878E10AB28606BCB00FF87C2 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				878E10CC2864572700FF87C2 /* View */,
 				87395FA4285DB7880028D217 /* SearchViewController.swift */,
 			);
 			path = Search;
@@ -419,6 +424,15 @@
 			children = (
 				878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */,
 				878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10CC2864572700FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */,
+				878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -710,8 +724,10 @@
 				878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */,
 				87839F542859739800620513 /* PostCollectionViewCell.swift in Sources */,
 				878E10B5286170EB00FF87C2 /* GoogleSearchImage.swift in Sources */,
+				878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */,
 				878E109E285F27B500FF87C2 /* ImageSearchViewController.swift in Sources */,
 				878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */,
+				878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */,
 				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 				878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */,

@@ -24,8 +24,15 @@ class SearchViewController: UIViewController {
         let leftImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         let image = UIImage(named: "Icons_24x_search")
         leftImage.image = image
+        image?.withTintColor(.label)
         searchTextField.leftView = leftImage
         return searchTextField
+    }()
+    
+    var searchResultCollectionView: SearchResultCollectionView = {
+        let searchResultCollectionView = SearchResultCollectionView()
+        searchResultCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        return searchResultCollectionView
     }()
     
     // MARK: - Lifecycle
@@ -34,7 +41,11 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpViews()
-        GoogleSearchAPIManager().getSeachImages(keyword: "beyonce") { image, error in
+        searchKeyword()
+    }
+    
+    func searchKeyword() {
+        GoogleSearchAPIManager().getSeachImages(keyword: "Appworks") { image, error in
             if let error = error {
                 print(error)
                 return
@@ -50,6 +61,12 @@ class SearchViewController: UIViewController {
         searchTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         searchTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05).isActive = true
         searchTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
+        
+        view.addSubview(searchResultCollectionView)
+        searchResultCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65).isActive = true
+        searchResultCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        searchResultCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        searchResultCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
     }
 
 }
