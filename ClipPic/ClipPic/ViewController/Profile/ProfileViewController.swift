@@ -115,8 +115,10 @@ class ProfileViewController: UIViewController {
     }()
     
     var settingsButton: UIButton = {
-        let settingsButton = UIButton()
+        let settingsButton = UIButton(type: .custom)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
+        settingsButton.isUserInteractionEnabled = true
+        settingsButton.backgroundColor = .red
         settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
         settingsButton.imageView?.tintColor = .label
         return settingsButton
@@ -131,10 +133,15 @@ class ProfileViewController: UIViewController {
         settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     // MARK: - Action Methods
     
     @objc func tapSettingsButton() {
         self.show(SettingsViewController(), sender: nil)
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     // MARK: - Methods

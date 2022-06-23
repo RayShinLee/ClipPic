@@ -45,6 +45,7 @@ class TabBarViewController: UITabBarController {
         
         let profileController = ProfileViewController()
         let profileNavigation = UINavigationController(rootViewController: profileController)
+        profileNavigation.navigationBar.isHidden = true
         profileNavigation.tabBarItem = UITabBarItem(title: "Profile",
                                                     image: UIImage(named: "Icons_36px_Profile_Normal"),
                                                     selectedImage: UIImage(named: "Icons_36px_Profile_Selected"))
