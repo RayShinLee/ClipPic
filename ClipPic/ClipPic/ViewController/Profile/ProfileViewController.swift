@@ -21,12 +21,19 @@ class ProfileViewController: UIViewController {
         backgroundView.layer.cornerRadius = 30
         return backgroundView
     }()
+
+    var recentSavedCollectionView: SavedPostsCollectionView = {
+        let recentSavedCollectionView = SavedPostsCollectionView()
+        recentSavedCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        recentSavedCollectionView.backgroundColor = .label
+        return recentSavedCollectionView
+    }()
     
-    var savedPostsCollectionView: PostListCollectionView = {
-        let savedPostsCollectionView = PostListCollectionView()
-        savedPostsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        savedPostsCollectionView.backgroundColor = .label
-        return savedPostsCollectionView
+    var allSavedCollectionView: SavedPostsCollectionView = {
+        let allSavedCollectionView = SavedPostsCollectionView()
+        allSavedCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        allSavedCollectionView.backgroundColor = .label
+        return allSavedCollectionView
     }()
     
     var profileImageView: UIImageView = {
@@ -43,6 +50,7 @@ class ProfileViewController: UIViewController {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Rayshin Lee"
+        nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
         nameLabel.textColor = .systemBackground
         return nameLabel
     }()
@@ -51,6 +59,7 @@ class ProfileViewController: UIViewController {
         let userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.text = "@rayshinlee"
+        userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
         userNameLabel.textColor = .systemBackground
         return userNameLabel
     }()
@@ -87,11 +96,29 @@ class ProfileViewController: UIViewController {
         return totalSavedCountLabel
     }()
     
+    var recentSavedLabel: UILabel = {
+        let recentSavesLabel = UILabel()
+        recentSavesLabel.translatesAutoresizingMaskIntoConstraints = false
+        recentSavesLabel.text = "Recent Saves"
+        recentSavesLabel.font = UIFont(name: "PingFang TC", size: 20.0)
+        recentSavesLabel.textColor = .systemBackground
+        return recentSavesLabel
+    }()
+    
+    var allSavedLabel: UILabel = {
+        let allSavedLabel = UILabel()
+        allSavedLabel.translatesAutoresizingMaskIntoConstraints = false
+        allSavedLabel.text = "All Saved"
+        allSavedLabel.font = UIFont(name: "PingFang TC", size: 20.0)
+        allSavedLabel.textColor = .systemBackground
+        return allSavedLabel
+    }()
+    
     var settingsButton: UIButton = {
         let settingsButton = UIButton()
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        settingsButton.tintColor = .label
-        settingsButton.imageView?.image = UIImage(systemName: "gearshape")
+        settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        settingsButton.imageView?.tintColor = .label
         return settingsButton
     }()
     
@@ -101,6 +128,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
+        settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
     }
     
     // MARK: - Action Methods
@@ -124,7 +152,9 @@ class ProfileViewController: UIViewController {
     
     func setUpHeaderView() {
         view.addSubview(settingsButton)
-        settingsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        settingsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        settingsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
         backgroundView.addSubview(profileImageView)
@@ -145,7 +175,7 @@ class ProfileViewController: UIViewController {
         
         backgroundView.addSubview(totalSavedCountLabel)
         totalSavedCountLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 7).isActive = true
-        totalSavedCountLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 50).isActive = true
+        totalSavedCountLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 70).isActive = true
         
         backgroundView.addSubview(totalSavedTitleLabel)
         totalSavedTitleLabel.topAnchor.constraint(equalTo: totalSavedCountLabel.bottomAnchor, constant: 5).isActive = true
@@ -163,10 +193,25 @@ class ProfileViewController: UIViewController {
     }
     
     func setUpCollectionView() {
-        backgroundView.addSubview(savedPostsCollectionView)
-        savedPostsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        savedPostsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        savedPostsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        savedPostsCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        
+        backgroundView.addSubview(recentSavedLabel)
+        recentSavedLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
+        recentSavedLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
+        
+        backgroundView.addSubview(recentSavedCollectionView)
+        recentSavedCollectionView.topAnchor.constraint(equalTo: recentSavedLabel.bottomAnchor).isActive = true
+        recentSavedCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        recentSavedCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        recentSavedCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
+        
+        backgroundView.addSubview(allSavedLabel)
+        allSavedLabel.topAnchor.constraint(equalTo: recentSavedCollectionView.bottomAnchor, constant: 5).isActive = true
+        allSavedLabel.leadingAnchor.constraint(equalTo: recentSavedLabel.leadingAnchor).isActive = true
+
+        backgroundView.addSubview(allSavedCollectionView)
+        allSavedCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        allSavedCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        allSavedCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        allSavedCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
     }
 }
