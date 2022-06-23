@@ -25,14 +25,14 @@ class CommentTableViewCell: UITableViewCell {
        let commentDateLabel = UILabel()
        commentDateLabel.translatesAutoresizingMaskIntoConstraints = false
         commentDateLabel.textColor = .lightGray
-       commentDateLabel.font = UIFont(name: "System", size: 8.0)
+       commentDateLabel.font = UIFont.systemFont(ofSize: 16.0)
        return commentDateLabel
     }()
     
     var commentCreatorName: UILabel = {
         let commentCreatorName = UILabel()
         commentCreatorName.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorName.font = UIFont(name: "System", size: 20.0)
+        commentCreatorName.font = UIFont.boldSystemFont(ofSize: 20.0)
         commentCreatorName.textColor = .label
         return commentCreatorName
     }()
@@ -41,7 +41,7 @@ class CommentTableViewCell: UITableViewCell {
         let commentCreatorThreadLabel = UILabel()
         commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
         commentCreatorThreadLabel.numberOfLines = 0
-        commentCreatorThreadLabel.font = UIFont(name: "System", size: 20.0)
+        commentCreatorThreadLabel.font = UIFont.systemFont(ofSize: 16.0)
         commentCreatorThreadLabel.textColor = .label
         commentCreatorThreadLabel.backgroundColor = .clear
         return commentCreatorThreadLabel
