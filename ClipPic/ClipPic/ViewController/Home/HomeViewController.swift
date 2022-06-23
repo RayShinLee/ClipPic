@@ -17,7 +17,9 @@ class HomeViewController: UIViewController {
     
     let layout = UICollectionViewFlowLayout()
     
-    let header = MJRefreshStateHeader()
+    lazy var header = MJRefreshStateHeader(refreshingBlock: {
+        self.fetchPosts()
+    })
     
     // MARK: - UI Properties
     
@@ -55,10 +57,8 @@ class HomeViewController: UIViewController {
         fetchCategories()
         postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         
-        homeCollectionView.mj_header = MJRefreshStateHeader(refreshingBlock: {
-            self.header.lastUpdatedTimeLabel?.isHidden = true
-            self.fetchPosts()
-        })
+        homeCollectionView.mj_header = header
+        header.lastUpdatedTimeLabel?.isHidden = true        
     }
     
     // MARK: - Action methods
