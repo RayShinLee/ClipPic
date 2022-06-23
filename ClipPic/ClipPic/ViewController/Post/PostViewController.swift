@@ -111,7 +111,6 @@ class PostViewController: UIViewController {
         setUpView()
         setUpButtonActions()
         fetchPost()
-        fetchComments()
     }
     
     // MARK: - Action Methods
@@ -151,25 +150,22 @@ class PostViewController: UIViewController {
                 return
             }
             self.post = post
+            self.fetchComments()
         }
     }
     
     func fetchComments() {
-        FireStoreManager.shared.fetchComments(completion: { (comments, error) in
+        guard let postId = post?.id else {
+            return
+        }
+        
+        FireStoreManager.shared.fetchComments(postId: postId, completion: { (comments, error) in
             if let error = error {
                 print("Fail to fetch comments with error: \(error)")
             } else {
                 self.comments = comments ?? []
                 self.updateCommentSection()
             }
-            /*
-            self.comments.sort { data0, data1 in
-                guard let createTime0 = data0.createdTime,
-                      let createTime1 = data1.createdTime else {
-                          return false
-                      }
-                return createTime0 > createTime1
-            }*/
         })
     }
     

@@ -120,8 +120,8 @@ extension FireStoreManager {
         }
     }
     
-    func fetchComments(completion: @escaping (([Comment]?, Error?) -> Void)) {
-        dataBase.collection("Comment").getDocuments { snapShot, error in
+    func fetchComments(postId: String, completion: @escaping (([Comment]?, Error?) -> Void)) {
+        dataBase.collection("Comment").whereField("post_id", isEqualTo: postId).getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
                 completion(nil, NetworkError.invalidSnapshot)
                 return
@@ -131,6 +131,10 @@ extension FireStoreManager {
             snapshot.documents.forEach() { element in
                 let comment = Comment(documentId: element.documentID, dictionary: element.data())
                 comments.append(comment)
+            }
+            
+            comments.sort { data0, data1 in
+                return data0.createdTime > data1.createdTime
             }
             
             completion(comments, nil)
