@@ -133,10 +133,16 @@ class PostViewController: UIViewController {
                   showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
                   return
               }
-        showAlert(title: "Success", message: "", optionTitle: "Ok")
-        addCommentView.commentTextView.text = ""
         
-        FireStoreManager.shared.publishComment(text: comment, post: postId)
+        FireStoreManager.shared.publishComment(text: comment, post: postId, completion: {error in
+            if let error = error {
+                print(error)
+            } else {
+                self.fetchComments()
+                self.showAlert(title: "Success", message: "", optionTitle: "Ok")
+                self.addCommentView.commentTextView.text = ""
+            }
+        })
     }
 
     // MARK: - Methods
@@ -170,6 +176,12 @@ class PostViewController: UIViewController {
     }
     
     func updateCommentSection() {
+        
+        commentSectionStackView.arrangedSubviews.forEach { view in
+            commentSectionStackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        
         if !comments.isEmpty {
             for index in 0 ..< comments.count {
                 guard index < 2 else {

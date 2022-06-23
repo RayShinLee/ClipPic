@@ -98,7 +98,7 @@ extension FireStoreManager {
 // MARK: - Comments
 
 extension FireStoreManager {
-    func publishComment(text: String, post: String) {
+    func publishComment(text: String, post: String, completion: @escaping ((Error?) -> Void)) {
         let newDocument = Firestore.firestore().collection("Comment").document()
         let timeStamp = Date().timeIntervalSince1970
 
@@ -114,9 +114,10 @@ extension FireStoreManager {
         ]
         newDocument.setData(data) { error in
             if let error = error {
-                print(error)
+                completion(error)
+            } else {
+                completion(nil)
             }
-            print("success")
         }
     }
     
