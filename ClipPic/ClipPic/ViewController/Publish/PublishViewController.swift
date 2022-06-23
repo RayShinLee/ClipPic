@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import SwiftUI
 
 class PublishViewController: UIViewController {
     
@@ -40,6 +41,7 @@ class PublishViewController: UIViewController {
                                                        publishButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = UIStackView.Alignment.center
+        stackView.distribution = .fill
         stackView.axis = .vertical
         stackView.spacing = 20
         return stackView
@@ -96,7 +98,7 @@ class PublishViewController: UIViewController {
     
     var enterDestinationLinkLabel: UILabel = {
         let enterDestinationLinkLabel = UILabel()
-        enterDestinationLinkLabel.text = "Description"
+        enterDestinationLinkLabel.text = "Destination  Link"
         enterDestinationLinkLabel.font = UIFont(name: "PingFang TC", size: 18.0)
         enterDestinationLinkLabel.textColor = .label
         return enterDestinationLinkLabel
@@ -242,10 +244,9 @@ class PublishViewController: UIViewController {
         
         scrollView.addSubview(stackView)
         stackView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        stackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         
         stackView.addSubview(backButton)
         stackView.bringSubviewToFront(backButton)
@@ -270,31 +271,31 @@ class PublishViewController: UIViewController {
     }
     
     func setUpViewForPostDetails() {
-        enterTitleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        enterTitleLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         enterTitleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        enterDescriptionLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        enterDescriptionLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         enterDescriptionLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        enterDestinationLinkLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        enterDestinationLinkLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         enterDestinationLinkLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        categoryLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        categoryLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         categoryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        titleTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        titleTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         titleTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        descriptionTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        descriptionTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         descriptionTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
-        destinationLinkTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        destinationLinkTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         destinationLinkTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        categoryCollectionView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+        categoryCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         categoryCollectionView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        publishButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.9).isActive = true
+        publishButton.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         publishButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
