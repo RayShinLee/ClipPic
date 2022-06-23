@@ -24,7 +24,8 @@ class CommentTableViewCell: UITableViewCell {
     var commentDateLabel: UILabel = {
        let commentDateLabel = UILabel()
        commentDateLabel.translatesAutoresizingMaskIntoConstraints = false
-       commentDateLabel.font = UIFont(name: "System", size: 10.0)
+        commentDateLabel.textColor = .lightGray
+       commentDateLabel.font = UIFont(name: "System", size: 8.0)
        return commentDateLabel
     }()
     
@@ -89,13 +90,13 @@ class CommentTableViewCell: UITableViewCell {
         commentCreatorThreadLabel.topAnchor.constraint(equalTo: commentCreatorName.bottomAnchor).isActive = true
         commentCreatorThreadLabel.leadingAnchor.constraint(equalTo: commentCreatorName.leadingAnchor).isActive = true
         commentCreatorThreadLabel.widthAnchor.constraint(equalToConstant: 320).isActive = true
-        //commentCreatorThreadLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        commentCreatorThreadLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         
         // comment date
         contentView.addSubview(commentDateLabel)
-        commentDateLabel.topAnchor.constraint(equalTo: commentCreatorThreadLabel.bottomAnchor, constant: 5).isActive = true
+        commentDateLabel.topAnchor.constraint(equalTo: commentCreatorName.topAnchor).isActive = true
         commentDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2).isActive = true
-        commentDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
+        //commentDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
         commentDateLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }
