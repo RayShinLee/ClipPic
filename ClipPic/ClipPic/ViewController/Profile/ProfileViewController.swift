@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController {
     var settingsButton: UIButton = {
         let settingsButton = UIButton(type: .custom)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
         let image = UIImage(systemName: "gearshape",
                             withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
         settingsButton.setImage(image, for: .normal)
@@ -192,7 +192,7 @@ class ProfileViewController: UIViewController {
         
         backgroundView.addSubview(followersCountLabel)
         followersCountLabel.topAnchor.constraint(equalTo: totalSavedCountLabel.topAnchor).isActive = true
-        followersCountLabel.leadingAnchor.constraint(equalTo: totalSavedCountLabel.trailingAnchor, constant: 100).isActive = true
+        followersCountLabel.leadingAnchor.constraint(equalTo: totalSavedCountLabel.trailingAnchor, constant: 70).isActive = true
         
         backgroundView.addSubview(followersTitleLabel)
         followersTitleLabel.topAnchor.constraint(equalTo: followersCountLabel.bottomAnchor, constant: 5).isActive = true

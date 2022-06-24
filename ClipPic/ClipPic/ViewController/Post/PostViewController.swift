@@ -70,7 +70,7 @@ class PostViewController: UIViewController {
     var saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        let imageSize = UIImage.SymbolConfiguration(pointSize: 25, weight: .bold, scale: .large)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
         let image = UIImage(systemName: "paperclip.circle",
                             withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
         saveButton.setImage(image, for: .normal)
