@@ -46,6 +46,17 @@ class PostViewController: UIViewController {
         return stackView
     }()
     
+    var commentSectionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layer.cornerRadius = 30
+        stackView.backgroundColor = .systemFill
+        stackView.distribution  = .fill
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
     var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -59,9 +70,19 @@ class PostViewController: UIViewController {
     var saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setImage(UIImage(systemName: "paperclip.circle"), for: .normal)
-        saveButton.backgroundColor = .red
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 25, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "paperclip.circle",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        saveButton.setImage(image, for: .normal)
         return saveButton
+    }()
+    
+    var shareButton: UIButton = {
+        let shareButton = UIButton()
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(named: "Icons_48x_share3")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        shareButton.setImage(image, for: .normal)
+        return shareButton
     }()
     
     var contentImageView: UIImageView = {
@@ -79,17 +100,6 @@ class PostViewController: UIViewController {
         postDescriptionView.layer.cornerRadius = 30
         postDescriptionView.backgroundColor = .systemFill
         return postDescriptionView
-    }()
-    
-    var commentSectionStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.layer.cornerRadius = 30
-        stackView.backgroundColor = .systemFill
-        stackView.distribution  = .fill
-        stackView.alignment = .fill
-        stackView.axis = .vertical
-        return stackView
     }()
     
     let addCommentView = AddCommentView()
@@ -258,9 +268,15 @@ class PostViewController: UIViewController {
         //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.2).isActive = true
+        
+        setUpPostDescriptionView()
     }
     
-    func setUpContentImageView() {
-        
+    func setUpPostDescriptionView() {
+        postDescriptionView.addSubview(shareButton)
+        shareButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        shareButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
+        shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -16).isActive = true
     }
 }

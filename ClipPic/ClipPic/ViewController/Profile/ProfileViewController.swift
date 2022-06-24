@@ -117,9 +117,10 @@ class ProfileViewController: UIViewController {
     var settingsButton: UIButton = {
         let settingsButton = UIButton(type: .custom)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        settingsButton.isUserInteractionEnabled = true
-        settingsButton.backgroundColor = .red
-        settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "gearshape",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        settingsButton.setImage(image, for: .normal)
         settingsButton.imageView?.tintColor = .label
         return settingsButton
     }()
@@ -182,7 +183,7 @@ class ProfileViewController: UIViewController {
         
         backgroundView.addSubview(totalSavedCountLabel)
         totalSavedCountLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 7).isActive = true
-        totalSavedCountLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 70).isActive = true
+        totalSavedCountLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 100).isActive = true
         
         backgroundView.addSubview(totalSavedTitleLabel)
         totalSavedTitleLabel.topAnchor.constraint(equalTo: totalSavedCountLabel.bottomAnchor, constant: 5).isActive = true
