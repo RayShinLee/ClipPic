@@ -37,8 +37,7 @@ class PostViewController: UIViewController {
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [contentImageView,
                                                        postDescriptionView,
-                                                       commentSectionStackView
-                                                       /*commentSectionView*/])
+                                                       commentSectionStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution  = .equalSpacing
         stackView.alignment = .fill
@@ -61,6 +60,7 @@ class PostViewController: UIViewController {
         let saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.setImage(UIImage(systemName: "paperclip.circle"), for: .normal)
+        saveButton.backgroundColor = .red
         return saveButton
     }()
     
@@ -120,7 +120,15 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapSaveButton() {
-        
+        print("3333333333333")
+        /*
+        FireStoreManager.shared.savePost(userId: "0lS7ku7y7sS3CU6I0L9H", postId: postId) { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
+            }
+        }*/
     }
     
     @objc func tapSeeMoreButton() {
@@ -206,6 +214,7 @@ class PostViewController: UIViewController {
     
     func setUpButtonActions() {
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {

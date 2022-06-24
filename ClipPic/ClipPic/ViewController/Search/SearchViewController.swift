@@ -22,9 +22,9 @@ class SearchViewController: UIViewController {
         searchTextField.backgroundColor = .systemFill
         searchTextField.layer.cornerRadius = 20
         let leftImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        let image = UIImage(named: "Icons_24x_search")
+        let image = UIImage(systemName: "magnifyingglass")
+        image?.withTintColor(.white)
         leftImage.image = image
-        image?.withTintColor(.label)
         searchTextField.leftView = leftImage
         return searchTextField
     }()

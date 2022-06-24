@@ -147,8 +147,14 @@ extension FireStoreManager {
 // MARK: - Save Post
 
 extension FireStoreManager {
-    func savePost() {
-        
+    func savePost(userId: String, postId: String, completion: @escaping ((Error?) -> Void)) {
+        let document = Firestore.firestore().collection("User").document(userId)
+        let imageURL = "https://firebasestorage.googleapis.com:443/v0/b/clippic-14cf7.appspot.com/o/posts%2F1655806102.749995.jpeg?alt=media&token=614a4ff7-523f-4452-9527-2c4f9050a72d"
+        document.updateData([
+            "collections": [
+                "id": postId,
+                "image_url": imageURL
+            ]
+        ])
     }
 }
-
