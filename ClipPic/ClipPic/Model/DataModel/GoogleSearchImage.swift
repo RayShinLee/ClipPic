@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct GoogleSearchImageResponse: Codable {
     let items: [ImageItem]
 }

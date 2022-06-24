@@ -22,7 +22,7 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
         let searchResultImageView = UIImageView()
         searchResultImageView.translatesAutoresizingMaskIntoConstraints = false
         searchResultImageView.contentMode = .scaleAspectFill
-        //searchResultImageView.layer.cornerRadius = 20
+        //  searchResultImageView.layer.cornerRadius = 20
         searchResultImageView.clipsToBounds = true
         return searchResultImageView
     }()

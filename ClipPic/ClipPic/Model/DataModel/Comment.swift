@@ -34,7 +34,7 @@ struct Comment {
 struct Creator {
     let id: String
     let name: String
-    //let avatar: String
+    //  let avatar: String
     
     init(documentId: String, dictionary: [String: Any]) {
         guard let creatorName = dictionary["name"] as? String else {

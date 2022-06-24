@@ -15,5 +15,4 @@ class SettingsViewController: UIViewController {
         self.title = "Settings"
     }
     
-
 }

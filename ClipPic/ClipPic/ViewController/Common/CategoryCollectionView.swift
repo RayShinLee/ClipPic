@@ -94,6 +94,6 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
         selectedCategory = category
         collectionView.reloadData()
         
-        //interactionDelegate?.didSelectCategoryAt(self, at: selectedCategory)
+        //  interactionDelegate?.didSelectCategoryAt(self, at: selectedCategory)
     }
 }

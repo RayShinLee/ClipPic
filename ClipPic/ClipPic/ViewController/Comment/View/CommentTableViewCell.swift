@@ -96,7 +96,7 @@ class CommentTableViewCell: UITableViewCell {
         contentView.addSubview(commentDateLabel)
         commentDateLabel.topAnchor.constraint(equalTo: commentCreatorName.topAnchor).isActive = true
         commentDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2).isActive = true
-        //commentDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
+        //  commentDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
         commentDateLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }
