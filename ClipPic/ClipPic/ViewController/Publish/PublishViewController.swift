@@ -262,11 +262,11 @@ class PublishViewController: UIViewController {
     }
     
     func setUpImageView() {
-        toPostImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
-        toPostImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.4).isActive = true
+        toPostImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        toPostImageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.4).isActive = true
         toPostImageView.layer.cornerRadius = 20
         
-        addImageButton.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+        addImageButton.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.5).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
