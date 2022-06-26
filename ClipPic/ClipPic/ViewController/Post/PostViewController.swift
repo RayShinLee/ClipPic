@@ -144,6 +144,18 @@ class PostViewController: UIViewController {
         self.present(CommentViewController(with: comments), animated: true, completion: nil)
     }
     
+    @objc func tapShareButton() {
+        let sharedText = "There is a funny post from ClipPic!\n\n\(post.title)\nby \(post.author.name)\n\(post.imageUrl)"
+        var activityItems:[Any] = []
+        if let image = contentImageView.image {
+            activityItems = [sharedText, image]
+        } else {
+            activityItems = [sharedText]
+        }
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     @objc func postCommentAction() {
         guard let comment = addCommentView.commentTextView.text,
               !comment.isEmpty else {
@@ -223,6 +235,7 @@ class PostViewController: UIViewController {
     
     func setUpButtonActions() {
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
     }
     
