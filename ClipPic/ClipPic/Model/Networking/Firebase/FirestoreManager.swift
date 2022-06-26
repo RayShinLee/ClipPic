@@ -55,8 +55,12 @@ extension FireStoreManager {
         }
     }
     
-    func fetchPosts(completion: @escaping (([Post]?, Error?) -> Void)) {
-        dataBase.collection("Post").getDocuments { snapShot, error in
+    func fetchPosts(with category: Category, completion: @escaping (([Post]?, Error?) -> Void)) {
+        let refernce = (category == Category.all) ?
+        dataBase.collection("Post") :
+        dataBase.collection("Post").whereField("category", isEqualTo: category.rawValue)
+        
+        refernce.getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
                 completion(nil, NetworkError.invalidSnapshot)
                 return

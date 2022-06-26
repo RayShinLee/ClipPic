@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CategoryCollectionViewDelegate: AnyObject {
-    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, at index: Int)
+    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, category: Category)
 }
 
 class CategoryCollectionView: UICollectionView {
@@ -94,6 +94,8 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
         selectedCategory = category
         collectionView.reloadData()
         
-        //  interactionDelegate?.didSelectCategoryAt(self, at: selectedCategory)
+        if let category = selectedCategory {
+            interactionDelegate?.didSelectCategoryAt(self, category: category)
+        }
     }
 }

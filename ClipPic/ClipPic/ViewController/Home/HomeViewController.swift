@@ -17,8 +17,8 @@ class HomeViewController: UIViewController {
     
     let layout = UICollectionViewFlowLayout()
     
-    lazy var header = MJRefreshStateHeader(refreshingBlock: {
-        self.fetchPosts()
+    lazy var header = MJRefreshStateHeader(refreshingBlock: { [weak self] in
+        self?.fetchPosts()
     })
     
     // MARK: - UI Properties
@@ -30,10 +30,11 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
     
-    let categoryCollectionView: CategoryCollectionView = {
+    lazy var categoryCollectionView: CategoryCollectionView = {
         let collectionView = CategoryCollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.interactionDelegate = self
         return collectionView
     }()
     
@@ -72,7 +73,9 @@ class HomeViewController: UIViewController {
     // MARK: - Methods
     
     func fetchPosts() {
-        FireStoreManager.shared.fetchPosts(completion: { (posts, error) in
+        let category = categoryCollectionView.selectedCategory ?? Category.all
+        
+        FireStoreManager.shared.fetchPosts(with: category, completion: { (posts, error) in
             if let error = error {
                 print("Fail to fetch posts with error: \(error)")
             } else {
@@ -88,7 +91,7 @@ class HomeViewController: UIViewController {
             if let error = error {
                 print("Fail to fetch categories with error: \(error)")
             } else {
-                self.categoryCollectionView.categories = categories ?? []
+                self.categoryCollectionView.categories = [Category.all] + (categories ?? [])
                 self.categoryCollectionView.reloadData()
             }
         }
@@ -119,12 +122,12 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: PostListCollectionViewDelegate, CategoryCollectionViewDelegate {
-    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, at index: Int) {
-        
+    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, category: Category) {
+        fetchPosts()
     }
 
     func didSelectItemAt(post: Post) {
-        let postVC = PostViewController.init(with: post.id)
+        let postVC = PostViewController(with: post.id)
         self.show(postVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
     }
