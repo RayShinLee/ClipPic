@@ -68,7 +68,7 @@ class PostViewController: UIViewController {
     }()
     
     var saveButton: UIButton = {
-        let saveButton = UIButton()
+        let saveButton = UIButton(type: .custom)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
         let image = UIImage(systemName: "paperclip.circle",
@@ -130,15 +130,14 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapSaveButton() {
-        print("3333333333333")
-        /*
-        FireStoreManager.shared.savePost(userId: "0lS7ku7y7sS3CU6I0L9H", postId: postId) { error in
+        let collection = User.Collection(id: postId, imageURL: post.imageUrl)
+        FireStoreManager.shared.savePost(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
             if let error = error {
                 print(error)
             } else {
                 self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
             }
-        }*/
+        }
     }
     
     @objc func tapSeeMoreButton() {
@@ -260,6 +259,7 @@ class PostViewController: UIViewController {
         
         //  save button
         contentImageView.addSubview(saveButton)
+        contentImageView.isUserInteractionEnabled = true
         saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
