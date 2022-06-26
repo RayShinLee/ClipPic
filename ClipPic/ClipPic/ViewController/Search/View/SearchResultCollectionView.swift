@@ -6,11 +6,22 @@
 //
 
 import UIKit
+import Kingfisher
+
+protocol SearchResultCollectionViewDelegate: AnyObject {
+    func openWebView(with url: URL)
+}
 
 class SearchResultCollectionView: UICollectionView {
-
     // MARK: - Properties
-        
+    weak var interactionDelegate: SearchResultCollectionViewDelegate?
+    
+    var imageItems: [ImageItem] = [] {
+        didSet {
+            reloadData()
+        }
+    }
+
     // MARK: - View life cycle
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -49,7 +60,7 @@ extension SearchResultCollectionView: UICollectionViewDataSource, UICollectionVi
     
     // MARK: DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return imageItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -57,12 +68,18 @@ extension SearchResultCollectionView: UICollectionViewDataSource, UICollectionVi
         guard let contentCell = cell as? SearchResultCollectionViewCell else {
             return cell
         }
+        let item = imageItems[indexPath.item]
         
-        contentCell.searchResultImageView.image = UIImage(named: "Gardener")
-        contentCell.searchResultTitleLabel.text = "search results. search results. search results."
+        contentCell.searchResultImageView.kf.setImage(with: URL(string: item.image.thumbnailLink))
+        contentCell.searchResultTitleLabel.text = item.title
         return contentCell
     }
     
     // MARK: Delegate
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let url = URL(string: imageItems[indexPath.item].link) else {
+            return
+        }
+        interactionDelegate?.openWebView(with: url)
+    }
 }

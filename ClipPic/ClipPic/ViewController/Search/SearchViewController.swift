@@ -6,32 +6,33 @@
 //
 
 import UIKit
+import SafariServices
 
 class SearchViewController: UIViewController {
     // MARK: - Properties
     
-    var googleImages: [ImageItem] = []
-    
     // MARK: - UI Properties
     
-    var searchTextField: UITextField = {
+    var searchIconImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    lazy var searchTextField: UITextField = {
         let searchTextField = UITextField()
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchTextField.placeholder = "Search"
-        searchTextField.leftViewMode = .always
-        searchTextField.backgroundColor = .systemFill
-        searchTextField.layer.cornerRadius = 20
-        let leftImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        let image = UIImage(systemName: "magnifyingglass")
-        image?.withTintColor(.white)
-        leftImage.image = image
-        searchTextField.leftView = leftImage
+        searchTextField.backgroundColor = .clear
+        searchTextField.returnKeyType = .search
+        searchTextField.delegate = self
         return searchTextField
     }()
     
-    var searchResultCollectionView: SearchResultCollectionView = {
+    lazy var searchResultCollectionView: SearchResultCollectionView = {
         let searchResultCollectionView = SearchResultCollectionView()
         searchResultCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        searchResultCollectionView.interactionDelegate = self
         return searchResultCollectionView
     }()
     
@@ -41,32 +42,76 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpViews()
-        searchKeyword()
     }
     
-    func searchKeyword() {
-        GoogleSearchAPIManager().getSeachImages(keyword: "Appworks") { image, error in
+    func searchKeyword(keyword: String) {
+        guard !keyword.isEmpty else {
+            return
+        }
+        GoogleSearchAPIManager().getSeachImages(keyword: keyword) { images, error in
             if let error = error {
                 print(error)
                 return
             }
-            self.googleImages = image ?? []
-            print(self.googleImages)
+            guard let imageItems = images else { return }
+            self.searchResultCollectionView.imageItems = imageItems
         }
     }
     
     func setUpViews() {
-        view.addSubview(searchTextField)
-        searchTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        searchTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        searchTextField.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05).isActive = true
-        searchTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
+        let stackView = UIStackView(frame: .zero)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.spacing = 10
+        
+        view.addSubview(stackView)
+        stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        
+        stackView.addArrangedSubview(searchIconImageView)
+        searchIconImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        searchIconImageView.heightAnchor.constraint(equalTo: searchIconImageView.widthAnchor).isActive = true
+        
+        let textFieldContainer = UIView(frame: .zero)
+        textFieldContainer.translatesAutoresizingMaskIntoConstraints = false
+        textFieldContainer.backgroundColor = UIColor.systemFill.withAlphaComponent(0.6)
+        textFieldContainer.layer.cornerRadius = 24
+        textFieldContainer.addSubview(searchTextField)
+        searchTextField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor).isActive = true
+        searchTextField.bottomAnchor.constraint(equalTo: textFieldContainer.bottomAnchor).isActive = true
+        searchTextField.leadingAnchor.constraint(equalTo: textFieldContainer.leadingAnchor, constant: 8).isActive = true
+        searchTextField.trailingAnchor.constraint(equalTo: textFieldContainer.trailingAnchor, constant: -8).isActive = true
+        
+        stackView.addArrangedSubview(textFieldContainer)
+        textFieldContainer.heightAnchor.constraint(equalToConstant: 48).isActive = true
         
         view.addSubview(searchResultCollectionView)
-        searchResultCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65).isActive = true
+        searchResultCollectionView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 8).isActive = true
+        searchResultCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         searchResultCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         searchResultCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        searchResultCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
     }
+}
 
+// MARK: - UITextField Delegate
+extension SearchViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        if let text = textField.text, !text.isEmpty {
+            searchKeyword(keyword: text)
+        }
+        return true
+    }
+}
+
+// MARK: - SearchResultCollectionView Delegate
+extension SearchViewController: SearchResultCollectionViewDelegate {
+    func openWebView(with url: URL) {
+        let safariViewContorller = SFSafariViewController(url: url)
+        present(safariViewContorller, animated: true, completion: nil)
+    }
 }

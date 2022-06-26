@@ -187,7 +187,6 @@
 			children = (
 				878E1089285F045B00FF87C2 /* DataModel */,
 				878E1086285F043000FF87C2 /* Networking */,
-				87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				878E1098285F0FE800FF87C2 /* NetworkError.swift */,
+				87B8A0D428683CB500AE533D /* Google */,
 				878E10A3285F2F8200FF87C2 /* Serp */,
 				878E10A2285F2F1F00FF87C2 /* Firebase */,
 			);
@@ -435,6 +435,14 @@
 				878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		87B8A0D428683CB500AE533D /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */,
+			);
+			path = Google;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

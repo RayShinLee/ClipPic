@@ -11,15 +11,20 @@ import Alamofire
 class GoogleSearchAPIManager {
     
     func getSeachImages(keyword: String, completion: @escaping ([ImageItem]?, Error?) -> Void) {
-        let APIKey = "AIzaSyDONlVyEvDBRvyMhkrCtGXTLhz9w2zINUU"
-        let APIcx = "0b1fca30b71f6f225"
-        let url = "https://customsearch.googleapis.com/customsearch/v1?cx=\(APIcx)&q=\(keyword)&searchType=image&key=\(APIKey)"
+        let apiKey = "AIzaSyDONlVyEvDBRvyMhkrCtGXTLhz9w2zINUU"
+        let apiCX = "0b1fca30b71f6f225"
+        let baseURL = "https://customsearch.googleapis.com/customsearch/v1"
+        var urlComponent = URLComponents(string: baseURL)
+        urlComponent?.queryItems = [
+            URLQueryItem(name: "cx", value: apiCX),
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "q", value: keyword),
+            URLQueryItem(name: "searchType", value: "image")
+        ]
+        guard let url = urlComponent?.url else { return }
         
         let request = AF.request(url)
         request.responseDecodable(of: GoogleSearchImageResponse.self) { (response) in
-            print("===============================")
-            print(String.init(data: response.data!, encoding: .utf8))
-            
             switch response.result {
             case .success(let searchResponse):
                 completion(searchResponse.items, nil)

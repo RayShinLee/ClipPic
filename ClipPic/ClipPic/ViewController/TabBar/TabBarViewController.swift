@@ -68,6 +68,7 @@ class TabBarViewController: UITabBarController {
         
         let searchImageController = ImageSearchViewController()
         let searchImageNavigation = UINavigationController(rootViewController: searchImageController)
+        searchNavigation.navigationBar.isHidden = true
         searchImageNavigation.tabBarItem = UITabBarItem(title: "Images",
                                                         image: UIImage(systemName: "photo"),
                                                         selectedImage: UIImage(systemName: "photo.fill"))

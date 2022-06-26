@@ -65,8 +65,10 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
         searchResultImageView.heightAnchor.constraint(equalTo: searchResultItemView.heightAnchor, multiplier: 0.7).isActive = true
         
         searchResultItemView.addSubview(searchResultTitleLabel)
-        searchResultTitleLabel.centerXAnchor.constraint(equalTo: searchResultItemView.centerXAnchor).isActive = true
+        searchResultTitleLabel.topAnchor.constraint(equalTo: searchResultImageView.bottomAnchor, constant: 5).isActive = true
         searchResultTitleLabel.bottomAnchor.constraint(equalTo: searchResultItemView.bottomAnchor, constant: -2).isActive = true
-        searchResultTitleLabel.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        searchResultTitleLabel.leadingAnchor.constraint(equalTo: searchResultItemView.leadingAnchor, constant: 5).isActive = true
+        searchResultTitleLabel.trailingAnchor.constraint(equalTo: searchResultItemView.trailingAnchor, constant: -5).isActive = true
+
     }
 }

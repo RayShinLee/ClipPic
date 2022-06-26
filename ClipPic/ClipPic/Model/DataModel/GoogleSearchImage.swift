@@ -7,30 +7,19 @@
 
 import Foundation
 
-struct GoogleSearchImageResponse: Codable {
+struct GoogleSearchImageResponse: Decodable {
     let items: [ImageItem]
 }
 
-struct ImageItem: Codable {
-    let kind: Kind
-    let title, htmlTitle: String
+struct ImageItem: Decodable {
+    let title: String
     let link: String
-    let displayLink, snippet, htmlSnippet: String
-    let mime, fileFormat: FileFormat
     let image: Image
 }
 
-enum FileFormat: String, Codable {
-    case image = "image/"
-}
-
-struct Image: Codable {
+struct Image: Decodable {
     let contextLink: String
-    let height, width, byteSize: Int
     let thumbnailLink: String
-    let thumbnailHeight, thumbnailWidth: Int
-}
-
-enum Kind: String, Codable {
-    case customsearchResult = "customsearch#result"
+    let thumbnailHeight: Float
+    let thumbnailWidth: Float
 }
