@@ -9,20 +9,6 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     
-    // MARK: - Properties
-    
-    let searchBottomSheet = SearchBottomSheet()
-    
-    // MARK: - UI Properties
-    
-    let darkView: UIView = {
-        let darkView = UIView()
-        darkView.translatesAutoresizingMaskIntoConstraints = false
-        darkView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        darkView.isHidden = true
-        return darkView
-    }()
-    
     // MARK: - Lifecycle
     
     init() {
@@ -37,18 +23,6 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        searchBottomSheet.exitButton.addTarget(self, action: #selector(closeSearchView), for: .touchUpInside)
-        setUpDarkView()
-    }
-    
-    // MARK: - Action methods
-    
-    @objc func closeSearchView() {
-        let startPointY = view.bounds.height
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            self.searchBottomSheet.frame.origin.y = startPointY
-        })
-        darkView.isHidden = true
     }
     
     // MARK: - Methods
@@ -83,39 +57,5 @@ class TabBarViewController: UITabBarController {
         UITabBar.appearance().barTintColor = .systemBackground
         
         viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation]
-    }
-    
-    func setUpDarkView() {
-        view.addSubview(darkView)
-        darkView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        darkView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        darkView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        darkView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-    }
-
-}
-
-//  MARK: - tabbarController delegate
-extension TabBarViewController: UITabBarControllerDelegate {
-
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if let navi = viewController as? UINavigationController,
-           let _ = navi.viewControllers.first as? ImageSearchViewController {
-                showSearchBottomSheet()
-                return true
-        } else {
-            return false
-        }
-    }
-    
-    func showSearchBottomSheet() {
-        let startPointY = view.bounds.height
-        let finishPointY = startPointY - 202
-        searchBottomSheet.frame = CGRect(x: 0, y: finishPointY, width: view.bounds.width, height: 202)
-        view.addSubview(searchBottomSheet)
-        darkView.isHidden = false
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            self.searchBottomSheet.frame.origin.y = finishPointY
-        })
     }
 }
