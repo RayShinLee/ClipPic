@@ -13,6 +13,8 @@ class SignInViewController: UIViewController {
     // MARK: - Properties
     
     var player: AVPlayer?
+    var playerLooper: AVPlayerLooper?
+    var queuePlayer: AVQueuePlayer?
 
     // MARK: - UI Properties
     
@@ -40,7 +42,7 @@ class SignInViewController: UIViewController {
     var logoImageView: UIImageView = {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = UIImage(named: "Quokdog")
+        logoImageView.backgroundColor = .white
         logoImageView.contentMode = .scaleAspectFill
         logoImageView.layer.cornerRadius = 20
         logoImageView.clipsToBounds = true
@@ -91,7 +93,7 @@ class SignInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarController?.tabBar.isHidden = true
+        //tabBarController?.tabBar.isHidden = true
         setUpView()
         videoBackground()
     }
