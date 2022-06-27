@@ -50,9 +50,13 @@ class TabBarViewController: UITabBarController {
                                                     image: UIImage(named: "Icons_36px_Profile_Normal"),
                                                     selectedImage: UIImage(named: "Icons_36px_Profile_Selected"))
         
+        let loginpage = SignInViewController()
+        let loginnav = UINavigationController(rootViewController: loginpage)
+        loginnav.navigationBar.isHidden = true
+        
         UITabBar.appearance().barTintColor = .systemBackground
         
-        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation]
+        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation, loginnav]
     }
 
 }
