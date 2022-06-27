@@ -29,7 +29,6 @@ class PublishViewController: UIViewController {
     
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [toPostImageView,
-                                                       addImageButton,
                                                        enterTitleLabel,
                                                        titleTextField,
                                                        enterDescriptionLabel,
@@ -50,7 +49,8 @@ class PublishViewController: UIViewController {
     var toPostImageView: UIImageView = {
         let imageToPost = UIImageView()
         imageToPost.translatesAutoresizingMaskIntoConstraints = false
-        imageToPost.backgroundColor = .red
+        imageToPost.isUserInteractionEnabled = true
+        imageToPost.backgroundColor = .systemFill
         return imageToPost
     }()
     
@@ -66,7 +66,8 @@ class PublishViewController: UIViewController {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
         addImageButton.setTitle("Select an image", for: .normal)
-        addImageButton.backgroundColor = .black
+        addImageButton.layer.cornerRadius = 10
+        addImageButton.backgroundColor = .systemFill
         return addImageButton
     }()
     
@@ -116,9 +117,6 @@ class PublishViewController: UIViewController {
         let titleTextField = UITextField()
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
         titleTextField.placeholder = " Enter title"
-        titleTextField.layer.cornerRadius = 10
-        titleTextField.layer.borderWidth = 2.0
-        titleTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         return titleTextField
     }()
     
@@ -126,9 +124,6 @@ class PublishViewController: UIViewController {
         let descriptionTextField = UITextField()
         descriptionTextField.translatesAutoresizingMaskIntoConstraints = false
         descriptionTextField.placeholder = " Enter Description"
-        descriptionTextField.layer.cornerRadius = 10
-        descriptionTextField.layer.borderWidth = 2.0
-        descriptionTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         return descriptionTextField
     }()
     
@@ -136,9 +131,6 @@ class PublishViewController: UIViewController {
         let destinationLinkTextField = UITextField()
         destinationLinkTextField.translatesAutoresizingMaskIntoConstraints = false
         destinationLinkTextField.placeholder = " Enter link"
-        destinationLinkTextField.layer.cornerRadius = 10
-        destinationLinkTextField.layer.borderWidth = 2.0
-        destinationLinkTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
         return destinationLinkTextField
     }()
     
@@ -150,6 +142,27 @@ class PublishViewController: UIViewController {
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
+    }()
+    
+    var separatorView1: UIView = {
+        let separatorView1 = UIView()
+        separatorView1.translatesAutoresizingMaskIntoConstraints = false
+        separatorView1.backgroundColor = .label
+        return separatorView1
+    }()
+    
+    var separatorView2: UIView = {
+        let separatorView2 = UIView()
+        separatorView2.translatesAutoresizingMaskIntoConstraints = false
+        separatorView2.backgroundColor = .label
+        return separatorView2
+    }()
+    
+    var separatorView3: UIView = {
+        let separatorView3 = UIView()
+        separatorView3.translatesAutoresizingMaskIntoConstraints = false
+        separatorView3.backgroundColor = .label
+        return separatorView3
     }()
     
     // MARK: - Lifecycle
@@ -263,11 +276,14 @@ class PublishViewController: UIViewController {
     
     func setUpImageView() {
         toPostImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        toPostImageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.4).isActive = true
+        toPostImageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.45).isActive = true
         toPostImageView.layer.cornerRadius = 20
         
-        addImageButton.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.5).isActive = true
-        addImageButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        toPostImageView.addSubview(addImageButton)
+        addImageButton.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.4).isActive = true
+        addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        addImageButton.centerXAnchor.constraint(equalTo: toPostImageView.centerXAnchor).isActive = true
+        addImageButton.bottomAnchor.constraint(equalTo: toPostImageView.bottomAnchor, constant: -8).isActive = true
     }
     
     func setUpViewForPostDetails() {
@@ -284,19 +300,41 @@ class PublishViewController: UIViewController {
         categoryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         titleTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
-        titleTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        titleTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
         descriptionTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         descriptionTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
         destinationLinkTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
-        destinationLinkTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        destinationLinkTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         categoryCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        categoryCollectionView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        categoryCollectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         publishButton.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
         publishButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        setUpSeparatorView()
+    }
+    
+    func setUpSeparatorView() {
+        stackView.addSubview(separatorView1)
+        separatorView1.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
+        separatorView1.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        separatorView1.topAnchor.constraint(equalTo: titleTextField.bottomAnchor).isActive = true
+        separatorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        stackView.addSubview(separatorView2)
+        separatorView2.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
+        separatorView2.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        separatorView2.topAnchor.constraint(equalTo: descriptionTextField.bottomAnchor).isActive = true
+        separatorView2.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        stackView.addSubview(separatorView3)
+        separatorView3.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.9).isActive = true
+        separatorView3.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        separatorView3.topAnchor.constraint(equalTo: destinationLinkTextField.bottomAnchor).isActive = true
+        separatorView3.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
 }
 

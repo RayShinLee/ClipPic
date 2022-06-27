@@ -14,7 +14,8 @@ class SearchViewController: UIViewController {
     // MARK: - UI Properties
     
     var searchIconImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        let image = UIImage(systemName: "magnifyingglass")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -78,7 +79,7 @@ class SearchViewController: UIViewController {
         
         let textFieldContainer = UIView(frame: .zero)
         textFieldContainer.translatesAutoresizingMaskIntoConstraints = false
-        textFieldContainer.backgroundColor = UIColor.systemFill.withAlphaComponent(0.6)
+        textFieldContainer.backgroundColor = .systemFill
         textFieldContainer.layer.cornerRadius = 24
         textFieldContainer.addSubview(searchTextField)
         searchTextField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor).isActive = true
