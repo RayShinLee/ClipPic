@@ -6,14 +6,21 @@
 //
 
 import UIKit
-import FirebaseFirestore
+import Kingfisher
 
 class PostViewController: UIViewController {
     
     // MARK: - Properties
     
-    var dataBase: Firestore!
-    var allPosts: [[String: Any]] = []
+    var comments: [Comment] = []
+    
+    var postId: String
+    
+    var post: Post! {
+        didSet {
+            contentImageView.kf.setImage(with: URL(string: post.imageUrl))
+        }
+    }
     
     // MARK: - UI Properties
     
@@ -30,7 +37,7 @@ class PostViewController: UIViewController {
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [contentImageView,
                                                        postDescriptionView,
-                                                       commentSectionView])
+                                                       commentSectionStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution  = .equalSpacing
         stackView.alignment = .fill
@@ -39,80 +46,52 @@ class PostViewController: UIViewController {
         return stackView
     }()
     
+    var commentSectionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layer.cornerRadius = 30
+        stackView.backgroundColor = .systemFill
+        stackView.distribution  = .fill
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
     var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.layer.cornerRadius = 20
-        backButton.imageView?.tintColor = .white
-        backButton.backgroundColor = .white
+        backButton.imageView?.tintColor = .systemBackground
+        backButton.backgroundColor = .label
         return backButton
     }()
     
     var saveButton: UIButton = {
-        let saveButton = UIButton()
+        let saveButton = UIButton(type: .custom)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setImage(UIImage(named: "bookmark-56-512"), for: .normal)
-        saveButton.setImage(UIImage(named: "bookmark-43-512"), for: .selected)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "paperclip.circle",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        saveButton.setImage(image, for: .normal)
         return saveButton
     }()
     
-    var postCommentButton: UIButton = {
-        let postCommentButton = UIButton()
-        postCommentButton.translatesAutoresizingMaskIntoConstraints = false
-        postCommentButton.setTitle("Post", for: .normal)
-        postCommentButton.setTitleColor(.systemBlue, for: .normal)
-        return postCommentButton
-    }()
-    
-    var seeMoreCommentsButton: UIButton = {
-       let seeMoreCommentsButton = UIButton()
-        seeMoreCommentsButton.translatesAutoresizingMaskIntoConstraints = false
-        seeMoreCommentsButton.setTitle("See More", for: .normal)
-        seeMoreCommentsButton.setTitleColor(.white, for: .normal)
-        seeMoreCommentsButton.backgroundColor = .black
-        seeMoreCommentsButton.layer.cornerRadius = 10
-        return seeMoreCommentsButton
+    var shareButton: UIButton = {
+        let shareButton = UIButton()
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(named: "Icons_48x_share3")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        shareButton.setImage(image, for: .normal)
+        return shareButton
     }()
     
     var contentImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(named: "lemon")
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 25
         image.clipsToBounds = true
         return image
-    }()
-    
-    var commentUserPicImageView: UIImageView = {
-        let commentUserPicView = UIImageView()
-        commentUserPicView.translatesAutoresizingMaskIntoConstraints = false
-        commentUserPicView.image = UIImage(named: "Quokdog")
-        commentUserPicView.contentMode = .scaleAspectFill
-        commentUserPicView.layer.cornerRadius = 25
-        commentUserPicView.clipsToBounds = true
-        return commentUserPicView
-    }()
-    
-    var commentCreatorImageView: UIImageView = {
-        let commentCreatorImageView = UIImageView()
-        commentCreatorImageView.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorImageView.image = UIImage(named: "lemon")
-        commentCreatorImageView.contentMode = .scaleAspectFill
-        commentCreatorImageView.layer.cornerRadius = 25
-        commentCreatorImageView.clipsToBounds = true
-        return commentCreatorImageView
-    }()
-    
-    var commentCreatorImageView2: UIImageView = {
-        let commentCreatorImageView2 = UIImageView()
-        commentCreatorImageView2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorImageView2.image = UIImage(named: "Gardener")
-        commentCreatorImageView2.contentMode = .scaleAspectFill
-        commentCreatorImageView2.layer.cornerRadius = 25
-        commentCreatorImageView2.clipsToBounds = true
-        return commentCreatorImageView2
     }()
     
     var postDescriptionView: UIView = {
@@ -123,48 +102,25 @@ class PostViewController: UIViewController {
         return postDescriptionView
     }()
     
-    var commentSectionView: UIView = {
-        let commentSectionView = UIView()
-        commentSectionView.translatesAutoresizingMaskIntoConstraints = false
-        commentSectionView.layer.cornerRadius = 30
-        commentSectionView.backgroundColor = .systemFill
-        return commentSectionView
-    }()
-    
-    var commentTextField: UITextField = {
-        let commentTextField = UITextField()
-        commentTextField.translatesAutoresizingMaskIntoConstraints = false
-        commentTextField.attributedPlaceholder = NSAttributedString(
-            string: "Add a comment", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
-        return commentTextField
-    }()
-    
-    var commentCreatorThreadLabel: UILabel = {
-        let commentCreatorThreadLabel = UILabel()
-        commentCreatorThreadLabel.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel.numberOfLines = 3
-        commentCreatorThreadLabel.text = "Creator comment appears here. Creator comment appears here"
-        commentCreatorThreadLabel.textColor = .label
-        return commentCreatorThreadLabel
-    }()
-    
-    var commentCreatorThreadLabel2: UILabel = {
-        let commentCreatorThreadLabel2 = UILabel()
-        commentCreatorThreadLabel2.translatesAutoresizingMaskIntoConstraints = false
-        commentCreatorThreadLabel2.numberOfLines = 3
-        commentCreatorThreadLabel2.text = "Creator comment appears here. Creator comment appears here"
-        commentCreatorThreadLabel2.textColor = .label
-        return commentCreatorThreadLabel2
-    }()
+    let addCommentView = AddCommentView()
     
     // MARK: - Lifecycle
+    
+    init(with postId: String) {
+        self.postId = postId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
-        postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
+        setUpButtonActions()
+        fetchPost()
     }
     
     // MARK: - Action Methods
@@ -173,32 +129,114 @@ class PostViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func tapSaveButton() {
+        let collection = User.Collection(id: postId, imageURL: post.imageUrl)
+        FireStoreManager.shared.savePost(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
+            }
+        }
+    }
+    
+    @objc func tapSeeMoreButton() {
+        self.present(CommentViewController(with: comments), animated: true, completion: nil)
+    }
+    
+    @objc func tapShareButton() {
+        let sharedText = "There is a funny post from ClipPic!\n\n\(post.title)\nby \(post.author.name)\n\(post.imageUrl)"
+        var activityItems:[Any] = []
+        if let image = contentImageView.image {
+            activityItems = [sharedText, image]
+        } else {
+            activityItems = [sharedText]
+        }
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     @objc func postCommentAction() {
-        guard let comment = commentTextField.text,
+        guard let comment = addCommentView.commentTextView.text,
               !comment.isEmpty else {
                   showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
                   return
               }
-        addNewComment(commentContent: comment)
-        showAlert(title: "Publish Success!", message: "", optionTitle: "Ok")
-        commentTextField.text = ""
+        
+        FireStoreManager.shared.publishComment(text: comment, post: postId, completion: {error in
+            if let error = error {
+                print(error)
+            } else {
+                self.fetchComments()
+                self.showAlert(title: "Success", message: "", optionTitle: "Ok")
+                self.addCommentView.commentTextView.text = ""
+            }
+        })
     }
-    
+
     // MARK: - Methods
     
-    func addNewComment(commentContent: String) {
-        let posts = Firestore.firestore().collection("Comment")
-        let document = posts.document()
-        let timeStamp = Date().timeIntervalSince1970
-
-        let data: [String: Any] = [
-            "userId": "1234",
-            "postId": "",
-            "commentContent": commentContent,
-            "createdTime": timeStamp
-        ]
+    func fetchPost() {
+        FireStoreManager.shared.fetchPost(postId: postId) { post, error in
+            if let error = error {
+                print("Fail to fetch post with error: \(error)")
+            }
+            guard let post = post else {
+                return
+            }
+            self.post = post
+            self.fetchComments()
+        }
+    }
     
-        document.setData(data)
+    func fetchComments() {
+        guard let postId = post?.id else {
+            return
+        }
+        
+        FireStoreManager.shared.fetchComments(postId: postId, completion: { (comments, error) in
+            if let error = error {
+                print("Fail to fetch comments with error: \(error)")
+            } else {
+                self.comments = comments ?? []
+                self.updateCommentSection()
+            }
+        })
+    }
+    
+    func updateCommentSection() {
+        
+        commentSectionStackView.arrangedSubviews.forEach { view in
+            commentSectionStackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        
+        if !comments.isEmpty {
+            for index in 0 ..< comments.count {
+                guard index < 2 else {
+                    break
+                }
+                let commentView = CommentView()
+                commentView.creatorNameLabel.text = comments[index].creator.name
+                commentView.creatorThreadLabel.text = comments[index].text
+                commentSectionStackView.addArrangedSubview(commentView)
+            }
+        }
+        
+        addCommentView.postCommentButton.addTarget(self, action: #selector(postCommentAction), for: .touchUpInside)
+        commentSectionStackView.addArrangedSubview(addCommentView)
+        
+        if comments.count > 2 {
+            let seeMoreCommentView = SeeMoreCommentView()
+            seeMoreCommentView.seeMoreCommentsButton.addTarget(self, action: #selector(tapSeeMoreButton), for: .touchUpInside)
+            commentSectionStackView.addArrangedSubview(seeMoreCommentView)
+        }
+    }
+    
+    func setUpButtonActions() {
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
@@ -234,8 +272,9 @@ class PostViewController: UIViewController {
         
         //  save button
         contentImageView.addSubview(saveButton)
-        saveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        saveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        contentImageView.isUserInteractionEnabled = true
+        saveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        saveButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
         saveButton.bottomAnchor.constraint(equalTo: contentImageView.bottomAnchor, constant: -8).isActive = true
         
@@ -243,65 +282,14 @@ class PostViewController: UIViewController {
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.2).isActive = true
         
-        setUpCommentSection()
+        setUpPostDescriptionView()
     }
     
-    func setUpContentImageView() {
-        
-    }
-    
-    func setUpCommentSection() {
-        //  comment section
-        commentSectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        commentSectionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
-        
-        //  comment profile pic
-        commentSectionView.addSubview(commentCreatorImageView)
-        commentCreatorImageView.topAnchor.constraint(equalTo: commentSectionView.topAnchor, constant: 20).isActive = true
-        commentCreatorImageView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
-        commentCreatorImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentCreatorImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        commentSectionView.addSubview(commentCreatorImageView2)
-        commentCreatorImageView2.topAnchor.constraint(equalTo: commentCreatorImageView.bottomAnchor, constant: 10).isActive = true
-        commentCreatorImageView2.leadingAnchor.constraint(equalTo: commentCreatorImageView.leadingAnchor).isActive = true
-        commentCreatorImageView2.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentCreatorImageView2.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        commentSectionView.addSubview(commentUserPicImageView)
-        commentUserPicImageView.leadingAnchor.constraint(equalTo: commentSectionView.leadingAnchor, constant: 10).isActive = true
-        commentUserPicImageView.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -50).isActive = true
-        commentUserPicImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        commentUserPicImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        //  comment content
-        commentSectionView.addSubview(commentCreatorThreadLabel)
-        commentCreatorThreadLabel.leadingAnchor.constraint(equalTo: commentCreatorImageView.trailingAnchor, constant: 5).isActive = true
-        commentCreatorThreadLabel.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
-        commentCreatorThreadLabel.centerYAnchor.constraint(equalTo: commentCreatorImageView.centerYAnchor).isActive = true
-        commentCreatorThreadLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        commentSectionView.addSubview(commentCreatorThreadLabel2)
-        commentCreatorThreadLabel2.leadingAnchor.constraint(equalTo: commentCreatorThreadLabel.leadingAnchor).isActive = true
-        commentCreatorThreadLabel2.trailingAnchor.constraint(equalTo: commentCreatorThreadLabel.trailingAnchor).isActive = true
-        commentCreatorThreadLabel2.centerYAnchor.constraint(equalTo: commentCreatorImageView2.centerYAnchor).isActive = true
-        commentCreatorThreadLabel2.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        commentSectionView.addSubview(commentTextField)
-        commentTextField.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
-        commentTextField.leadingAnchor.constraint(equalTo: commentUserPicImageView.trailingAnchor, constant: 5).isActive = true
-        commentTextField.heightAnchor.constraint(equalTo: commentUserPicImageView.heightAnchor).isActive = true
-        
-        //  comment buttons
-        commentSectionView.addSubview(postCommentButton)
-        postCommentButton.centerYAnchor.constraint(equalTo: commentUserPicImageView.centerYAnchor).isActive = true
-        postCommentButton.leadingAnchor.constraint(equalTo: commentTextField.trailingAnchor, constant: 5).isActive = true
-        postCommentButton.trailingAnchor.constraint(equalTo: commentSectionView.trailingAnchor, constant: -10).isActive = true
-        
-        commentSectionView.addSubview(seeMoreCommentsButton)
-        seeMoreCommentsButton.centerXAnchor.constraint(equalTo: commentSectionView.centerXAnchor).isActive = true
-        seeMoreCommentsButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        seeMoreCommentsButton.widthAnchor.constraint(equalToConstant: 130).isActive = true
-        seeMoreCommentsButton.bottomAnchor.constraint(equalTo: commentSectionView.bottomAnchor, constant: -10).isActive = true
+    func setUpPostDescriptionView() {
+        postDescriptionView.addSubview(shareButton)
+        shareButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        shareButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
+        shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -16).isActive = true
     }
 }

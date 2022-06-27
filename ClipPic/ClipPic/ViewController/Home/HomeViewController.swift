@@ -7,31 +7,34 @@
 
 // swiftlint:disable all
 import UIKit
+import MJRefresh
 
 class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
     var fullScreenSize: CGSize!
-    var posts: [Post] = []
+    
     let layout = UICollectionViewFlowLayout()
+    
+    lazy var header = MJRefreshStateHeader(refreshingBlock: { [weak self] in
+        self?.fetchPosts()
+    })
     
     // MARK: - UI Properties
     
-    lazy var homeCollectionView: HomeCollectionView = {
-        let collectionView = HomeCollectionView()
+    lazy var homeCollectionView: PostListCollectionView = {
+        let collectionView = PostListCollectionView()
         collectionView.interactionDelegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    private let categoryCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    lazy var categoryCollectionView: CategoryCollectionView = {
+        let collectionView = CategoryCollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.interactionDelegate = self
         return collectionView
     }()
     
@@ -51,10 +54,48 @@ class HomeViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         setUpViews()
+        fetchPosts()
+        fetchCategories()
         postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
+        
+        homeCollectionView.mj_header = header
+        header.lastUpdatedTimeLabel?.isHidden = true        
     }
     
-    // MARK: - methods
+    // MARK: - Action methods
+    
+    @objc func tapPublishPost() {
+        let publishVC = PublishViewController()
+        self.show(publishVC, sender: nil)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    // MARK: - Methods
+    
+    func fetchPosts() {
+        let category = categoryCollectionView.selectedCategory ?? Category.all
+        
+        FireStoreManager.shared.fetchPosts(with: category, completion: { (posts, error) in
+            if let error = error {
+                print("Fail to fetch posts with error: \(error)")
+            } else {
+                self.homeCollectionView.posts = posts ?? []
+            }
+            self.homeCollectionView.reloadData()
+            self.homeCollectionView.mj_header?.endRefreshing()
+        })
+    }
+    
+    func fetchCategories() {
+        FireStoreManager.shared.fetchCategories() { (categories, error) in
+            if let error = error {
+                print("Fail to fetch categories with error: \(error)")
+            } else {
+                self.categoryCollectionView.categories = [Category.all] + (categories ?? [])
+                self.categoryCollectionView.reloadData()
+            }
+        }
+    }
     
     func setUpViews() {
         view.addSubview(homeCollectionView)
@@ -64,8 +105,6 @@ class HomeViewController: UIViewController {
         homeCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         view.addSubview(categoryCollectionView)
-        categoryCollectionView.delegate = self
-        categoryCollectionView.dataSource = self
         categoryCollectionView.topAnchor.constraint(equalTo: homeCollectionView.bottomAnchor).isActive = true
         categoryCollectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         categoryCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -77,63 +116,19 @@ class HomeViewController: UIViewController {
         postButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
         postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
-        postButton.backgroundColor = .lightGray
+        postButton.backgroundColor = .label
         postButton.layer.cornerRadius = 22
     }
-    
-    @objc func tapPublishPost() {
-        let publishVC = PublishViewController()
-        self.show(publishVC, sender: nil)
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    func fetchPosts() {
-        FireStoreManager.shared.fetchPosts(completion: { (posts, error) in
-            if let error = error {
-                print("Fail to fetch posts with error: \(error)")
-            } else {
-                self.posts = posts ?? []
-                self.homeCollectionView.reloadData()
-            }
-        })
-    }
 }
 
-extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 3, left: 10, bottom: 5, right: 10)
+extension HomeViewController: PostListCollectionViewDelegate, CategoryCollectionViewDelegate {
+    func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, category: Category) {
+        fetchPosts()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        fullScreenSize = UIScreen.main.bounds.size
-        return CGSize(width: CGFloat(fullScreenSize.width)/3, height: 30)
-    }
-}
 
-extension HomeViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5 // count of categories
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
-    -> UICollectionViewCell {
-        let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath)
-        guard let category = categoryCell as? CategoryCollectionViewCell else {
-            return categoryCell
-        }
-//        category.categoryTitle?.text = "Category"
-        category.backgroundColor = .gray
-        category.layer.cornerRadius = 10
-        return category
-    }
-}
-
-extension HomeViewController: HomeCollectionViewDelegate {
-    func didSelectItemAt(at index: IndexPath) {
-        let imageVC = PostViewController()
-        self.show(imageVC, sender: nil)
+    func didSelectItemAt(post: Post) {
+        let postVC = PostViewController(with: post.id)
+        self.show(postVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
     }
 }

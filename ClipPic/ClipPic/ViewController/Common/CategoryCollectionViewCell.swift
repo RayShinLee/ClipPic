@@ -13,6 +13,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
         label.textAlignment = .center
         return label
     }()
@@ -27,7 +28,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     func setUpViews() {
-        contentView.backgroundColor = .systemGray
         contentView.layer.cornerRadius = 10
         
         contentView.addSubview(titleLabel)

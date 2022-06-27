@@ -1,25 +1,29 @@
 //
-//  HomeCollectionView.swift
+//  SavedPostsCollectionView.swift
 //  ClipPic
 //
-//  Created by RayShin Lee on 2022/6/19.
+//  Created by RayShin Lee on 2022/6/23.
 //
 
 import UIKit
+import Kingfisher
 
-protocol HomeCollectionViewDelegate: AnyObject {
-    func didSelectItemAt(at index: IndexPath)
+protocol SavedPostsCollectionViewDelegate: AnyObject {
+    func didSelectItemAt()
 }
 
-class HomeCollectionView: UICollectionView {
-    weak var interactionDelegate: HomeCollectionViewDelegate?
+class SavedPostsCollectionView: UICollectionView {
     
-    // MARK: View life cycle
+    // MARK: - Properties
+    
+    weak var interactionDelegate: SavedPostsCollectionViewDelegate?
+    
+    // MARK: - View life cycle
     init() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
-        register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
+        register(SavedPostsCollectionViewCell.self, forCellWithReuseIdentifier: "savedPostsCell")
         showsVerticalScrollIndicator = false
         
         dataSource = self
@@ -33,7 +37,8 @@ class HomeCollectionView: UICollectionView {
 }
 
 // MARK: - CollectionView DataSource & Delegate
-extension HomeCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension SavedPostsCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     // MARK: FlowLayout
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -45,7 +50,7 @@ extension HomeCollectionView: UICollectionViewDataSource, UICollectionViewDelega
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let fullScreenSize = UIScreen.main.bounds.size
-        return CGSize(width: CGFloat(fullScreenSize.width)/2 - 15.0, height: 300)
+        return CGSize(width: CGFloat(fullScreenSize.width)/2 - 15.0, height: 200)
     }
     
     // MARK: DataSource
@@ -54,18 +59,19 @@ extension HomeCollectionView: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "contentCell", for: indexPath)
-        guard let contentCell = cell as? ContentCollectionViewCell else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "savedPostsCell", for: indexPath)
+        guard let contentCell = cell as? SavedPostsCollectionViewCell else {
             return cell
         }
-        contentCell.homeImageView.image = UIImage(named: "lemon")
-        contentCell.homeImageView.contentMode = .scaleAspectFill
+        
+        contentCell.savedImageView.image = UIImage(named: "lemon")
+        contentCell.savedImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20
         return contentCell
     }
     
     // MARK: Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        interactionDelegate?.didSelectItemAt(at: indexPath)
+        interactionDelegate?.didSelectItemAt()
     }
 }

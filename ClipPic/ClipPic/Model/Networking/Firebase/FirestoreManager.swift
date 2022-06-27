@@ -41,8 +41,26 @@ extension FireStoreManager {
 
 // MARK: - Post
 extension FireStoreManager {
-    func fetchPosts(completion: @escaping (([Post]?, Error?) -> Void)) {
-        dataBase.collection("Post").getDocuments { snapShot, error in
+    
+    func fetchPost(postId: String, completion: @escaping ((Post?, Error?) -> Void)) {
+        dataBase.collection("Post").document(postId).getDocument { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let post = Post(documentId: postId, dictionary: data)
+            completion(post, nil)
+        }
+    }
+    
+    func fetchPosts(with category: Category, completion: @escaping (([Post]?, Error?) -> Void)) {
+        let refernce = (category == Category.all) ?
+        dataBase.collection("Post") :
+        dataBase.collection("Post").whereField("category", isEqualTo: category.rawValue)
+        
+        refernce.getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
                 completion(nil, NetworkError.invalidSnapshot)
                 return
@@ -50,8 +68,8 @@ extension FireStoreManager {
             
             var posts: [Post] = []
             snapshot.documents.forEach() { element in
-//                let post = Post(id: element.documentID, author: element.data(), category: Category, description: String, imageUrl: String, referenceLink: String?, title: String)
-//                posts.append(post)
+                let post = Post(documentId: element.documentID, dictionary: element.data())
+                posts.append(post)
             }
             
             completion(posts, nil)
@@ -78,5 +96,90 @@ extension FireStoreManager {
             }
             print("success")
         }
+    }
+}
+
+// MARK: - Comments
+
+extension FireStoreManager {
+    func publishComment(text: String, post: String, completion: @escaping ((Error?) -> Void)) {
+        let newDocument = Firestore.firestore().collection("Comment").document()
+        let timeStamp = Date().timeIntervalSince1970
+
+        let data: [String: Any] = [
+            "creator": [
+                "id": "b79Ms0w1mEEKdHb6VbmE",
+                "name": "rayshinlee"
+                //  "avatar": "",
+            ],
+            "text": text,
+            "created_time": timeStamp,
+            "post_id": post
+        ]
+        newDocument.setData(data) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func fetchComments(postId: String, completion: @escaping (([Comment]?, Error?) -> Void)) {
+        dataBase.collection("Comment").whereField("post_id", isEqualTo: postId).getDocuments { snapShot, error in
+            guard let snapshot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            var comments: [Comment] = []
+            snapshot.documents.forEach() { element in
+                let comment = Comment(documentId: element.documentID, dictionary: element.data())
+                comments.append(comment)
+            }
+            
+            comments.sort { data0, data1 in
+                return data0.createdTime > data1.createdTime
+            }
+            
+            completion(comments, nil)
+        }
+        
+    }
+}
+
+// MARK: - Save Post
+
+extension FireStoreManager {
+    func savePost(userId: String, collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
+        let userRef = dataBase.collection("User").document(userId)
+        
+        userRef.getDocument() { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let user = User(documentId: userId, dictionary: data)
+            let addedCollection = [
+                "id": collection.id,
+                "image_url": collection.imageURL
+            ]
+            var newCollections = user.rawCollections
+            newCollections.append(addedCollection)
+            
+            userRef.updateData(["collections": newCollections]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                completion(nil)
+            }
+        }
+    }
+    
+    func fetchSavedPosts() {
+        
     }
 }

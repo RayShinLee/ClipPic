@@ -33,7 +33,7 @@ class ImageSearchViewController: UIViewController {
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
+        collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
@@ -119,7 +119,7 @@ extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "contentCell", for: indexPath)
-        guard let contentCell = cell as? ContentCollectionViewCell else {
+        guard let contentCell = cell as? PostCollectionViewCell else {
             return cell
         }
         let serpImage = serpImages[indexPath.item]

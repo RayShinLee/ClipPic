@@ -10,7 +10,7 @@
 		5FEB3826566316281773F22B /* Pods_ClipPicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF11A23085A283591335FC6 /* Pods_ClipPicTests.framework */; };
 		87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA4285DB7880028D217 /* SearchViewController.swift */; };
 		87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */; };
-		87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */; };
+		87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */; };
 		8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2F9285888BF00ABA14D /* AppDelegate.swift */; };
 		8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FB285888BF00ABA14D /* SceneDelegate.swift */; };
 		8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FD285888BF00ABA14D /* HomeViewController.swift */; };
@@ -20,13 +20,13 @@
 		8740C314285888C600ABA14D /* ClipPicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C313285888C600ABA14D /* ClipPicTests.swift */; };
 		8740C31E285888C600ABA14D /* ClipPicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C31D285888C600ABA14D /* ClipPicUITests.swift */; };
 		8740C320285888C600ABA14D /* ClipPicUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */; };
-		87839F542859739800620513 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F532859739700620513 /* ContentCollectionViewCell.swift */; };
+		87839F542859739800620513 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F532859739700620513 /* PostCollectionViewCell.swift */; };
 		87839F5628597BF900620513 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5528597BF900620513 /* TabBarViewController.swift */; };
 		87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */; };
 		87839F5B2859C69300620513 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5A2859C69300620513 /* PostViewController.swift */; };
 		87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5C285AC49C00620513 /* PublishViewController.swift */; };
 		87839F5F285B02F100620513 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87839F5E285B02F100620513 /* GoogleService-Info.plist */; };
-		878E1085285ECF7800FF87C2 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1084285ECF7800FF87C2 /* HomeCollectionView.swift */; };
+		878E1085285ECF7800FF87C2 /* PostListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1084285ECF7800FF87C2 /* PostListCollectionView.swift */; };
 		878E1088285F044700FF87C2 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1087285F044700FF87C2 /* FirestoreManager.swift */; };
 		878E108B285F046E00FF87C2 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E108A285F046E00FF87C2 /* Post.swift */; };
 		878E108D285F049300FF87C2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E108C285F049300FF87C2 /* User.swift */; };
@@ -37,6 +37,20 @@
 		878E109E285F27B500FF87C2 /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */; };
 		878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */; };
 		878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A6285F311300FF87C2 /* SerpImage.swift */; };
+		878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */; };
+		878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10AD28606C0500FF87C2 /* CommentViewController.swift */; };
+		878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B228606C4E00FF87C2 /* ProfileViewController.swift */; };
+		878E10B5286170EB00FF87C2 /* GoogleSearchImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */; };
+		878E10B72861A52F00FF87C2 /* CommentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B62861A52E00FF87C2 /* CommentTableView.swift */; };
+		878E10B92861A6AC00FF87C2 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10B82861A6AC00FF87C2 /* CommentTableViewCell.swift */; };
+		878E10BB2862165100FF87C2 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10BA2862165100FF87C2 /* CommentView.swift */; };
+		878E10BD28621F2B00FF87C2 /* AddCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10BC28621F2B00FF87C2 /* AddCommentView.swift */; };
+		878E10C02862250300FF87C2 /* SeeMoreCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10BF2862250300FF87C2 /* SeeMoreCommentView.swift */; };
+		878E10C3286441D000FF87C2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C2286441CF00FF87C2 /* SettingsViewController.swift */; };
+		878E10C5286444CF00FF87C2 /* SavedPostsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */; };
+		878E10C7286444F000FF87C2 /* SavedPostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */; };
+		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
+		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -67,7 +81,7 @@
 		52E59B4F91EE347B4F2B8A63 /* Pods-ClipPic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.debug.xcconfig"; sourceTree = "<group>"; };
 		87395FA4285DB7880028D217 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBottomSheet.swift; sourceTree = "<group>"; };
-		87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPIManager.swift; sourceTree = "<group>"; };
+		87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchAPIManager.swift; sourceTree = "<group>"; };
 		8740C2F6285888BF00ABA14D /* ClipPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8740C2F9285888BF00ABA14D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8740C2FB285888BF00ABA14D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,13 +95,13 @@
 		8740C319285888C600ABA14D /* ClipPicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipPicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8740C31D285888C600ABA14D /* ClipPicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicUITests.swift; sourceTree = "<group>"; };
 		8740C31F285888C600ABA14D /* ClipPicUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPicUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		87839F532859739700620513 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
+		87839F532859739700620513 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		87839F5528597BF900620513 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		87839F5A2859C69300620513 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		87839F5C285AC49C00620513 /* PublishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishViewController.swift; sourceTree = "<group>"; };
 		87839F5E285B02F100620513 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		878E1084285ECF7800FF87C2 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
+		878E1084285ECF7800FF87C2 /* PostListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListCollectionView.swift; sourceTree = "<group>"; };
 		878E1087285F044700FF87C2 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		878E108A285F046E00FF87C2 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		878E108C285F049300FF87C2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -98,6 +112,20 @@
 		878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchViewController.swift; sourceTree = "<group>"; };
 		878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerpAPIManager.swift; sourceTree = "<group>"; };
 		878E10A6285F311300FF87C2 /* SerpImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerpImage.swift; sourceTree = "<group>"; };
+		878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionView.swift; sourceTree = "<group>"; };
+		878E10AD28606C0500FF87C2 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		878E10B228606C4E00FF87C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchImage.swift; sourceTree = "<group>"; };
+		878E10B62861A52E00FF87C2 /* CommentTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableView.swift; sourceTree = "<group>"; };
+		878E10B82861A6AC00FF87C2 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		878E10BA2862165100FF87C2 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		878E10BC28621F2B00FF87C2 /* AddCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentView.swift; sourceTree = "<group>"; };
+		878E10BF2862250300FF87C2 /* SeeMoreCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreCommentView.swift; sourceTree = "<group>"; };
+		878E10C2286441CF00FF87C2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsCollectionView.swift; sourceTree = "<group>"; };
+		878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsCollectionViewCell.swift; sourceTree = "<group>"; };
+		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
+		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,7 +187,6 @@
 			children = (
 				878E1089285F045B00FF87C2 /* DataModel */,
 				878E1086285F043000FF87C2 /* Networking */,
-				87395FA8285E1F9D0028D217 /* SearchAPIManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -198,8 +225,6 @@
 				8740C30A285888C600ABA14D /* Info.plist */,
 				87839F5E285B02F100620513 /* GoogleService-Info.plist */,
 				8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */,
-				87395FA4285DB7880028D217 /* SearchViewController.swift */,
-				87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */,
 			);
 			path = ClipPic;
 			sourceTree = "<group>";
@@ -225,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				878E1098285F0FE800FF87C2 /* NetworkError.swift */,
+				87B8A0D428683CB500AE533D /* Google */,
 				878E10A3285F2F8200FF87C2 /* Serp */,
 				878E10A2285F2F1F00FF87C2 /* Firebase */,
 			);
@@ -239,6 +265,7 @@
 				878E108E285F04A600FF87C2 /* Category.swift */,
 				878E1090285F04DF00FF87C2 /* Comment.swift */,
 				878E10A6285F311300FF87C2 /* SerpImage.swift */,
+				878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -246,6 +273,9 @@
 		878E1092285F052600FF87C2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				878E10B128606C3D00FF87C2 /* Profile */,
+				878E10AC28606BE800FF87C2 /* Comment */,
+				878E10AB28606BCB00FF87C2 /* Search */,
 				878E109A285F123C00FF87C2 /* Common */,
 				878E1095285F05A100FF87C2 /* TabBar */,
 				878E1093285F053C00FF87C2 /* Home */,
@@ -268,8 +298,8 @@
 		878E1094285F056400FF87C2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				878E1084285ECF7800FF87C2 /* HomeCollectionView.swift */,
-				87839F532859739700620513 /* ContentCollectionViewCell.swift */,
+				878E1084285ECF7800FF87C2 /* PostListCollectionView.swift */,
+				87839F532859739700620513 /* PostCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -285,6 +315,7 @@
 		878E1096285F05BA00FF87C2 /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				878E10BE28621F3100FF87C2 /* View */,
 				87839F5A2859C69300620513 /* PostViewController.swift */,
 			);
 			path = Post;
@@ -302,6 +333,8 @@
 			isa = PBXGroup;
 			children = (
 				87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */,
+				878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */,
+				878E10BA2862165100FF87C2 /* CommentView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -309,6 +342,7 @@
 		878E10A1285F2E5B00FF87C2 /* ImageSearch */ = {
 			isa = PBXGroup;
 			children = (
+				878E10B028606C1F00FF87C2 /* View */,
 				878E109D285F27B500FF87C2 /* ImageSearchViewController.swift */,
 			);
 			path = ImageSearch;
@@ -329,6 +363,86 @@
 				878E10A4285F2F9800FF87C2 /* SerpAPIManager.swift */,
 			);
 			path = Serp;
+			sourceTree = "<group>";
+		};
+		878E10AB28606BCB00FF87C2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				878E10CC2864572700FF87C2 /* View */,
+				87395FA4285DB7880028D217 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		878E10AC28606BE800FF87C2 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				878E10AF28606C0C00FF87C2 /* View */,
+				878E10AD28606C0500FF87C2 /* CommentViewController.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		878E10AF28606C0C00FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				878E10B62861A52E00FF87C2 /* CommentTableView.swift */,
+				878E10B82861A6AC00FF87C2 /* CommentTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10B028606C1F00FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10B128606C3D00FF87C2 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				878E10C128643D4600FF87C2 /* View */,
+				878E10B228606C4E00FF87C2 /* ProfileViewController.swift */,
+				878E10C2286441CF00FF87C2 /* SettingsViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		878E10BE28621F3100FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				878E10BC28621F2B00FF87C2 /* AddCommentView.swift */,
+				878E10BF2862250300FF87C2 /* SeeMoreCommentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10C128643D4600FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */,
+				878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		878E10CC2864572700FF87C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */,
+				878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		87B8A0D428683CB500AE533D /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */,
+			);
+			path = Google;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -590,24 +704,38 @@
 			files = (
 				8740C304285888BF00ABA14D /* ClipPic.xcdatamodeld in Sources */,
 				878E1088285F044700FF87C2 /* FirestoreManager.swift in Sources */,
+				878E10C3286441D000FF87C2 /* SettingsViewController.swift in Sources */,
 				87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */,
 				8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */,
 				878E108D285F049300FF87C2 /* User.swift in Sources */,
-				87395FA9285E1F9D0028D217 /* SearchAPIManager.swift in Sources */,
+				87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */,
 				87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */,
+				878E10B72861A52F00FF87C2 /* CommentTableView.swift in Sources */,
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
 				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
+				878E10C7286444F000FF87C2 /* SavedPostsCollectionViewCell.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
-				878E1085285ECF7800FF87C2 /* HomeCollectionView.swift in Sources */,
+				878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */,
+				878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */,
+				878E10C5286444CF00FF87C2 /* SavedPostsCollectionView.swift in Sources */,
+				878E1085285ECF7800FF87C2 /* PostListCollectionView.swift in Sources */,
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
 				878E108B285F046E00FF87C2 /* Post.swift in Sources */,
 				878E109C285F162B00FF87C2 /* FirebaseStorageManager.swift in Sources */,
+				878E10C02862250300FF87C2 /* SeeMoreCommentView.swift in Sources */,
 				878E108F285F04A600FF87C2 /* Category.swift in Sources */,
+				878E10BB2862165100FF87C2 /* CommentView.swift in Sources */,
 				87839F5628597BF900620513 /* TabBarViewController.swift in Sources */,
+				878E10BD28621F2B00FF87C2 /* AddCommentView.swift in Sources */,
 				87839F5B2859C69300620513 /* PostViewController.swift in Sources */,
+				878E10B92861A6AC00FF87C2 /* CommentTableViewCell.swift in Sources */,
 				878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */,
-				87839F542859739800620513 /* ContentCollectionViewCell.swift in Sources */,
+				87839F542859739800620513 /* PostCollectionViewCell.swift in Sources */,
+				878E10B5286170EB00FF87C2 /* GoogleSearchImage.swift in Sources */,
+				878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */,
 				878E109E285F27B500FF87C2 /* ImageSearchViewController.swift in Sources */,
+				878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */,
+				878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */,
 				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 				878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */,
@@ -787,6 +915,7 @@
 				INFOPLIST_FILE = ClipPic/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -794,8 +923,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPic;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rayshinlee.ClipPic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -816,6 +945,7 @@
 				INFOPLIST_FILE = ClipPic/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -823,8 +953,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = rayshin.ClipPic;
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rayshinlee.ClipPic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
