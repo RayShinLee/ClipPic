@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 class SignInViewController: UIViewController {
     
     // MARK: - Properties
     
-    
+    var player: AVPlayer?
+
     // MARK: - UI Properties
     
     var backgroundView: UIView = {
@@ -20,6 +22,12 @@ class SignInViewController: UIViewController {
         backgroundView.backgroundColor = .white
         backgroundView.layer.cornerRadius = 90
         return backgroundView
+    }()
+    
+    var videoView: UIView = {
+        let videoView = UIView()
+        videoView.translatesAutoresizingMaskIntoConstraints = false
+        return videoView
     }()
     
     var separatorView: UIView = {
@@ -45,7 +53,7 @@ class SignInViewController: UIViewController {
         welcomeLabel.text = "Welcome To ClipPic"
         welcomeLabel.textColor = .black
         welcomeLabel.textAlignment = .center
-        welcomeLabel.font = UIFont(name: "PingFang TC", size: 25.0)
+        welcomeLabel.font = UIFont(name: "PingFang TC", size: 27.0)
         return welcomeLabel
     }()
     
@@ -85,12 +93,34 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         tabBarController?.tabBar.isHidden = true
         setUpView()
+        videoBackground()
     }
     
     // MARK: - Methods
     
+    func videoBackground() {
+        guard let path = Bundle.main.path(forResource: "signInVideo", ofType: "mp4") else {
+            return
+        }
+        
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = self.view.bounds
+        playerLayer.videoGravity = .resizeAspectFill
+        self.videoView.layer.addSublayer(playerLayer)
+        
+        player.play()
+        videoView.bringSubviewToFront(logoImageView)
+    }
+    
     func setUpView() {
-        view.addSubview(logoImageView)
+        view.addSubview(videoView)
+        videoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        videoView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: 0.4).isActive = true
+        
+        videoView.addSubview(logoImageView)
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         logoImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
@@ -129,13 +159,13 @@ class SignInViewController: UIViewController {
     func setUpSignInButtons() {
         backgroundView.addSubview(googleButton)
         googleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        googleButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 30).isActive = true
+        googleButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 60).isActive = true
         googleButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         googleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         backgroundView.addSubview(appleButton)
         appleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        appleButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 10).isActive = true
+        appleButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 20).isActive = true
         appleButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         appleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
