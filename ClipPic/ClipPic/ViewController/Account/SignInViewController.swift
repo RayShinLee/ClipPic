@@ -12,9 +12,19 @@ class SignInViewController: UIViewController {
     
     // MARK: - Properties
     
-    var player: AVPlayer?
-    var playerLooper: AVPlayerLooper?
-    var queuePlayer: AVQueuePlayer?
+    var backgroundVideoPlayer: AVPlayer = {
+        guard let path = Bundle.main.path(forResource: "signInVideo", ofType: "mp4") else {
+            fatalError("Invalid Video path")
+        }
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        return player
+    }()
+    
+    lazy var backgroundVideoPlayerLayer: AVPlayerLayer = {
+        let playerLayer = AVPlayerLayer(player: backgroundVideoPlayer)
+        playerLayer.videoGravity = .resizeAspectFill
+        return playerLayer
+    }()
 
     // MARK: - UI Properties
     
@@ -95,24 +105,22 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         //tabBarController?.tabBar.isHidden = true
         setUpView()
-        videoBackground()
+        loopVideo()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        backgroundVideoPlayerLayer.frame = videoView.bounds
     }
     
     // MARK: - Methods
     
-    func videoBackground() {
-        guard let path = Bundle.main.path(forResource: "signInVideo", ofType: "mp4") else {
-            return
+    private func loopVideo() {
+        backgroundVideoPlayer.play()
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+            self.backgroundVideoPlayer.seek(to: .zero)
+            self.backgroundVideoPlayer.play()
         }
-        
-        let player = AVPlayer(url: URL(fileURLWithPath: path))
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = self.view.bounds
-        playerLayer.videoGravity = .resizeAspectFill
-        self.videoView.layer.addSublayer(playerLayer)
-        
-        player.play()
-        videoView.bringSubviewToFront(logoImageView)
     }
     
     func setUpView() {
@@ -120,7 +128,8 @@ class SignInViewController: UIViewController {
         videoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        videoView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: 0.4).isActive = true
+        videoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
+        videoView.layer.addSublayer(backgroundVideoPlayerLayer)
         
         videoView.addSubview(logoImageView)
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
