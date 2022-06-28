@@ -40,7 +40,7 @@ class TabBarViewController: UITabBarController {
                                                    image: UIImage(systemName: "magnifyingglass"),
                                                    selectedImage: UIImage(named: "magnifyingglass.fill"))
         
-        let searchImageController = ImageSearchViewController()
+        let searchImageController = ImageTabViewController()
         let searchImageNavigation = UINavigationController(rootViewController: searchImageController)
         searchNavigation.navigationBar.isHidden = true
         searchImageNavigation.tabBarItem = UITabBarItem(title: "Images",
