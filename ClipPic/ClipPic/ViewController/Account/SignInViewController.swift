@@ -294,32 +294,32 @@ extension SignInViewController: ASAuthorizationControllerPresentationContextProv
                 print("Failed to decode identity token")
                 return
             }
-
+            
             let firebaseCredential = OAuthProvider.credential(withProviderID: "apple.com",
                                                               idToken: idTokenString,
                                                               rawNonce: nonce)
             
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
-                /*
-                 if let error { 
+                 if let error = error {
                     print(error.localizedDescription)
                     return
                  }
+                print(authResult?.user)
+                
                  
                  // User is signed in to Firebase with Apple.
                  // Make a request to set user's display name on Firebase
                  
-                 let changeRequest = authResult?.user.createProfileChangeRequest()
-                 changeRequest?.displayName = appleIDCredential.fullName?.givenName
-                 changeRequest?.commitChanges(completion: { (error) in
-                 
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        print("Updated display name: \(Auth.auth().currentUser!.displayName!)")
-                    }
-                 })
-                 */
+//                 let changeRequest = authResult?.user.createProfileChangeRequest()
+//                 changeRequest?.displayName = appleIDCredential.fullName?.givenName
+//                 changeRequest?.commitChanges(completion: { (error) in
+//
+//                    if let error = error {
+//                        print(error.localizedDescription)
+//                    } else {
+//                        print("Updated display name: \(Auth.auth().currentUser!.displayName!)")
+//                    }
+//                 })
             }
         }
     }
