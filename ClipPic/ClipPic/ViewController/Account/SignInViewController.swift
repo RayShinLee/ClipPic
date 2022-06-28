@@ -301,7 +301,7 @@ extension SignInViewController: ASAuthorizationControllerPresentationContextProv
             
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
                 /*
-                 if let error {
+                 if let error { 
                     print(error.localizedDescription)
                     return
                  }
