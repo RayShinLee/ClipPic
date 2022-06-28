@@ -52,7 +52,8 @@
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B0A13428659FD200ADAABA /* SignInViewController.swift */; };
-		87B8A0D92869B62E00AE533D /* signInVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0D82869B62D00AE533D /* signInVideo.mp4 */; };
+		87B8A0DF286A0E1700AE533D /* cat.mov in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0DE286A0E1700AE533D /* cat.mov */; };
+		87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0E0286A113B00AE533D /* dino.mp4 */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -129,7 +130,9 @@
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		87B0A13428659FD200ADAABA /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		87B8A0D82869B62D00AE533D /* signInVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = signInVideo.mp4; sourceTree = "<group>"; };
+		87B8A0DE286A0E1700AE533D /* cat.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = cat.mov; sourceTree = "<group>"; };
+		87B8A0E0286A113B00AE533D /* dino.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dino.mp4; sourceTree = "<group>"; };
+		87B8A0E2286A9D4A00AE533D /* ClipPic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipPic.entitlements; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -199,7 +202,8 @@
 		8740C2ED285888BF00ABA14D = {
 			isa = PBXGroup;
 			children = (
-				87B8A0D82869B62D00AE533D /* signInVideo.mp4 */,
+				87B8A0E0286A113B00AE533D /* dino.mp4 */,
+				87B8A0DE286A0E1700AE533D /* cat.mov */,
 				8740C2F8285888BF00ABA14D /* ClipPic */,
 				8740C312285888C600ABA14D /* ClipPicTests */,
 				8740C31C285888C600ABA14D /* ClipPicUITests */,
@@ -222,6 +226,7 @@
 		8740C2F8285888BF00ABA14D /* ClipPic */ = {
 			isa = PBXGroup;
 			children = (
+				87B8A0E2286A9D4A00AE533D /* ClipPic.entitlements */,
 				8740C2F9285888BF00ABA14D /* AppDelegate.swift */,
 				8740C2FB285888BF00ABA14D /* SceneDelegate.swift */,
 				87395FA1285D65B90028D217 /* Model */,
@@ -561,7 +566,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87B8A0D92869B62E00AE533D /* signInVideo.mp4 in Resources */,
+				87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */,
+				87B8A0DF286A0E1700AE533D /* cat.mov in Resources */,
 				8740C309285888C600ABA14D /* LaunchScreen.storyboard in Resources */,
 				8740C306285888C600ABA14D /* Assets.xcassets in Resources */,
 				87839F5F285B02F100620513 /* GoogleService-Info.plist in Resources */,
@@ -916,6 +922,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 937JA74FPR;
@@ -945,6 +952,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 937JA74FPR;

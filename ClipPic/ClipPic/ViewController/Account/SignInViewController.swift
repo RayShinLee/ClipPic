@@ -7,13 +7,16 @@
 
 import UIKit
 import AVFoundation
+import AuthenticationServices
+import CryptoKit
+import FirebaseAuth
 
 class SignInViewController: UIViewController {
     
     // MARK: - Properties
     
     var backgroundVideoPlayer: AVPlayer = {
-        guard let path = Bundle.main.path(forResource: "signInVideo", ofType: "mp4") else {
+        guard let path = Bundle.main.path(forResource: "dino", ofType: "mp4") else {
             fatalError("Invalid Video path")
         }
         let player = AVPlayer(url: URL(fileURLWithPath: path))
@@ -25,6 +28,8 @@ class SignInViewController: UIViewController {
         playerLayer.videoGravity = .resizeAspectFill
         return playerLayer
     }()
+    
+    fileprivate var currentNonce: String?
 
     // MARK: - UI Properties
     
@@ -86,17 +91,14 @@ class SignInViewController: UIViewController {
         googleButton.translatesAutoresizingMaskIntoConstraints = false
         googleButton.setTitle("Continue With Google", for: .normal)
         googleButton.backgroundColor = UIColor(red: 222/255, green: 82/255, blue: 70/255, alpha: 1)
-        googleButton.layer.cornerRadius = 20
+        googleButton.layer.cornerRadius = 5
         return googleButton
     }()
     
-    var appleButton: UIButton = {
-        let appleButton = UIButton(type: .custom)
-        appleButton.translatesAutoresizingMaskIntoConstraints = false
-        appleButton.setTitle("Continue With Apple", for: .normal)
-        appleButton.backgroundColor = .black
-        appleButton.layer.cornerRadius = 20
-        return appleButton
+    var siwaButton: ASAuthorizationAppleIDButton = {
+        let siwaButton = ASAuthorizationAppleIDButton()
+        siwaButton.translatesAutoresizingMaskIntoConstraints = false
+        return siwaButton
     }()
     
     // MARK: - Lifecycle
@@ -106,6 +108,7 @@ class SignInViewController: UIViewController {
         //tabBarController?.tabBar.isHidden = true
         setUpView()
         loopVideo()
+        siwaButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -113,7 +116,67 @@ class SignInViewController: UIViewController {
         backgroundVideoPlayerLayer.frame = videoView.bounds
     }
     
+    // MARK: - Action methods
+    
+    @objc func appleSignInTapped() {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+        
+        let authController = ASAuthorizationController(authorizationRequests: [request])
+        authController.presentationContextProvider = self
+        authController.delegate = self
+        authController.performRequests()
+    }
+    
     // MARK: - Methods
+    
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset: [Character] =
+        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remainingLength = length
+        
+        while remainingLength > 0 {
+            let randoms: [UInt8] = (0 ..< 16).map { _ in
+                var random: UInt8 = 0
+                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+                if errorCode != errSecSuccess {
+                    fatalError(
+                        "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
+                    )
+                }
+                return random
+            }
+            
+            randoms.forEach { random in
+                if remainingLength == 0 {
+                    return
+                }
+                
+                if random < charset.count {
+                    result.append(charset[Int(random)])
+                    remainingLength -= 1
+                }
+            }
+        }
+        
+        return result
+    }
+    
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            return String(format: "%02x", $0)
+        }.joined()
+        
+        return hashString
+    }
     
     private func loopVideo() {
         backgroundVideoPlayer.play()
@@ -174,10 +237,109 @@ class SignInViewController: UIViewController {
         googleButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         googleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        backgroundView.addSubview(appleButton)
-        appleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        appleButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 20).isActive = true
-        appleButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
-        appleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        backgroundView.addSubview(siwaButton)
+        siwaButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        siwaButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 20).isActive = true
+        siwaButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
+        siwaButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
+
+extension SignInViewController: ASAuthorizationControllerPresentationContextProviding,
+                                ASAuthorizationControllerDelegate {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window! // Which window should the authorization dialog appear -> self(SignInVC)
+    }
+    
+    // MARK: Delegate
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Sign in with Apple errored: \(error)")
+        guard let error = error as? ASAuthorizationError else {
+            return
+        }
+        
+        switch error.code {
+        case .canceled:
+            print("Cancelled")
+        case .unknown:
+            print("Unknown")
+        case .invalidResponse:
+            print("Invalid Response")
+        case .notHandled:
+            print("Not handled. Maybe internet failure during login.")
+        case .failed:
+            print("Failed")
+        default:
+            print("Default")
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
+            UserDefaults.standard.set(appleIDCredential.user, forKey: "appleAuthorizedUserIdKey")
+            
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Failed to fetch identity token")
+                return
+            }
+
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Failed to decode identity token")
+                return
+            }
+
+            let firebaseCredential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                              idToken: idTokenString,
+                                                              rawNonce: nonce)
+            
+            Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
+                /*
+                 if let error {
+                    print(error.localizedDescription)
+                    return
+                 }
+                 
+                 // User is signed in to Firebase with Apple.
+                 // Make a request to set user's display name on Firebase
+                 
+                 let changeRequest = authResult?.user.createProfileChangeRequest()
+                 changeRequest?.displayName = appleIDCredential.fullName?.givenName
+                 changeRequest?.commitChanges(completion: { (error) in
+                 
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        print("Updated display name: \(Auth.auth().currentUser!.displayName!)")
+                    }
+                 })
+                 */
+            }
+        }
+    }
+}
+
+/*
+ Apple auth
+ let userID = appleIDCredential.user
+ let email = appleIDCredential.email
+ let givenName = appleIDCredential.fullName?.givenName
+ let familyName = appleIDCredential.fullName?.familyName
+ let nickName = appleIDCredential.fullName?.nickname
+ 
+ var identityToken : String?
+ if let token = appleIDCredential.identityToken {
+     identityToken = String(bytes: token, encoding: .utf8)
+ }
+ 
+ var authorizationCode : String?
+ if let code = appleIDCredential.authorizationCode {
+     authorizationCode = String(bytes: code, encoding: .utf8)
+ }
+*/
