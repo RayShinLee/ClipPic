@@ -54,9 +54,13 @@ class TabBarViewController: UITabBarController {
         let loginnav = UINavigationController(rootViewController: loginpage)
         loginnav.navigationBar.isHidden = true
         
+        let setuppage = SetUpAccountViewController()
+        let setupnav = UINavigationController(rootViewController: setuppage)
+        loginnav.navigationBar.isHidden = true
+        
         UITabBar.appearance().barTintColor = .systemBackground
         
-        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation, loginnav]
+        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation, loginnav, setupnav]
     }
 
 }
