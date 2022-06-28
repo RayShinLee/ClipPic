@@ -25,7 +25,6 @@
 		87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */; };
 		87839F5B2859C69300620513 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5A2859C69300620513 /* PostViewController.swift */; };
 		87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5C285AC49C00620513 /* PublishViewController.swift */; };
-		87839F5F285B02F100620513 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87839F5E285B02F100620513 /* GoogleService-Info.plist */; };
 		878E1085285ECF7800FF87C2 /* PostListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1084285ECF7800FF87C2 /* PostListCollectionView.swift */; };
 		878E1088285F044700FF87C2 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E1087285F044700FF87C2 /* FirestoreManager.swift */; };
 		878E108B285F046E00FF87C2 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E108A285F046E00FF87C2 /* Post.swift */; };
@@ -52,6 +51,11 @@
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		87B8A0DB2869EB6A00AE533D /* ImageTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */; };
+		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
+		87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B0A13428659FD200ADAABA /* SignInViewController.swift */; };
+		87B8A0DF286A0E1700AE533D /* cat.mov in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0DE286A0E1700AE533D /* cat.mov */; };
+		87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0E0286A113B00AE533D /* dino.mp4 */; };
+		87B8A0E4286AE00500AE533D /* SetUpAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
 /* End PBXBuildFile section */
@@ -101,7 +105,6 @@
 		87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		87839F5A2859C69300620513 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		87839F5C285AC49C00620513 /* PublishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishViewController.swift; sourceTree = "<group>"; };
-		87839F5E285B02F100620513 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		878E1084285ECF7800FF87C2 /* PostListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListCollectionView.swift; sourceTree = "<group>"; };
 		878E1087285F044700FF87C2 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		878E108A285F046E00FF87C2 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -128,6 +131,12 @@
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTabViewController.swift; sourceTree = "<group>"; };
+		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		87B0A13428659FD200ADAABA /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		87B8A0DE286A0E1700AE533D /* cat.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = cat.mov; sourceTree = "<group>"; };
+		87B8A0E0286A113B00AE533D /* dino.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dino.mp4; sourceTree = "<group>"; };
+		87B8A0E2286A9D4A00AE533D /* ClipPic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipPic.entitlements; sourceTree = "<group>"; };
+		87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpAccountViewController.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
 		F485F6330CBC085906BFCF65 /* Pods-ClipPic-ClipPicUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic-ClipPicUITests.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic-ClipPicUITests/Pods-ClipPic-ClipPicUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -196,6 +205,8 @@
 		8740C2ED285888BF00ABA14D = {
 			isa = PBXGroup;
 			children = (
+				87B8A0E0286A113B00AE533D /* dino.mp4 */,
+				87B8A0DE286A0E1700AE533D /* cat.mov */,
 				8740C2F8285888BF00ABA14D /* ClipPic */,
 				8740C312285888C600ABA14D /* ClipPicTests */,
 				8740C31C285888C600ABA14D /* ClipPicUITests */,
@@ -218,14 +229,15 @@
 		8740C2F8285888BF00ABA14D /* ClipPic */ = {
 			isa = PBXGroup;
 			children = (
+				87B8A0E2286A9D4A00AE533D /* ClipPic.entitlements */,
 				8740C2F9285888BF00ABA14D /* AppDelegate.swift */,
 				8740C2FB285888BF00ABA14D /* SceneDelegate.swift */,
 				87395FA1285D65B90028D217 /* Model */,
 				878E1092285F052600FF87C2 /* ViewController */,
 				8740C305285888C600ABA14D /* Assets.xcassets */,
 				8740C307285888C600ABA14D /* LaunchScreen.storyboard */,
+				879D0F62286B2B580066174E /* GoogleService-Info.plist */,
 				8740C30A285888C600ABA14D /* Info.plist */,
-				87839F5E285B02F100620513 /* GoogleService-Info.plist */,
 				8740C302285888BF00ABA14D /* ClipPic.xcdatamodeld */,
 			);
 			path = ClipPic;
@@ -275,6 +287,7 @@
 		878E1092285F052600FF87C2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				87B0A13328659F6300ADAABA /* Account */,
 				878E10B128606C3D00FF87C2 /* Profile */,
 				878E10AC28606BE800FF87C2 /* Comment */,
 				878E10AB28606BCB00FF87C2 /* Search */,
@@ -446,6 +459,15 @@
 				87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */,
 			);
 			path = Google;
+            sourceTree = "<group>";
+        };
+		87B0A13328659F6300ADAABA /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				87B0A13428659FD200ADAABA /* SignInViewController.swift */,
+				87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -558,9 +580,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */,
+				87B8A0DF286A0E1700AE533D /* cat.mov in Resources */,
 				8740C309285888C600ABA14D /* LaunchScreen.storyboard in Resources */,
+				879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */,
 				8740C306285888C600ABA14D /* Assets.xcassets in Resources */,
-				87839F5F285B02F100620513 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +739,7 @@
 				87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */,
 				878E10B72861A52F00FF87C2 /* CommentTableView.swift in Sources */,
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
+				87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */,
 				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
 				878E10C7286444F000FF87C2 /* SavedPostsCollectionViewCell.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
@@ -730,6 +755,7 @@
 				878E10BB2862165100FF87C2 /* CommentView.swift in Sources */,
 				87839F5628597BF900620513 /* TabBarViewController.swift in Sources */,
 				878E10BD28621F2B00FF87C2 /* AddCommentView.swift in Sources */,
+				87B8A0E4286AE00500AE533D /* SetUpAccountViewController.swift in Sources */,
 				87839F5B2859C69300620513 /* PostViewController.swift in Sources */,
 				878E10B92861A6AC00FF87C2 /* CommentTableViewCell.swift in Sources */,
 				878E10A7285F311300FF87C2 /* SerpImage.swift in Sources */,
@@ -912,6 +938,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 937JA74FPR;
@@ -942,6 +969,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 937JA74FPR;

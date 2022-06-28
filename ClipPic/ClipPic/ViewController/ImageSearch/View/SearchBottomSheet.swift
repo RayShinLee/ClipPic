@@ -8,7 +8,6 @@
 import UIKit
 
 class SearchBottomSheet: UIView {
-
     // MARK: - UI Properties
     
     var imageSearchButton: UIButton = {
@@ -72,6 +71,5 @@ class SearchBottomSheet: UIView {
         exitButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
         exitButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
-        
     }
 }
