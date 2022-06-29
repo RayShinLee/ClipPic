@@ -40,6 +40,15 @@ class AccountManager: NSObject {
     private override init() {
         
     }
+    
+    func signOut() {
+        do {
+            try firebaseAuth.signOut()
+        } catch {
+            print("sign out error")
+        }
+        print(isLogin)
+    }
 }
 
 // MARK: - Apple Sign In

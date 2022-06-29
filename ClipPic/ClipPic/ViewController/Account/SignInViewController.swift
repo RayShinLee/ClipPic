@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
 import SwiftUI
+import AuthenticationServices
 
 class SignInViewController: UIViewController {
     

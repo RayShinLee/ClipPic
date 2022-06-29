@@ -156,11 +156,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func tapSignOutButton() {
-//        if let providerId = currentUser?.providerData.first?.providerID,
-//            providerId == "apple.com" {
-//            UserDefaults.standard.set(nil, forKey: "appleAuthorizedUserIdKey")
-//        }
-//        try Auth.auth().signOut()
+        AccountManager.shared.signOut()
     }
     
     // MARK: - Methods
