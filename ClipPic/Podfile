@@ -12,6 +12,7 @@ target 'ClipPic' do
   pod 'Firebase/Core'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
+  pod 'GoogleSignIn'
   pod 'IQKeyboardManagerSwift'
   pod 'Alamofire'
   pod 'Kingfisher'

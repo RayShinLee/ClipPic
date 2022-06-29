@@ -7,9 +7,10 @@
 
 import UIKit
 import AVFoundation
-import AuthenticationServices
-import CryptoKit
 import FirebaseAuth
+import FirebaseCore
+import GoogleSignIn
+import SwiftUI
 
 class SignInViewController: UIViewController {
     
@@ -29,8 +30,6 @@ class SignInViewController: UIViewController {
         return playerLayer
     }()
     
-    fileprivate var currentNonce: String?
-
     // MARK: - UI Properties
     
     var backgroundView: UIView = {
@@ -86,12 +85,11 @@ class SignInViewController: UIViewController {
         return termsLabel
     }()
     
-    var googleButton: UIButton = {
-        let googleButton = UIButton(type: .custom)
+    var googleButton: GIDSignInButton = {
+        let googleButton = GIDSignInButton()
         googleButton.translatesAutoresizingMaskIntoConstraints = false
-        googleButton.setTitle("Continue With Google", for: .normal)
-        googleButton.backgroundColor = UIColor(red: 222/255, green: 82/255, blue: 70/255, alpha: 1)
-        googleButton.layer.cornerRadius = 5
+        googleButton.colorScheme = .light
+        googleButton.style = .wide
         return googleButton
     }()
     
@@ -108,7 +106,7 @@ class SignInViewController: UIViewController {
         //tabBarController?.tabBar.isHidden = true
         setUpView()
         loopVideo()
-        siwaButton.addTarget(self, action: #selector(appleSignInTapped), for: .touchUpInside)
+        siwaButton.addTarget(self, action: #selector(tapAppleSignIn), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -118,65 +116,92 @@ class SignInViewController: UIViewController {
     
     // MARK: - Action methods
     
-    @objc func appleSignInTapped() {
-        let nonce = randomNonceString()
-        currentNonce = nonce
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        request.nonce = sha256(nonce)
-        
-        let authController = ASAuthorizationController(authorizationRequests: [request])
-        authController.presentationContextProvider = self
-        authController.delegate = self
-        authController.performRequests()
+    @objc func tapAppleSignIn() {
+        AccountManager.shared.signInWithApple(on: view)
     }
-    
-    // MARK: - Methods
-    
-    private func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
-        let charset: [Character] =
-        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        var result = ""
-        var remainingLength = length
+    /*
+    @objc func tapGoogleSignIn() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
-        while remainingLength > 0 {
-            let randoms: [UInt8] = (0 ..< 16).map { _ in
-                var random: UInt8 = 0
-                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if errorCode != errSecSuccess {
-                    fatalError(
-                        "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
-                    )
-                }
-                return random
+        let config = GIDConfiguration(clientID: clientID)
+        
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
+            
+            if let error = error {
+                print("GIDSignIn Fail")
+                return
             }
             
-            randoms.forEach { random in
-                if remainingLength == 0 {
+            guard let authentication = user?.authentication,
+                  let idToken = authentication.idToken else {
+                      return
+                  }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    let authError = error as NSError
+                    if isMFAEnabled, authError.code == AuthErrorCode.secondFactorRequired.rawValue {
+                        // The user is a multi-factor user. Second factor challenge is required.
+                        guard let resolver = authError.userInfo[AuthErrorUserInfoMultiFactorResolverKey] as? MultiFactorResolver else {
+                            return
+                        }
+                        var displayNameString = ""
+                        for tmpFactorInfo in resolver.hints {
+                            displayNameString += tmpFactorInfo.displayName ?? ""
+                            displayNameString += " "
+                        }
+                        self.showTextInputPrompt(withMessage: "Select factor to sign in\n\(displayNameString)",
+                                                 completionBlock: { userPressedOK, displayName in
+                            var selectedHint: PhoneMultiFactorInfo?
+                            for tmpFactorInfo in resolver.hints {
+                                if displayName == tmpFactorInfo.displayName {
+                                    selectedHint = tmpFactorInfo as? PhoneMultiFactorInfo
+                                }
+                            }
+                            PhoneAuthProvider.provider().verifyPhoneNumber(with: selectedHint!,
+                                                                           uiDelegate: nil,
+                                                                           multiFactorSession: resolver.session) { verificationID, error in
+                                if error != nil {
+                                    print("Multi factor start sign in failed. Error: \(error.debugDescription)")
+                                } else {
+                                    self.showTextInputPrompt(
+                                        withMessage: "Verification code for \(selectedHint?.displayName ?? "")",
+                                        completionBlock: { userPressedOK, verificationCode in
+                                            let credential: PhoneAuthCredential? = PhoneAuthProvider.provider()
+                                                .credential(withVerificationID: verificationID!,
+                                                            verificationCode: verificationCode!)
+                                            let assertion: MultiFactorAssertion? = PhoneMultiFactorGenerator
+                                                .assertion(with: credential!)
+                                            resolver.resolveSignIn(with: assertion!) { authResult, error in
+                                                if error != nil {
+                                                    print("Multi factor finanlize sign in failed. Error: \(error.debugDescription)")
+                                                } else {
+                                                    self.navigationController?.popViewController(animated: true)
+                                                }
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                        )
+                    } else {
+                        self.showMessagePrompt(error.localizedDescription)
+                        return
+                    }
+                    // ...
                     return
                 }
-                
-                if random < charset.count {
-                    result.append(charset[Int(random)])
-                    remainingLength -= 1
-                }
+                // User is signed in
+                // ...
             }
         }
-        
-        return result
-    }
+    }*/
     
-    private func sha256(_ input: String) -> String {
-        let inputData = Data(input.utf8)
-        let hashedData = SHA256.hash(data: inputData)
-        let hashString = hashedData.compactMap {
-            return String(format: "%02x", $0)
-        }.joined()
-        
-        return hashString
-    }
+    // MARK: - Methods
     
     private func loopVideo() {
         backgroundVideoPlayer.play()
@@ -244,102 +269,3 @@ class SignInViewController: UIViewController {
         siwaButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
-
-extension SignInViewController: ASAuthorizationControllerPresentationContextProviding,
-                                ASAuthorizationControllerDelegate {
-    
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window! // Which window should the authorization dialog appear -> self(SignInVC)
-    }
-    
-    // MARK: Delegate
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("Sign in with Apple errored: \(error)")
-        guard let error = error as? ASAuthorizationError else {
-            return
-        }
-        
-        switch error.code {
-        case .canceled:
-            print("Cancelled")
-        case .unknown:
-            print("Unknown")
-        case .invalidResponse:
-            print("Invalid Response")
-        case .notHandled:
-            print("Not handled. Maybe internet failure during login.")
-        case .failed:
-            print("Failed")
-        default:
-            print("Default")
-        }
-    }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            
-            UserDefaults.standard.set(appleIDCredential.user, forKey: "appleAuthorizedUserIdKey")
-            
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
-
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Failed to fetch identity token")
-                return
-            }
-
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Failed to decode identity token")
-                return
-            }
-            
-            let firebaseCredential = OAuthProvider.credential(withProviderID: "apple.com",
-                                                              idToken: idTokenString,
-                                                              rawNonce: nonce)
-            
-            Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
-                 if let error = error {
-                    print(error.localizedDescription)
-                    return
-                 }
-                print(authResult?.user)
-                
-                 
-                 // User is signed in to Firebase with Apple.
-                 // Make a request to set user's display name on Firebase
-                 
-//                 let changeRequest = authResult?.user.createProfileChangeRequest()
-//                 changeRequest?.displayName = appleIDCredential.fullName?.givenName
-//                 changeRequest?.commitChanges(completion: { (error) in
-//
-//                    if let error = error {
-//                        print(error.localizedDescription)
-//                    } else {
-//                        print("Updated display name: \(Auth.auth().currentUser!.displayName!)")
-//                    }
-//                 })
-            }
-        }
-    }
-}
-
-/*
- Apple auth
- let userID = appleIDCredential.user
- let email = appleIDCredential.email
- let givenName = appleIDCredential.fullName?.givenName
- let familyName = appleIDCredential.fullName?.familyName
- let nickName = appleIDCredential.fullName?.nickname
- 
- var identityToken : String?
- if let token = appleIDCredential.identityToken {
-     identityToken = String(bytes: token, encoding: .utf8)
- }
- 
- var authorizationCode : String?
- if let code = appleIDCredential.authorizationCode {
-     authorizationCode = String(bytes: code, encoding: .utf8)
- }
-*/
