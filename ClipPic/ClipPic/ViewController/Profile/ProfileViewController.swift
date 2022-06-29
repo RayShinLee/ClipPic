@@ -126,14 +126,6 @@ class ProfileViewController: UIViewController {
         return settingsButton
     }()
     
-    var signOutButton: UIButton = {
-        let signOutButton = UIButton()
-        signOutButton.translatesAutoresizingMaskIntoConstraints = false
-        signOutButton.setTitle("Sign Out", for: .normal)
-        signOutButton.backgroundColor = .systemPink
-        return signOutButton
-    }()
-    
     // MARK: - Lifecyle
     
     override func viewDidLoad() {
@@ -141,7 +133,6 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpView()
         settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
-        signOutButton.addTarget(self, action: #selector(tapSignOutButton), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,10 +146,6 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
-    @objc func tapSignOutButton() {
-        AccountManager.shared.signOut()
-    }
-    
     // MARK: - Methods
     
     func setUpView() {
@@ -166,7 +153,7 @@ class ProfileViewController: UIViewController {
         backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
-        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.9).isActive = true
+        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
         
         setUpHeaderView()
         setUpCollectionView()
@@ -178,12 +165,6 @@ class ProfileViewController: UIViewController {
         settingsButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        
-        view.addSubview(signOutButton)
-        signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signOutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        signOutButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        signOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         backgroundView.addSubview(profileImageView)
         profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true

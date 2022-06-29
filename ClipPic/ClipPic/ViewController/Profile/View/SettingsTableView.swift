@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol SettingsTableViewDelegate: AnyObject {
+    func signOut()
+}
+
 class SettingsTableView: UITableView {
+    
+    // MARK: - Properties
+    
+    weak var interactionDelegate: SettingsTableViewDelegate?
 
     // MARK: - View life cycle
     init(frame: CGRect) {
@@ -43,7 +51,6 @@ extension SettingsTableView: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             settingCell.settingOptionLabel.text = "Account settings"
-            settingCell.settingOptionLabel.textColor = .red
         case 1:
             settingCell.settingOptionLabel.text = "Sign Out"
         case 2:
@@ -51,7 +58,14 @@ extension SettingsTableView: UITableViewDataSource, UITableViewDelegate {
         default:
             assert(false)
         }
-        
         return settingCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        interactionDelegate?.signOut()
     }
 }

@@ -26,27 +26,28 @@ class SettingTableViewCell: UITableViewCell {
     
     // MARK: - Lifecycle
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        backgroundColor = .red
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpView()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Methods
 
     func setUpView() {
-        self.addSubview(settingOptionLabel)
-        settingOptionLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        settingOptionLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.9).isActive = true
-        settingOptionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
+        contentView.addSubview(settingOptionLabel)
+        settingOptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        settingOptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        settingOptionLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9).isActive = true
+        settingOptionLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8).isActive = true
         
-        self.addSubview(arrowImageView)
-        arrowImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        arrowImageView.heightAnchor.constraint(equalTo: settingOptionLabel.heightAnchor).isActive = true
-        arrowImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2).isActive = true
+        contentView.addSubview(arrowImageView)
+        arrowImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        arrowImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        arrowImageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        arrowImageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
     }
 }
