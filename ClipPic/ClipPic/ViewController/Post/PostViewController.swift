@@ -174,6 +174,7 @@ class PostViewController: UIViewController {
         setUpView()
         setUpButtonActions()
         fetchPost()
+        gestures()
     }
     
     // MARK: - Action Methods
@@ -226,8 +227,21 @@ class PostViewController: UIViewController {
             }
         })
     }
+    
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        if (sender.direction == .right) {
+            print("Swipe Right")
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
 
     // MARK: - Methods
+    
+    func gestures() {
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        rightSwipe.direction = .right
+        view.addGestureRecognizer(rightSwipe)
+    }
     
     func fetchPost() {
         FireStoreManager.shared.fetchPost(postId: postId) { post, error in
