@@ -20,6 +20,7 @@ class PostViewController: UIViewController {
         didSet {
             contentImageView.kf.setImage(with: URL(string: post.imageUrl))
             //creatorProfileImage.kf.setImage(with: URL(string: post.author.avatar))
+            postTitleLabel.text = post.title
             creatorNameLabel.text = "@\(post.author.name)"
             postDescriptionLabel.text = post.description
         }
@@ -131,8 +132,18 @@ class PostViewController: UIViewController {
         let creatorNameLabel = UILabel()
         creatorNameLabel.translatesAutoresizingMaskIntoConstraints = false
         creatorNameLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
-        creatorNameLabel.text = "Creator Name"
         return creatorNameLabel
+    }()
+    
+    var postTitleLabel: UILabel = {
+        let postTitleLabel = UILabel()
+        postTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        postTitleLabel.font = UIFont.boldSystemFont(ofSize: 25.0)
+        postTitleLabel.lineBreakMode = .byWordWrapping
+        postTitleLabel.numberOfLines = 0
+        postTitleLabel.textAlignment = .center
+        //postTitleLabel.backgroundColor = .systemPink
+        return postTitleLabel
     }()
     
     var postDescriptionLabel: UILabel = {
@@ -142,6 +153,7 @@ class PostViewController: UIViewController {
         postDescriptionLabel.numberOfLines = 0
         postDescriptionLabel.textAlignment = .center
         postDescriptionLabel.textColor = .label
+        //postDescriptionLabel.backgroundColor = .orange
         return postDescriptionLabel
     }()
     
@@ -326,7 +338,7 @@ class PostViewController: UIViewController {
         
         //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.25).isActive = true
+        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
         
         setUpPostDescriptionView()
     }
@@ -348,8 +360,13 @@ class PostViewController: UIViewController {
         followButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         followButton.heightAnchor.constraint(equalTo: creatorProfileImage.heightAnchor).isActive = true
         
+        postDescriptionView.addSubview(postTitleLabel)
+        postTitleLabel.topAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor, constant: 5).isActive = true
+        postTitleLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
+        postTitleLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
+        
         postDescriptionView.addSubview(postDescriptionLabel)
-        postDescriptionLabel.topAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor, constant: 10).isActive = true
+        postDescriptionLabel.topAnchor.constraint(equalTo: postTitleLabel.bottomAnchor).isActive = true
         postDescriptionLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
         postDescriptionLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
         postDescriptionLabel.centerXAnchor.constraint(equalTo: postDescriptionView.centerXAnchor).isActive = true
@@ -357,7 +374,8 @@ class PostViewController: UIViewController {
         postDescriptionView.addSubview(shareButton)
         shareButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        shareButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
-        shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -16).isActive = true
+        shareButton.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
+        shareButton.topAnchor.constraint(equalTo: postDescriptionLabel.bottomAnchor, constant: 10).isActive = true
+        shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -7).isActive = true
     }
 }
