@@ -114,10 +114,11 @@ class PublishViewController: UIViewController {
         return categoryLabel
     }()
     
-    var titleTextField: UITextField = {
-        let titleTextField = UITextField()
+    var titleTextField: UITextView = {
+        let titleTextField = UITextView()
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
-        titleTextField.placeholder = " Enter title"
+        titleTextField.font = UIFont(name: "PingFang TC", size: 18)
+        //titleTextField.placeholder = " Enter title"
         return titleTextField
     }()
     

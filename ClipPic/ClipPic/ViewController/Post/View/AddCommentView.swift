@@ -32,6 +32,7 @@ class AddCommentView: UIView {
     var commentTextView: UITextView = {
         let commentTextView = UITextView()
         commentTextView.translatesAutoresizingMaskIntoConstraints = false
+        commentTextView.backgroundColor = .systemFill
         commentTextView.font = UIFont(name: "PingFang TC", size: 18)
         commentTextView.layer.cornerRadius = 20
         return commentTextView
