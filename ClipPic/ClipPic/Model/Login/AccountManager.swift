@@ -8,7 +8,9 @@
 import Foundation
 import AuthenticationServices
 import CryptoKit
+import GoogleSignIn
 import FirebaseAuth
+import FirebaseCore
 
 class AccountManager: NSObject {
     
@@ -53,6 +55,14 @@ class AccountManager: NSObject {
 
 // MARK: - Apple Sign In
 extension AccountManager: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        guard let window = signInView?.window else {
+            fatalError()
+        }
+        return window
+    }
+    
     func signInWithApple(on view: UIView) {
         signInView = view
         let nonce = randomNonceString()
@@ -112,13 +122,6 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
         return hashString
     }
     
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        guard let window = signInView?.window else {
-            fatalError()
-        }
-        return window
-    }
-    
     // MARK: Delegate
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("Sign in with Apple errored: \(error)")
@@ -176,3 +179,88 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
         }
     }
 }
+/*
+// MARK: - Google Sign In
+extension AccountManager {
+    func signInWithGoogle(on view: UIView) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        let config = GIDConfiguration(clientID: clientID)
+        
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
+            
+            if let error = error {
+                print("GIDSignIn Fail")
+                return
+            }
+            
+            guard let authentication = user?.authentication,
+                  let idToken = authentication.idToken else {
+                      return
+                  }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    let authError = error as NSError
+                    if isMFAEnabled, authError.code == AuthErrorCode.secondFactorRequired.rawValue {
+                        // The user is a multi-factor user. Second factor challenge is required.
+                        guard let resolver = authError.userInfo[AuthErrorUserInfoMultiFactorResolverKey] as? MultiFactorResolver else {
+                            return
+                        }
+                        var displayNameString = ""
+                        for tmpFactorInfo in resolver.hints {
+                            displayNameString += tmpFactorInfo.displayName ?? ""
+                            displayNameString += " "
+                        }
+                        self.showTextInputPrompt(withMessage: "Select factor to sign in\n\(displayNameString)",
+                                                 completionBlock: { userPressedOK, displayName in
+                            var selectedHint: PhoneMultiFactorInfo?
+                            for tmpFactorInfo in resolver.hints {
+                                if displayName == tmpFactorInfo.displayName {
+                                    selectedHint = tmpFactorInfo as? PhoneMultiFactorInfo
+                                }
+                            }
+                            PhoneAuthProvider.provider().verifyPhoneNumber(with: selectedHint!,
+                                                                           uiDelegate: nil,
+                                                                           multiFactorSession: resolver.session) { verificationID, error in
+                                if error != nil {
+                                    print("Multi factor start sign in failed. Error: \(error.debugDescription)")
+                                } else {
+                                    self.showTextInputPrompt(
+                                        withMessage: "Verification code for \(selectedHint?.displayName ?? "")",
+                                        completionBlock: { userPressedOK, verificationCode in
+                                            let credential: PhoneAuthCredential? = PhoneAuthProvider.provider()
+                                                .credential(withVerificationID: verificationID!,
+                                                            verificationCode: verificationCode!)
+                                            let assertion: MultiFactorAssertion? = PhoneMultiFactorGenerator
+                                                .assertion(with: credential!)
+                                            resolver.resolveSignIn(with: assertion!) { authResult, error in
+                                                if error != nil {
+                                                    print("Multi factor finanlize sign in failed. Error: \(error.debugDescription)")
+                                                } else {
+                                                    self.navigationController?.popViewController(animated: true)
+                                                }
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                        )
+                    } else {
+                        self.showMessagePrompt(error.localizedDescription)
+                        return
+                    }
+                    // ...
+                    return
+                }
+                // User is signed in
+                // ...
+            }
+        }
+    }
+}
+*/
