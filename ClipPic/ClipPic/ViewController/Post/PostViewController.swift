@@ -19,10 +19,15 @@ class PostViewController: UIViewController {
     var post: Post! {
         didSet {
             contentImageView.kf.setImage(with: URL(string: post.imageUrl))
+            //creatorProfileImage.kf.setImage(with: URL(string: post.author.avatar))
+            creatorNameLabel.text = "@\(post.author.name)"
+            postDescriptionLabel.text = post.description
         }
     }
     
     // MARK: - UI Properties
+    
+    let addCommentView = AddCommentView()
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -57,6 +62,14 @@ class PostViewController: UIViewController {
         return stackView
     }()
     
+    var postDescriptionView: UIView = {
+       let postDescriptionView = UIView()
+        postDescriptionView.translatesAutoresizingMaskIntoConstraints = false
+        postDescriptionView.layer.cornerRadius = 30
+        postDescriptionView.backgroundColor = .systemFill
+        return postDescriptionView
+    }()
+    
     var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +85,7 @@ class PostViewController: UIViewController {
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
         let image = UIImage(systemName: "paperclip.circle",
-                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+                            withConfiguration: imageSize)?.withTintColor(.systemFill, renderingMode: .alwaysOriginal)
         saveButton.setImage(image, for: .normal)
         return saveButton
     }()
@@ -85,6 +98,16 @@ class PostViewController: UIViewController {
         return shareButton
     }()
     
+    var followButton: UIButton = {
+        let followButton = UIButton()
+        followButton.translatesAutoresizingMaskIntoConstraints = false
+        followButton.backgroundColor = .label
+        followButton.layer.cornerRadius = 25
+        followButton.setTitleColor(.systemBackground, for: .normal)
+        followButton.setTitle("Follow", for: .normal)
+        return followButton
+    }()
+    
     var contentImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -94,15 +117,33 @@ class PostViewController: UIViewController {
         return image
     }()
     
-    var postDescriptionView: UIView = {
-       let postDescriptionView = UIView()
-        postDescriptionView.translatesAutoresizingMaskIntoConstraints = false
-        postDescriptionView.layer.cornerRadius = 30
-        postDescriptionView.backgroundColor = .systemFill
-        return postDescriptionView
+    var creatorProfileImage: UIImageView = {
+        let creatorProfileImage = UIImageView()
+        creatorProfileImage.translatesAutoresizingMaskIntoConstraints = false
+        creatorProfileImage.contentMode = .scaleAspectFill
+        creatorProfileImage.layer.cornerRadius = 25
+        creatorProfileImage.clipsToBounds = true
+        creatorProfileImage.image = UIImage(named: "Quokdog")
+        return creatorProfileImage
     }()
     
-    let addCommentView = AddCommentView()
+    var creatorNameLabel: UILabel = {
+        let creatorNameLabel = UILabel()
+        creatorNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        creatorNameLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
+        creatorNameLabel.text = "Creator Name"
+        return creatorNameLabel
+    }()
+    
+    var postDescriptionLabel: UILabel = {
+        let postDescriptionLabel = UILabel()
+        postDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        postDescriptionLabel.lineBreakMode = .byWordWrapping
+        postDescriptionLabel.numberOfLines = 0
+        postDescriptionLabel.textAlignment = .center
+        postDescriptionLabel.textColor = .label
+        return postDescriptionLabel
+    }()
     
     // MARK: - Lifecycle
     
@@ -145,7 +186,7 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapShareButton() {
-        let sharedText = "There is a funny post from ClipPic!\n\n\(post.title)\nby \(post.author.name)\n\(post.imageUrl)"
+        let sharedText = "Checkout this post from ClipPic!\n\n\(post.title)\nby \(post.author.name)\n\(post.imageUrl)"
         var activityItems:[Any] = []
         if let image = contentImageView.image {
             activityItems = [sharedText, image]
@@ -217,8 +258,13 @@ class PostViewController: UIViewController {
                     break
                 }
                 let commentView = CommentView()
+                let createdTime = Date(timeIntervalSince1970: comments[index].createdTime)
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "YYYY.MM.dd"
+                
                 commentView.creatorNameLabel.text = comments[index].creator.name
                 commentView.creatorThreadLabel.text = comments[index].text
+                commentView.commentDateLabel.text = dateFormatter.string(from: createdTime)
                 commentSectionStackView.addArrangedSubview(commentView)
             }
         }
@@ -280,12 +326,34 @@ class PostViewController: UIViewController {
         
         //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.2).isActive = true
+        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.25).isActive = true
         
         setUpPostDescriptionView()
     }
     
     func setUpPostDescriptionView() {
+        postDescriptionView.addSubview(creatorProfileImage)
+        creatorProfileImage.leadingAnchor.constraint(equalTo: postDescriptionView.leadingAnchor, constant: 10).isActive = true
+        creatorProfileImage.topAnchor.constraint(equalTo: postDescriptionView.topAnchor, constant: 10).isActive = true
+        creatorProfileImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        creatorProfileImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        postDescriptionView.addSubview(creatorNameLabel)
+        creatorNameLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.trailingAnchor, constant: 10).isActive = true
+        creatorNameLabel.bottomAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor).isActive = true
+        
+        postDescriptionView.addSubview(followButton)
+        followButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
+        followButton.bottomAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor).isActive = true
+        followButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        followButton.heightAnchor.constraint(equalTo: creatorProfileImage.heightAnchor).isActive = true
+        
+        postDescriptionView.addSubview(postDescriptionLabel)
+        postDescriptionLabel.topAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor, constant: 10).isActive = true
+        postDescriptionLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
+        postDescriptionLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
+        postDescriptionLabel.centerXAnchor.constraint(equalTo: postDescriptionView.centerXAnchor).isActive = true
+        
         postDescriptionView.addSubview(shareButton)
         shareButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
