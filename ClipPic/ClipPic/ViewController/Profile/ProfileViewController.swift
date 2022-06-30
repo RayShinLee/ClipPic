@@ -152,8 +152,8 @@ class ProfileViewController: UIViewController {
         view.addSubview(backgroundView)
         backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
-        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85).isActive = true
         
         setUpHeaderView()
         setUpCollectionView()
