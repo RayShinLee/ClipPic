@@ -109,6 +109,13 @@ class PostViewController: UIViewController {
         return followButton
     }()
     
+    var creatorProfileButton: UIButton = {
+        let creatorProfileButton = UIButton()
+        creatorProfileButton.translatesAutoresizingMaskIntoConstraints = false
+        creatorProfileButton.backgroundColor = .clear
+        return creatorProfileButton
+    }()
+    
     var contentImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +149,6 @@ class PostViewController: UIViewController {
         postTitleLabel.lineBreakMode = .byWordWrapping
         postTitleLabel.numberOfLines = 0
         postTitleLabel.textAlignment = .center
-        //postTitleLabel.backgroundColor = .systemPink
         return postTitleLabel
     }()
     
@@ -153,7 +159,6 @@ class PostViewController: UIViewController {
         postDescriptionLabel.numberOfLines = 0
         postDescriptionLabel.textAlignment = .center
         postDescriptionLabel.textColor = .label
-        //postDescriptionLabel.backgroundColor = .orange
         return postDescriptionLabel
     }()
     
@@ -179,10 +184,6 @@ class PostViewController: UIViewController {
     
     // MARK: - Action Methods
     
-    @objc func tapBackButton() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     @objc func tapSaveButton() {
         let collection = User.Collection(id: postId, imageURL: post.imageUrl)
         FireStoreManager.shared.savePost(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
@@ -190,6 +191,17 @@ class PostViewController: UIViewController {
                 print(error)
             } else {
                 self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
+            }
+        }
+    }
+    
+    @objc func tapFollowButton() {
+        let collection = User.FollowedAccount(id: post.author.id, name: post.author.name)
+        FireStoreManager.shared.followAccount(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.showAlert(title: "Followed", message: "", optionTitle: "Ok")
             }
         }
     }
@@ -208,6 +220,10 @@ class PostViewController: UIViewController {
         }
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    @objc func tapCreatorProfileButton() { // 要帶入userid
+        self.show(CreatorProfileViewController(), sender: nil)
     }
     
     @objc func postCommentAction() {
@@ -234,14 +250,12 @@ class PostViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
+    
+    @objc func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
 
     // MARK: - Methods
-    
-    func gestures() {
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        rightSwipe.direction = .right
-        view.addGestureRecognizer(rightSwipe)
-    }
     
     func fetchPost() {
         FireStoreManager.shared.fetchPost(postId: postId) { post, error in
@@ -309,6 +323,14 @@ class PostViewController: UIViewController {
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
+        followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
+        creatorProfileButton.addTarget(self, action: #selector(tapCreatorProfileButton), for: .touchUpInside)
+    }
+    
+    func gestures() {
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        rightSwipe.direction = .right
+        view.addGestureRecognizer(rightSwipe)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
@@ -391,5 +413,11 @@ class PostViewController: UIViewController {
         shareButton.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
         shareButton.topAnchor.constraint(equalTo: postDescriptionLabel.bottomAnchor, constant: 10).isActive = true
         shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -7).isActive = true
+        
+        postDescriptionView.addSubview(creatorProfileButton)
+        creatorProfileButton.topAnchor.constraint(equalTo: creatorProfileImage.topAnchor).isActive = true
+        creatorProfileButton.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
+        creatorProfileButton.bottomAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor).isActive = true
+        creatorProfileButton.trailingAnchor.constraint(equalTo: creatorNameLabel.trailingAnchor).isActive = true
     }
 }

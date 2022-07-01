@@ -23,6 +23,7 @@
 		87550429286BEFB5009073DA /* SettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87550428286BEFB5009073DA /* SettingsTableView.swift */; };
 		8755042B286BF035009073DA /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8755042A286BF035009073DA /* SettingTableViewCell.swift */; };
 		8755042E286C9F87009073DA /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8755042D286C9F87009073DA /* AccountManager.swift */; };
+		87550430286D9F1B009073DA /* CreatorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8755042F286D9F1A009073DA /* CreatorProfileViewController.swift */; };
 		87839F542859739800620513 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F532859739700620513 /* PostCollectionViewCell.swift */; };
 		87839F5628597BF900620513 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F5528597BF900620513 /* TabBarViewController.swift */; };
 		87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */; };
@@ -49,8 +50,8 @@
 		878E10BD28621F2B00FF87C2 /* AddCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10BC28621F2B00FF87C2 /* AddCommentView.swift */; };
 		878E10C02862250300FF87C2 /* SeeMoreCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10BF2862250300FF87C2 /* SeeMoreCommentView.swift */; };
 		878E10C3286441D000FF87C2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C2286441CF00FF87C2 /* SettingsViewController.swift */; };
-		878E10C5286444CF00FF87C2 /* SavedPostsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */; };
-		878E10C7286444F000FF87C2 /* SavedPostsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */; };
+		878E10C5286444CF00FF87C2 /* ProfileCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C4286444CE00FF87C2 /* ProfileCollectionView.swift */; };
+		878E10C7286444F000FF87C2 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */; };
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
@@ -106,6 +107,7 @@
 		87550428286BEFB5009073DA /* SettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableView.swift; sourceTree = "<group>"; };
 		8755042A286BF035009073DA /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		8755042D286C9F87009073DA /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		8755042F286D9F1A009073DA /* CreatorProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorProfileViewController.swift; sourceTree = "<group>"; };
 		87839F532859739700620513 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		87839F5528597BF900620513 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -132,8 +134,8 @@
 		878E10BC28621F2B00FF87C2 /* AddCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentView.swift; sourceTree = "<group>"; };
 		878E10BF2862250300FF87C2 /* SeeMoreCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreCommentView.swift; sourceTree = "<group>"; };
 		878E10C2286441CF00FF87C2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsCollectionView.swift; sourceTree = "<group>"; };
-		878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsCollectionViewCell.swift; sourceTree = "<group>"; };
+		878E10C4286444CE00FF87C2 /* ProfileCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionView.swift; sourceTree = "<group>"; };
+		878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 				878E10C128643D4600FF87C2 /* View */,
 				878E10B228606C4E00FF87C2 /* ProfileViewController.swift */,
 				878E10C2286441CF00FF87C2 /* SettingsViewController.swift */,
+				8755042F286D9F1A009073DA /* CreatorProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -453,8 +456,8 @@
 		878E10C128643D4600FF87C2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				878E10C4286444CE00FF87C2 /* SavedPostsCollectionView.swift */,
-				878E10C6286444F000FF87C2 /* SavedPostsCollectionViewCell.swift */,
+				878E10C4286444CE00FF87C2 /* ProfileCollectionView.swift */,
+				878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */,
 				87550428286BEFB5009073DA /* SettingsTableView.swift */,
 				8755042A286BF035009073DA /* SettingTableViewCell.swift */,
 			);
@@ -758,11 +761,11 @@
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
 				87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */,
 				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
-				878E10C7286444F000FF87C2 /* SavedPostsCollectionViewCell.swift in Sources */,
+				878E10C7286444F000FF87C2 /* ProfileCollectionViewCell.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
 				878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */,
 				878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */,
-				878E10C5286444CF00FF87C2 /* SavedPostsCollectionView.swift in Sources */,
+				878E10C5286444CF00FF87C2 /* ProfileCollectionView.swift in Sources */,
 				87550429286BEFB5009073DA /* SettingsTableView.swift in Sources */,
 				878E1085285ECF7800FF87C2 /* PostListCollectionView.swift in Sources */,
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
@@ -787,6 +790,7 @@
 				878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */,
 				878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */,
 				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
+				87550430286D9F1B009073DA /* CreatorProfileViewController.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 				878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */,
 			);

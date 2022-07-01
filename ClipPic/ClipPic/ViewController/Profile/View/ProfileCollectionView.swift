@@ -8,22 +8,22 @@
 import UIKit
 import Kingfisher
 
-protocol SavedPostsCollectionViewDelegate: AnyObject {
+protocol ProfileCollectionViewDelegate: AnyObject {
     func didSelectItemAt()
 }
 
-class SavedPostsCollectionView: UICollectionView {
+class ProfileCollectionView: UICollectionView {
     
     // MARK: - Properties
     
-    weak var interactionDelegate: SavedPostsCollectionViewDelegate?
+    weak var interactionDelegate: ProfileCollectionViewDelegate?
     
     // MARK: - View life cycle
     init() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         super.init(frame: .zero, collectionViewLayout: layout)
-        register(SavedPostsCollectionViewCell.self, forCellWithReuseIdentifier: "savedPostsCell")
+        register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: "profileCell")
         showsVerticalScrollIndicator = false
         
         dataSource = self
@@ -37,20 +37,20 @@ class SavedPostsCollectionView: UICollectionView {
 }
 
 // MARK: - CollectionView DataSource & Delegate
-extension SavedPostsCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ProfileCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: FlowLayout
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return UIEdgeInsets(top: 24, left: 0, bottom: 24, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let fullScreenSize = UIScreen.main.bounds.size
-        return CGSize(width: CGFloat(fullScreenSize.width)/2 - 15.0, height: 200)
+        return CGSize(width: CGFloat(fullScreenSize.width)/2 - 8.0, height: 270)
     }
     
     // MARK: DataSource
@@ -59,8 +59,8 @@ extension SavedPostsCollectionView: UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "savedPostsCell", for: indexPath)
-        guard let contentCell = cell as? SavedPostsCollectionViewCell else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath)
+        guard let contentCell = cell as? ProfileCollectionViewCell else {
             return cell
         }
         

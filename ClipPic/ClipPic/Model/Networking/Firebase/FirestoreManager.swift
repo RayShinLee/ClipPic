@@ -183,3 +183,35 @@ extension FireStoreManager {
         
     }
 }
+
+extension FireStoreManager {
+    
+    func followAccount(userId: String, collection: User.FollowedAccount, completion: @escaping ((Error?) -> Void)) {
+        let userRef = dataBase.collection("User").document(userId)
+        
+        userRef.getDocument() { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let user = User(documentId: userId, dictionary: data)
+            let addedCollection = [
+                "id": collection.id,
+                "name": collection.name
+                //"avatar": collection.avatar
+            ]
+            var newCollections = user.rawCollections
+            newCollections.append(addedCollection)
+            
+            userRef.updateData(["followed_accounts": newCollections]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                completion(nil)
+            }
+        }
+    }
+}

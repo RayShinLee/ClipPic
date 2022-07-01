@@ -60,6 +60,12 @@ struct User {
         let name: String
         //  let avatar: String
         
+        init(id: String, name: String) {
+            self.id = id
+            self.name = name
+            //self.avatar = avatar
+        }
+        
         init(documentId: String, dictionary: [String: Any]) {
             guard let name = dictionary["name"] as? String else {
                   //    let avatar = dictionary["avatar"] as? String

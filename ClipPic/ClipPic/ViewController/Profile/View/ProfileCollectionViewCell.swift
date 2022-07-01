@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SavedPostsCollectionViewCell: UICollectionViewCell {
+class ProfileCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
