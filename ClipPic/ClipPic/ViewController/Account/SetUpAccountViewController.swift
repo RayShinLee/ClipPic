@@ -6,35 +6,43 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SetUpAccountViewController: UIViewController {
     
     // MARK: - UI Properties
     
-    var userNameBackgroundView: UIView = {
-        let userNameBackgroundView = UIView()
-        userNameBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        userNameBackgroundView.backgroundColor = .label
-        userNameBackgroundView.layer.cornerRadius = 10
-        return userNameBackgroundView
+    var backgroundView: UIView = {
+        let backgroundView = UIView()
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.backgroundColor = .label
+        backgroundView.layer.cornerRadius = 10
+        return backgroundView
     }()
     
-    var userNameLabel: UILabel = {
-        let userNameLabel = UILabel()
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.text = "User Name"
-        userNameLabel.font = UIFont(name: "PingFang TC", size: 25.0)
-        userNameLabel.textColor = .systemBackground
-        return userNameLabel
+    var separatorView: UIView = {
+        let separatorView = UIView()
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.backgroundColor = .systemBackground
+        return separatorView
+    }()
+    
+    var welcomeLabel: UILabel = {
+        let welcomeLabel = UILabel()
+        welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
+        welcomeLabel.lineBreakMode = .byWordWrapping
+        welcomeLabel.numberOfLines = 0
+        welcomeLabel.textAlignment = .center
+        welcomeLabel.text = "Welcome to ClipPic!\n Enter a unique user name and join the community."
+        welcomeLabel.font = UIFont(name: "PingFang TC", size: 25.0)
+        welcomeLabel.textColor = .systemBackground
+        return welcomeLabel
     }()
     
     var userNameTextField: UITextField = {
         let userNameTextField = UITextField()
         userNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        userNameTextField.placeholder = "Enter userName"
-        userNameTextField.layer.cornerRadius = 10
-        userNameTextField.layer.borderWidth = 2.0
-        userNameTextField.layer.borderColor = CGColor.init(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        userNameTextField.placeholder = "Enter user name"
         return userNameTextField
     }()
     
@@ -43,13 +51,15 @@ class SetUpAccountViewController: UIViewController {
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         profileImage.isUserInteractionEnabled = true
         profileImage.contentMode = .scaleAspectFill
-        profileImage.backgroundColor = .systemFill
+        profileImage.backgroundColor = .systemBackground
+        profileImage.layer.borderWidth = 4
+        profileImage.layer.borderColor = UIColor.label.cgColor
         profileImage.layer.cornerRadius = 10
         profileImage.clipsToBounds = true
         return profileImage
     }()
     
-    var addImageButton: UIButton = {
+    lazy var addImageButton: UIButton = {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
         addImageButton.backgroundColor = .systemFill
@@ -57,6 +67,16 @@ class SetUpAccountViewController: UIViewController {
         addImageButton.setTitle("Select image", for: .normal)
         addImageButton.addTarget(self, action: #selector(selectImage), for: .touchUpInside)
         return addImageButton
+    }()
+    
+    var nextButton: UIButton = {
+        let nextButton = UIButton()
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.backgroundColor = .systemBackground
+        nextButton.setTitleColor(.label, for: .normal)
+        nextButton.setTitle("Next", for: .normal)
+        nextButton.addTarget(self, action: #selector(tapNextButton), for: .touchUpInside)
+        return nextButton
     }()
 
     // MARK: - Lifecycle
@@ -77,11 +97,22 @@ class SetUpAccountViewController: UIViewController {
         present(imagePicker, animated: true)
     }
     
+    @objc func tapNextButton() {
+        self.show(HomeViewController(), sender: nil)
+    }
+    
     // MARK: - Methods
 
     func setUpView() {
-        view.addSubview(profileImage)
-        profileImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        
+        view.addSubview(backgroundView)
+        backgroundView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        backgroundView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
+        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
+        
+        backgroundView.addSubview(profileImage)
+        profileImage.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -50).isActive = true
         profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         profileImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         profileImage.heightAnchor.constraint(equalTo: profileImage.widthAnchor).isActive = true
@@ -92,26 +123,33 @@ class SetUpAccountViewController: UIViewController {
         addImageButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
         addImageButton.bottomAnchor.constraint(equalTo: profileImage.bottomAnchor).isActive = true
         
-        view.addSubview(userNameBackgroundView)
-        userNameBackgroundView.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 50).isActive = true
-        userNameBackgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userNameBackgroundView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
-        userNameBackgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15).isActive = true
-        
-        setUpUserNameBackgroundView()
+        setUpBackgroundView()
     }
 
-    func setUpUserNameBackgroundView() {
-        userNameBackgroundView.addSubview(userNameLabel)
-        userNameLabel.topAnchor.constraint(equalTo: userNameBackgroundView.topAnchor, constant: 20).isActive = true
-        userNameLabel.leadingAnchor.constraint(equalTo: userNameBackgroundView.leadingAnchor, constant: 15).isActive = true
-        userNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    func setUpBackgroundView() {
         
-        userNameBackgroundView.addSubview(userNameTextField)
-        userNameTextField.bottomAnchor.constraint(equalTo: userNameBackgroundView.bottomAnchor, constant: -10).isActive = true
-        userNameTextField.centerXAnchor.constraint(equalTo: userNameBackgroundView.centerXAnchor).isActive = true
-        userNameTextField.widthAnchor.constraint(equalTo: userNameBackgroundView.widthAnchor, multiplier: 0.9).isActive = true
-        userNameTextField.heightAnchor.constraint(equalTo: userNameBackgroundView.heightAnchor, multiplier: 0.4).isActive = true
+        backgroundView.addSubview(welcomeLabel)
+        welcomeLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 20).isActive = true
+        welcomeLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
+        welcomeLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.8).isActive = true
+
+        backgroundView.addSubview(userNameTextField)
+        userNameTextField.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 25).isActive = true
+        userNameTextField.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
+        userNameTextField.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.9).isActive = true
+        userNameTextField.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
+        
+        backgroundView.addSubview(separatorView)
+        separatorView.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor).isActive = true
+        separatorView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
+        separatorView.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        backgroundView.addSubview(nextButton)
+        nextButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 30).isActive = true
+        nextButton.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
+        nextButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
+        nextButton.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
     }
 }
 

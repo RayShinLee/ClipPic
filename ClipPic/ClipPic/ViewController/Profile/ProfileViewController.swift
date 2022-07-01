@@ -103,6 +103,7 @@ class ProfileViewController: UIViewController {
     var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
         postsTabButton.setTitle("Posts", for: .normal)
         return postsTabButton
     }()
@@ -110,6 +111,7 @@ class ProfileViewController: UIViewController {
     var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
         savedTabButton.setTitle("Saved", for: .normal)
         return savedTabButton
     }()

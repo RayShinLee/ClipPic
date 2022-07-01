@@ -55,6 +55,7 @@
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
+		87A71C80286ED4AB009F5A37 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A71C7F286ED4AB009F5A37 /* AccountSettingViewController.swift */; };
 		87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B0A13428659FD200ADAABA /* SignInViewController.swift */; };
 		87B8A0DB2869EB6A00AE533D /* ImageTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */; };
 		87B8A0DF286A0E1700AE533D /* cat.mov in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0DE286A0E1700AE533D /* cat.mov */; };
@@ -139,6 +140,7 @@
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		87A71C7F286ED4AB009F5A37 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
 		87B0A13428659FD200ADAABA /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTabViewController.swift; sourceTree = "<group>"; };
 		87B8A0DE286A0E1700AE533D /* cat.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = cat.mov; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 			children = (
 				87B0A13428659FD200ADAABA /* SignInViewController.swift */,
 				87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */,
+				87A71C7F286ED4AB009F5A37 /* AccountSettingViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -778,6 +781,7 @@
 				878E10BD28621F2B00FF87C2 /* AddCommentView.swift in Sources */,
 				87B8A0E4286AE00500AE533D /* SetUpAccountViewController.swift in Sources */,
 				87839F5B2859C69300620513 /* PostViewController.swift in Sources */,
+				87A71C80286ED4AB009F5A37 /* AccountSettingViewController.swift in Sources */,
 				878E10B92861A6AC00FF87C2 /* CommentTableViewCell.swift in Sources */,
 				8755042E286C9F87009073DA /* AccountManager.swift in Sources */,
 				8755042B286BF035009073DA /* SettingTableViewCell.swift in Sources */,
