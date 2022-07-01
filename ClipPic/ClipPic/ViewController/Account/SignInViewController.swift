@@ -17,7 +17,7 @@ class SignInViewController: UIViewController {
     // MARK: - Properties
     
     var backgroundVideoPlayer: AVPlayer = {
-        guard let path = Bundle.main.path(forResource: "dino", ofType: "mp4") else {
+        guard let path = Bundle.main.path(forResource: "Pexels Videos 2045651", ofType: "mp4") else {
             fatalError("Invalid Video path")
         }
         let player = AVPlayer(url: URL(fileURLWithPath: path))
@@ -69,7 +69,7 @@ class SignInViewController: UIViewController {
         welcomeLabel.text = "Welcome To ClipPic"
         welcomeLabel.textColor = .black
         welcomeLabel.textAlignment = .center
-        welcomeLabel.font = UIFont(name: "PingFang TC", size: 27.0)
+        welcomeLabel.font = UIFont(name: "PingFang TC", size: 28.0)
         return welcomeLabel
     }()
     
@@ -103,7 +103,7 @@ class SignInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         setUpView()
         loopVideo()
         siwaButton.addTarget(self, action: #selector(tapAppleSignIn), for: .touchUpInside)
