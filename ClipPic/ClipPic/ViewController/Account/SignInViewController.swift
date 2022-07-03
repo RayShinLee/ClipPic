@@ -106,6 +106,7 @@ class SignInViewController: UIViewController {
         setUpView()
         loopVideo()
         siwaButton.addTarget(self, action: #selector(tapAppleSignIn), for: .touchUpInside)
+        googleButton.addTarget(self, action: #selector(tapGoogleSignIn), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -114,6 +115,10 @@ class SignInViewController: UIViewController {
     }
     
     // MARK: - Action methods
+    @objc func tapGoogleSignIn() {
+        AccountManager.shared.delegte = self
+        AccountManager.shared.signInWithGoogle(on: self)
+    }
     
     @objc func tapAppleSignIn() {
         AccountManager.shared.delegte = self
