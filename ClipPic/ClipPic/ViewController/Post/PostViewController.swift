@@ -81,13 +81,9 @@ class PostViewController: UIViewController {
         return backButton
     }()
     
-    var saveButton: UIButton = {
+    lazy var saveButton: UIButton = {
         let saveButton = UIButton(type: .custom)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
-        let image = UIImage(systemName: "paperclip.circle",
-                            withConfiguration: imageSize)?.withTintColor(.systemFill, renderingMode: .alwaysOriginal)
-        saveButton.setImage(image, for: .normal)
         return saveButton
     }()
     
@@ -108,6 +104,7 @@ class PostViewController: UIViewController {
         followButton.layer.cornerRadius = 25
         followButton.setTitleColor(.systemBackground, for: .normal)
         followButton.setTitle("Follow", for: .normal)
+        followButton.isHidden = true
         return followButton
     }()
     
@@ -179,6 +176,7 @@ class PostViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpView()
         setUpButtonActions()
+        updateSavedButton()
         fetchPost()
         gestures()
     }
@@ -186,11 +184,16 @@ class PostViewController: UIViewController {
     // MARK: - Action Methods
     
     @objc func tapSaveButton() {
+        guard !(AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) else {
+            return
+        }
+        
         let collection = User.Collection(id: postId, imageURL: post.imageUrl)
         FireStoreManager.shared.savePost(collection: collection) { error in
             if let error = error {
                 print(error)
             } else {
+                self.updateSavedButton()
                 self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
             }
         }
@@ -220,7 +223,9 @@ class PostViewController: UIViewController {
             activityItems = [sharedText]
         }
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        self.present(activityViewController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true, completion: nil)
+        }
     }
     
     @objc func tapCreatorProfileButton() {
@@ -268,6 +273,7 @@ class PostViewController: UIViewController {
             }
             self.post = post
             self.fetchComments()
+            self.followButton.isHidden = (post.author.id == AccountManager.shared.appUser?.id)
         }
     }
     
@@ -387,6 +393,14 @@ class PostViewController: UIViewController {
         postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
         
         setUpPostDescriptionView()
+    }
+    
+    private func updateSavedButton() {
+        let imageName = (AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) ? "paperclip.circle.fill" : "paperclip.circle"
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let image = UIImage(systemName: imageName,
+                            withConfiguration: imageSize)
+        saveButton.setImage(image, for: .normal)
     }
     
     func setUpPostDescriptionView() {

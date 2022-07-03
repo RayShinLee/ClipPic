@@ -20,13 +20,13 @@ struct User: Codable {
     
     var followedAccounts: [FollowedAccount] {
         return rawFollowedAccounts.compactMap {
-            guard let id = $0["id"] as? String else { return nil }
+            guard let id = $0["id"] else { return nil }
             return FollowedAccount(documentId: id, dictionary: $0)
         }
     }
     var collections: [Collection] {
         return rawCollections.compactMap {
-            guard let id = $0["id"] as? String else { return nil }
+            guard let id = $0["id"] else { return nil }
             return Collection(documentId: id, dictionary: $0)
         }
     }
@@ -53,6 +53,10 @@ struct User: Codable {
         self.rawCollections = rawCollections
         self.rawFollowedAccounts = rawFollowAccounts
         self.avatar = avatar
+    }
+    
+    func isMySavedPost(_ postId: String) -> Bool {
+        return collections.contains { $0.id == postId }
     }
  
     struct FollowedAccount: Codable {

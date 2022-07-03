@@ -94,13 +94,14 @@ class CreatorProfileViewController: UIViewController {
         return totalSavedCountLabel
     }()
     
-    var followButton: UIButton = {
+    lazy var followButton: UIButton = {
         let followButton = UIButton()
         followButton.translatesAutoresizingMaskIntoConstraints = false
         followButton.backgroundColor = .label
         followButton.layer.cornerRadius = 22
         followButton.setTitleColor(.systemBackground, for: .normal)
         followButton.setTitle("Follow", for: .normal)
+        followButton.isHidden = (AccountManager.shared.appUser?.id == userId)
         return followButton
     }()
     
