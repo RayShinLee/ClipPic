@@ -42,7 +42,23 @@ class AccountManager: NSObject {
         return currentFirebaseUser?.uid
     }
     
-    var appUser: User?
+    var appUser: User? {
+        get {
+            guard let data = UserDefaults.standard.value(forKey: "current_user") as? Data else {
+                return nil
+            }
+            return try? JSONDecoder().decode(User.self, from: data)
+        }
+        
+        set {
+            guard let user = newValue else {
+                UserDefaults.standard.set(nil, forKey: "current_user")
+                return 
+            }
+            let data = try? JSONEncoder().encode(user)
+            UserDefaults.standard.set(data, forKey: "current_user")
+        }
+    }
     
     // MARK: - Object Lifecycle
     private override init() {
@@ -55,7 +71,7 @@ class AccountManager: NSObject {
         } catch {
             print("sign out error")
         }
-        print(isLogin)
+        appUser = nil
     }
 }
 

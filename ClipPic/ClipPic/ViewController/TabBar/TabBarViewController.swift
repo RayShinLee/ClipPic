@@ -80,7 +80,7 @@ class TabBarViewController: UITabBarController {
 
 extension TabBarViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if (viewController as? HomeViewController) != nil {
+        if ((viewController as? UINavigationController)?.viewControllers.first) as? HomeViewController != nil {
             return true
         } else {
             guard AccountManager.shared.isLogin else {

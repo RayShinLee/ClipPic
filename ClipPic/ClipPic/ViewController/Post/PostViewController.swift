@@ -198,7 +198,7 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapFollowButton() {
-        let collection = User.FollowedAccount(id: post.author.id, name: post.author.name)
+        let collection = User.FollowedAccount(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
         FireStoreManager.shared.followAccount(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
             if let error = error {
                 print(error)

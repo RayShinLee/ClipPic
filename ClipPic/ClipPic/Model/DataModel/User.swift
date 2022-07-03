@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct User {
+struct User: Codable {
     let id: String
-//    let createdTime: Double
+    let createdTime: Double
     let firstName: String
     let lastName: String
     let userName: String
     let email: String
-    //  let avatar: String
-    let rawFollowedAccounts: [[String: Any]]
-    let rawCollections: [[String: Any]]
+    let avatar: String
+    let rawFollowedAccounts: [[String: String]]
+    let rawCollections: [[String: String]]
     
     var followedAccounts: [FollowedAccount] {
         return rawFollowedAccounts.compactMap {
@@ -36,49 +36,49 @@ struct User {
               let lastName = dictionary["last_name"] as? String,
               let userName = dictionary["user_name"] as? String,
               let email = dictionary["email"] as? String,
-              //    let avatar = dictionary["avatar"] as? String,
-//              let createdTime = dictionary["created_time"] as? Double,
-              let rawFollowAccounts = dictionary["followed_accounts"] as? [[String: Any]],
-              let rawCollections = dictionary["collections"] as? [[String: Any]]
+              let avatar = dictionary["avatar"] as? String,
+              let createdTime = dictionary["created_time"] as? Double,
+              let rawFollowAccounts = dictionary["followed_accounts"] as? [[String: String]],
+              let rawCollections = dictionary["collections"] as? [[String: String]]
         else {
                   fatalError("Init fail: User")
               }
  
         self.id = documentId
-//        self.createdTime = createdTime
+        self.createdTime = createdTime
         self.firstName = firstName
         self.lastName = lastName
         self.userName = userName
         self.email = email
         self.rawCollections = rawCollections
         self.rawFollowedAccounts = rawFollowAccounts
-        //  self.avatar = avatar
+        self.avatar = avatar
     }
  
-    struct FollowedAccount {
+    struct FollowedAccount: Codable {
         let id: String
         let name: String
-        //  let avatar: String
+        let avatar: String
         
-        init(id: String, name: String) {
+        init(id: String, name: String, avatar: String) {
             self.id = id
             self.name = name
-            //  self.avatar = avatar
+            self.avatar = avatar
         }
         
         init(documentId: String, dictionary: [String: Any]) {
-            guard let name = dictionary["name"] as? String else {
-                  //    let avatar = dictionary["avatar"] as? String
+            guard let name = dictionary["name"] as? String,
+                  let avatar = dictionary["avatar"] as? String else {
                 fatalError("Init fail: Followed Accounts")
             }
             
             self.id = documentId
             self.name = name
-            //  self.avatar = avatar
+            self.avatar = avatar
         }
     }
     
-    struct Collection {
+    struct Collection: Codable {
         let id: String
         let imageURL: String
         
