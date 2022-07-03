@@ -203,7 +203,9 @@ class PublishViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        DispatchQueue.main.async {
+            self.present(imagePicker, animated: true)
+        }
     }
     
     @objc func publish() {
@@ -243,7 +245,7 @@ class PublishViewController: UIViewController {
     func showSuccesAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default) { action in
-                self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
