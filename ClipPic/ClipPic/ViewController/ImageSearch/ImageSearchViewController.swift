@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import PKHUD
 import SafariServices
 
 class ImageSearchViewController: UIViewController {
@@ -88,6 +89,8 @@ class ImageSearchViewController: UIViewController {
                 // upload fail
                 return
             }
+            HUD.show(.labeledProgress(title: "Loading", subtitle: nil))
+
             // 2. Search image with SerpAPI
             SerpAPIManager().search(with: "\(url)") { serpImages, error in
                 if let error = error {
@@ -96,6 +99,7 @@ class ImageSearchViewController: UIViewController {
                 }
                 self.serpImages = serpImages ?? []
                 self.collectionView.reloadData()
+                HUD.hide(nil)
             }
         }
     }

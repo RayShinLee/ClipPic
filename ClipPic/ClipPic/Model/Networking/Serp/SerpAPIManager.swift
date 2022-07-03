@@ -13,7 +13,7 @@ class SerpAPIManager {
     func search(with imageURL: String, completion: @escaping ([SerpImage]?, Error?) -> Void) {
         let apiKey = "925652fbd9b1b4b1bc64073327d169cc245b8ac0a513dd35e943fffebadb0f64"
         let engine = "google_reverse_image"
-        //let mockURL = "https://i.imgur.com/VEXRj5S.png"
+        //  let mockURL = "https://i.imgur.com/VEXRj5S.png"
         //  "https://school.appworks.tw/wp-content/uploads/2018/09/AppWorks-School-Logo-Orange.png"
 //       let url = "https://serpapi.com/search.json?engine=\(engine)&image_url=\(imageURL)&api_key=\(apiKey)"
         

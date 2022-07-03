@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Firebase
+import Vision
 
 class TranslateTextViewController: UIViewController {
     var toSearchImageView: UIImageView = {
@@ -24,6 +24,15 @@ class TranslateTextViewController: UIViewController {
         addImageButton.addTarget(self, action: #selector(selectImage), for: .touchUpInside)
         addImageButton.backgroundColor = .systemFill
         return addImageButton
+    }()
+    
+    var translateResultLabel: UILabel = {
+        let translateResultLabel = UILabel()
+        translateResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        translateResultLabel.lineBreakMode = .byWordWrapping
+        translateResultLabel.numberOfLines = 0
+        translateResultLabel.layer.borderWidth = 3
+        return translateResultLabel
     }()
     
     override func viewDidLoad() {
@@ -46,6 +55,12 @@ class TranslateTextViewController: UIViewController {
         addImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         addImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        view.addSubview(translateResultLabel)
+        translateResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        translateResultLabel.topAnchor.constraint(equalTo: toSearchImageView.bottomAnchor, constant: 40).isActive = true
+        translateResultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        translateResultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     }
     
     @objc func selectImage() {
@@ -59,21 +74,29 @@ class TranslateTextViewController: UIViewController {
     }
     
     func translateImage() {
-        guard let image = toSearchImageView.image else {
+        guard let cgImage = toSearchImageView.image?.cgImage else {
             return
         }
         
-        let vision = Vision.vision()
-        let textRecognizer = vision.onDeviceTextRecognizer()
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        let request = VNRecognizeTextRequest { request, error in
+            guard let observations = request.results as? [VNRecognizedTextObservation],
+                  error == nil else {
+                      return
+                  }
+            
+            let text = observations.compactMap( {
+                $0.topCandidates(1).first?.string
+            }).joined(separator: ", ")
+            self.translateResultLabel.text = " 她確實表演了兩部電視特別節目\n在11月宣傳她的最新專輯30，但是這是她第一次正式的票務演出。"
+        }
         
-        let visionImage = VisionImage(image: image)
-        
-        textRecognizer.process(visionImage) { visionText, error in
-            if let error = error {
-                print(error)
-            } else {
-                print(visionText)
-            }
+        request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]
+        request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
+        do {
+            try handler.perform([request])
+        } catch {
+            print(error)
         }
     }
 }

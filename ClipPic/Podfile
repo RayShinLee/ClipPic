@@ -10,7 +10,6 @@ target 'ClipPic' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Core'
-  pod 'Firebase/MLVision'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
   pod 'GoogleSignIn'
@@ -18,6 +17,7 @@ target 'ClipPic' do
   pod 'Alamofire'
   pod 'Kingfisher'
   pod 'MJRefresh'
+  pod 'PKHUD'
 
   target 'ClipPicTests' do
     inherit! :search_paths
