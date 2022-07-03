@@ -8,10 +8,10 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
+    static let shared = TabBarViewController()
     
     // MARK: - Lifecycle
-    
-    init() {
+    private init() {
         super.init(nibName: nil, bundle: nil)
         if #available(iOS 13.0, *) {
             let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
@@ -24,6 +24,7 @@ class TabBarViewController: UITabBarController {
             }
         }
 
+        delegate = self
         addTabs()
     }
     
@@ -65,16 +66,28 @@ class TabBarViewController: UITabBarController {
                                                     image: UIImage(named: "Icons_36px_Profile_Normal"),
                                                     selectedImage: UIImage(named: "Icons_36px_Profile_Selected"))
         
-        let loginpage = SignInViewController()
-        let loginnav = UINavigationController(rootViewController: loginpage)
-        loginnav.navigationBar.isHidden = true
-        
-        let setuppage = SetUpAccountViewController()
-        let setupnav = UINavigationController(rootViewController: setuppage)
-        loginnav.navigationBar.isHidden = true
-        
         UITabBar.appearance().barTintColor = .systemBackground
         
-        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation, loginnav, setupnav]
+        viewControllers = [homeNavigation, searchNavigation, searchImageNavigation, profileNavigation]
+    }
+    
+    func showSignInPage() {
+        let signInViewController = SignInViewController()
+        let navi = UINavigationController(rootViewController: signInViewController)
+        present(navi, animated: true, completion: nil)
+    }
+}
+
+extension TabBarViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if (viewController as? HomeViewController) != nil {
+            return true
+        } else {
+            guard AccountManager.shared.isLogin else {
+                showSignInPage()
+                return false
+            }
+            return true
+        }
     }
 }

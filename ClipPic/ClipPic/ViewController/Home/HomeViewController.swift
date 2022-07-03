@@ -65,6 +65,11 @@ class HomeViewController: UIViewController {
     // MARK: - Action methods
     
     @objc func tapPublishPost() {
+        guard AccountManager.shared.isLogin else {
+            TabBarViewController.shared.showSignInPage()
+            return
+        }
+        
         let publishVC = PublishViewController()
         self.show(publishVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
@@ -130,6 +135,10 @@ extension HomeViewController: PostListCollectionViewDelegate, CategoryCollection
     }
 
     func didSelectItemAt(post: Post) {
+        guard AccountManager.shared.isLogin else {
+            TabBarViewController.shared.showSignInPage()
+            return
+        }
         let postVC = PostViewController(with: post.id)
         self.show(postVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true

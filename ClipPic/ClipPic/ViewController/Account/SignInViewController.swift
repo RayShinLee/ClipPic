@@ -100,7 +100,6 @@ class SignInViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.isHidden = true
@@ -131,6 +130,8 @@ class SignInViewController: UIViewController {
     }
     
     func setUpView() {
+        view.backgroundColor = .systemBackground
+        
         view.addSubview(videoView)
         videoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
