@@ -12,11 +12,15 @@ import GoogleSignIn
 import FirebaseAuth
 import FirebaseCore
 
+protocol AccountManagerDelegate: AnyObject {
+    func sigInSuccess(shouldSetUpAccount: Bool)
+}
+
 class AccountManager: NSObject {
     
     static let shared = AccountManager()
-    
-    let firebaseAuth = Auth.auth()
+        
+    weak var delegte: AccountManagerDelegate?
     
     // Apple Sign In
     fileprivate var currentNonce: String?
@@ -24,8 +28,10 @@ class AccountManager: NSObject {
     fileprivate var signInView: UIView?
     
     // FirebaseAuth
+    let firebaseAuth = Auth.auth()
+
     var isLogin: Bool {
-        return currentFirebaseUser != nil
+        return (currentFirebaseUser != nil) && (appUser != nil)
     }
     
     var currentFirebaseUser: FirebaseAuth.User? {
@@ -170,11 +176,25 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
                                                               rawNonce: nonce)
             
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
-                 if let error = error {
+                if let error = error {
                     print(error.localizedDescription)
                     return
-                 }
-                print(self.isLogin)
+                }
+                
+                FireStoreManager.shared.fetchProfile { user, error in
+                    if let error = error as? NetworkError {
+                        switch error {
+                        case .emptyData:
+                            self.delegte?.sigInSuccess(shouldSetUpAccount: true)
+                        default:
+                            break
+                        }
+                    } else {
+                        guard let user = user else { return }
+                        AccountManager.shared.appUser = user
+                        self.delegte?.sigInSuccess(shouldSetUpAccount: false)
+                    }
+                }
             }
         }
     }

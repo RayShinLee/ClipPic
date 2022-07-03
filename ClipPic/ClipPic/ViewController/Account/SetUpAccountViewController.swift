@@ -47,7 +47,7 @@ class SetUpAccountViewController: UIViewController {
         return userNameTextField
     }()
     
-    var profileImage: UIImageView = {
+    var profileImageView: UIImageView = {
         let profileImage = UIImageView()
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         profileImage.isUserInteractionEnabled = true
@@ -85,7 +85,6 @@ class SetUpAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
-        // Do any additional setup after loading the view.
     }
     
     // MARK: - Action methods
@@ -95,16 +94,38 @@ class SetUpAccountViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        DispatchQueue.main.async {
+            self.present(imagePicker, animated: true)
+        }
     }
     
     @objc func tapNextButton() {
-        self.show(HomeViewController(), sender: nil)
+        guard let avatar = profileImageView.image,
+              let imageData = avatar.jpegData(compressionQuality: 0.9),
+              let username = userNameTextField.text,
+              !username.isEmpty else {
+                  print("empty data")
+                  return
+              }
+        
+        FirebaseStorageManager.shared.uploadImage(for: .avatar, with: imageData) { url in
+            guard let avatarURL = url else {
+                return
+            }
+            FireStoreManager.shared.createUser(avatar: avatarURL, username: username) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     // MARK: - Methods
 
     func setUpView() {
+        view.backgroundColor = .systemBackground
         
         view.addSubview(backgroundView)
         backgroundView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -112,17 +133,17 @@ class SetUpAccountViewController: UIViewController {
         backgroundView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
         backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
         
-        backgroundView.addSubview(profileImage)
-        profileImage.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -50).isActive = true
-        profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
-        profileImage.heightAnchor.constraint(equalTo: profileImage.widthAnchor).isActive = true
+        backgroundView.addSubview(profileImageView)
+        profileImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -50).isActive = true
+        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profileImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
+        profileImageView.heightAnchor.constraint(equalTo: profileImageView.widthAnchor).isActive = true
         
-        profileImage.addSubview(addImageButton)
-        addImageButton.widthAnchor.constraint(equalTo: profileImage.widthAnchor).isActive = true
-        addImageButton.heightAnchor.constraint(equalTo: profileImage.heightAnchor, multiplier: 0.2).isActive = true
-        addImageButton.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor).isActive = true
-        addImageButton.bottomAnchor.constraint(equalTo: profileImage.bottomAnchor).isActive = true
+        profileImageView.addSubview(addImageButton)
+        addImageButton.widthAnchor.constraint(equalTo: profileImageView.widthAnchor).isActive = true
+        addImageButton.heightAnchor.constraint(equalTo: profileImageView.heightAnchor, multiplier: 0.2).isActive = true
+        addImageButton.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
+        addImageButton.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor).isActive = true
         
         setUpBackgroundView()
     }
@@ -130,7 +151,7 @@ class SetUpAccountViewController: UIViewController {
     func setUpBackgroundView() {
         
         backgroundView.addSubview(welcomeLabel)
-        welcomeLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 20).isActive = true
+        welcomeLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20).isActive = true
         welcomeLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
         welcomeLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.8).isActive = true
 
@@ -156,18 +177,17 @@ class SetUpAccountViewController: UIViewController {
 
 // MARK: - UIImagePickerController Delegate
 extension SetUpAccountViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-func imagePickerController(_ picker: UIImagePickerController,
+    func imagePickerController(_ picker: UIImagePickerController,
                            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-    if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-        profileImage.contentMode = .scaleAspectFill
-        profileImage.clipsToBounds = true
-        profileImage.image = pickedImage
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profileImageView.contentMode = .scaleAspectFill
+            profileImageView.clipsToBounds = true
+            profileImageView.image = pickedImage
+        }
+        picker.dismiss(animated: true, completion: nil)
     }
-    picker.dismiss(animated: true, completion: nil)
-}
 
-func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: true, completion: nil)
-}
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
 }

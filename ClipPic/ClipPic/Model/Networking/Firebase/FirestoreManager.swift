@@ -39,6 +39,58 @@ extension FireStoreManager {
     }
 }
 
+// MARK: - User
+extension FireStoreManager {
+    
+    func fetchProfile(completion: @escaping((User?, Error?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID else {
+            fatalError("Invaid userUID")
+        }
+        dataBase.collection("User").document(userUID).getDocument { snapShot, error in
+            guard let snapShot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            guard let data = snapShot.data() else {
+                completion(nil, NetworkError.emptyData)
+                return
+            }
+            
+            let user = User(documentId: userUID, dictionary: data)
+            completion(user, nil)
+        }
+    }
+    
+    func createUser(avatar: URL, username: String, completion: @escaping ((Error?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID,
+              let email = AccountManager.shared.currentFirebaseUser?.email else {
+            fatalError("Invaid userUID")
+        }
+        let emptyArray: [String] = []
+        let newDocument = Firestore.firestore().collection("User").document(userUID)
+        let data: [String: Any] = [
+           "user_name": username,
+           "last_name": "",
+           "first_name": "",
+           "email": email,
+           "created_time": Date().timeIntervalSince1970,
+           "avatar": "\(avatar)",
+           "collections": emptyArray,
+           "followed_accounts": emptyArray
+        ]
+        
+        newDocument.setData(data) { error in
+            if let error = error {
+                completion(error)
+            }
+            let user = User(documentId: userUID, dictionary: data)
+            AccountManager.shared.appUser = user
+            completion(nil)
+        }
+    }
+}
+
 // MARK: - Post
 extension FireStoreManager {
     

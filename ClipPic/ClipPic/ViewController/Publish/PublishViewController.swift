@@ -217,7 +217,7 @@ class PublishViewController: UIViewController {
                   return
               }
         // 1. Upload image to firebase storage
-        FirebaseStorageManager.shared.uploadPostImage(with: imageData) { (downloadURL) in
+        FirebaseStorageManager.shared.uploadImage(for: .post, with: imageData) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 // upload fail
                 return

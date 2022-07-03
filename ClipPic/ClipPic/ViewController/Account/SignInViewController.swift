@@ -116,6 +116,7 @@ class SignInViewController: UIViewController {
     // MARK: - Action methods
     
     @objc func tapAppleSignIn() {
+        AccountManager.shared.delegte = self
         AccountManager.shared.signInWithApple(on: view)
     }
     
@@ -187,5 +188,16 @@ class SignInViewController: UIViewController {
         siwaButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 20).isActive = true
         siwaButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         siwaButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+}
+
+extension SignInViewController: AccountManagerDelegate {
+    func sigInSuccess(shouldSetUpAccount: Bool) {
+        if shouldSetUpAccount {
+            let setUpAccountViewController = SetUpAccountViewController()
+            navigationController?.pushViewController(setUpAccountViewController, animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
