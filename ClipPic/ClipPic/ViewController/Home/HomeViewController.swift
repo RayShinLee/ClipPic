@@ -123,6 +123,9 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: PostListCollectionViewDelegate, CategoryCollectionViewDelegate {
     func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, category: Category) {
+        let stautsBarManager = view.window?.windowScene?.statusBarManager
+        let statusBarInset =  (stautsBarManager?.statusBarFrame.height ?? 0) * -1
+        homeCollectionView.setContentOffset(CGPoint(x: 0, y: statusBarInset), animated: true)
         fetchPosts()
     }
 
