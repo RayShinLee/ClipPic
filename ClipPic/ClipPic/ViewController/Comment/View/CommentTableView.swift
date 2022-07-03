@@ -52,6 +52,7 @@ extension CommentTableView: UITableViewDataSource, UITableViewDelegate {
         commentCell.commentDateLabel.text = dateFormatter.string(from: createdTime)
         commentCell.commentCreatorName.text = comments[indexPath.row].creator.name
         commentCell.commentCreatorThreadLabel.text = comments[indexPath.row].text
+        commentCell.commentCreatorImageView.kf.setImage(with: URL(string: comments[indexPath.row].creator.avatar))
         return commentCell
     }
     

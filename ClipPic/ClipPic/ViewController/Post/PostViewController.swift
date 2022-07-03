@@ -19,7 +19,7 @@ class PostViewController: UIViewController {
     var post: Post! {
         didSet {
             contentImageView.kf.setImage(with: URL(string: post.imageUrl))
-            //  creatorProfileImage.kf.setImage(with: URL(string: post.author.avatar))
+            creatorProfileImageView.kf.setImage(with: URL(string: post.author.avatar))
             postTitleLabel.text = post.title
             creatorNameLabel.text = "@\(post.author.name)"
             postDescriptionLabel.text = post.description
@@ -127,13 +127,12 @@ class PostViewController: UIViewController {
         return image
     }()
     
-    var creatorProfileImage: UIImageView = {
+    var creatorProfileImageView: UIImageView = {
         let creatorProfileImage = UIImageView()
         creatorProfileImage.translatesAutoresizingMaskIntoConstraints = false
         creatorProfileImage.contentMode = .scaleAspectFill
         creatorProfileImage.layer.cornerRadius = 25
         creatorProfileImage.clipsToBounds = true
-        creatorProfileImage.image = UIImage(named: "Quokdog")
         return creatorProfileImage
     }()
     
@@ -247,7 +246,7 @@ class PostViewController: UIViewController {
     }
     
     @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if (sender.direction == .right) {
+        if sender.direction == .right {
             print("Swipe Right")
             self.navigationController?.popViewController(animated: true)
         }
@@ -307,6 +306,7 @@ class PostViewController: UIViewController {
                 commentView.creatorNameLabel.text = comments[index].creator.name
                 commentView.creatorThreadLabel.text = comments[index].text
                 commentView.commentDateLabel.text = dateFormatter.string(from: createdTime)
+                commentView.creatorImageView.kf.setImage(with: URL(string: comments[index].creator.avatar))
                 commentSectionStackView.addArrangedSubview(commentView)
             }
         }
@@ -390,37 +390,37 @@ class PostViewController: UIViewController {
     }
     
     func setUpPostDescriptionView() {
-        postDescriptionView.addSubview(creatorProfileImage)
-        creatorProfileImage.leadingAnchor.constraint(equalTo: postDescriptionView.leadingAnchor, constant: 10).isActive = true
-        creatorProfileImage.topAnchor.constraint(equalTo: postDescriptionView.topAnchor, constant: 10).isActive = true
-        creatorProfileImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        creatorProfileImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        postDescriptionView.addSubview(creatorProfileImageView)
+        creatorProfileImageView.leadingAnchor.constraint(equalTo: postDescriptionView.leadingAnchor, constant: 10).isActive = true
+        creatorProfileImageView.topAnchor.constraint(equalTo: postDescriptionView.topAnchor, constant: 10).isActive = true
+        creatorProfileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        creatorProfileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         postDescriptionView.addSubview(creatorNameLabel)
-        creatorNameLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.trailingAnchor, constant: 10).isActive = true
-        creatorNameLabel.bottomAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor).isActive = true
+        creatorNameLabel.leadingAnchor.constraint(equalTo: creatorProfileImageView.trailingAnchor, constant: 10).isActive = true
+        creatorNameLabel.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
         
         postDescriptionView.addSubview(followButton)
         followButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
-        followButton.bottomAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor).isActive = true
+        followButton.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
         followButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        followButton.heightAnchor.constraint(equalTo: creatorProfileImage.heightAnchor).isActive = true
+        followButton.heightAnchor.constraint(equalTo: creatorProfileImageView.heightAnchor).isActive = true
         
         postDescriptionView.addSubview(postTitleLabel)
-        postTitleLabel.topAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor, constant: 10).isActive = true
-        postTitleLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
+        postTitleLabel.topAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor, constant: 10).isActive = true
+        postTitleLabel.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
         postTitleLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
         
         postDescriptionView.addSubview(postDescriptionLabel)
         postDescriptionLabel.topAnchor.constraint(equalTo: postTitleLabel.bottomAnchor).isActive = true
-        postDescriptionLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
+        postDescriptionLabel.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
         postDescriptionLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
         postDescriptionLabel.centerXAnchor.constraint(equalTo: postDescriptionView.centerXAnchor).isActive = true
         
         postDescriptionView.addSubview(creatorProfileButton)
-        creatorProfileButton.topAnchor.constraint(equalTo: creatorProfileImage.topAnchor).isActive = true
-        creatorProfileButton.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
-        creatorProfileButton.bottomAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor).isActive = true
+        creatorProfileButton.topAnchor.constraint(equalTo: creatorProfileImageView.topAnchor).isActive = true
+        creatorProfileButton.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
+        creatorProfileButton.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
         creatorProfileButton.trailingAnchor.constraint(equalTo: creatorNameLabel.trailingAnchor).isActive = true
     }
 }

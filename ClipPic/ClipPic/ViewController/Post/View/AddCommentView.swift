@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
 
 class AddCommentView: UIView {
 
     // MARK: - UI Properties
     
-    var userImageView: UIImageView = {
+    lazy var userImageView: UIImageView = {
         let userImageView = UIImageView()
         userImageView.translatesAutoresizingMaskIntoConstraints = false
-        userImageView.image = UIImage(named: "lemon")
+        if let avatarURL = AccountManager.shared.appUser?.avatar {
+            userImageView.kf.setImage(with: URL(string: avatarURL))
+        }
         userImageView.contentMode = .scaleAspectFill
         userImageView.layer.cornerRadius = 25
         userImageView.clipsToBounds = true

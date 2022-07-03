@@ -130,11 +130,12 @@ extension FireStoreManager {
     }
     
     func publishPost(imageURL: String, title: String, category: Category, referenceLink: String?, description: String) {
+        guard let user = AccountManager.shared.appUser else { return }
         let newDocument = Firestore.firestore().collection("Post").document()
         let data: [String: Any] = [
-           "author": [
-               "id": "b79Ms0w1mEEKdHb6VbmE",
-               "name": "rayshinlee"
+           "author": ["id": user.id,
+                      "name": user.userName,
+                      "avatar": user.avatar
            ],
            "title": title,
            "image_url": imageURL,
@@ -155,14 +156,14 @@ extension FireStoreManager {
 
 extension FireStoreManager {
     func publishComment(text: String, post: String, completion: @escaping ((Error?) -> Void)) {
+        guard let user = AccountManager.shared.appUser else { return }
         let newDocument = Firestore.firestore().collection("Comment").document()
         let timeStamp = Date().timeIntervalSince1970
 
         let data: [String: Any] = [
-            "creator": [
-                "id": "b79Ms0w1mEEKdHb6VbmE",
-                "name": "rayshinlee"
-                //  "avatar": "",
+            "creator": ["id": user.id,
+                        "name": user.userName,
+                        "avatar": user.avatar
             ],
             "text": text,
             "created_time": timeStamp,
@@ -239,31 +240,31 @@ extension FireStoreManager {
 extension FireStoreManager {
     
     func followAccount(userId: String, collection: User.FollowedAccount, completion: @escaping ((Error?) -> Void)) {
-        let userRef = dataBase.collection("User").document(userId)
-        
-        userRef.getDocument() { snapShot, error in
-            guard let snapshot = snapShot,
-                  let data = snapshot.data() else {
-                completion(NetworkError.invalidSnapshot)
-                return
-            }
-            
-            let user = User(documentId: userId, dictionary: data)
-            let addedCollection = [
-                "id": collection.id,
-                "name": collection.name
-                //  "avatar": collection.avatar
-            ]
-            var newCollections = user.rawCollections
-            newCollections.append(addedCollection)
-            
-            userRef.updateData(["followed_accounts": newCollections]) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-                completion(nil)
-            }
-        }
+//        let userRef = dataBase.collection("User").document(userId)
+//
+//        userRef.getDocument() { snapShot, error in
+//            guard let snapshot = snapShot,
+//                  let data = snapshot.data() else {
+//                completion(NetworkError.invalidSnapshot)
+//                return
+//            }
+//
+//            let user = User(documentId: userId, dictionary: data)
+//            let addedCollection = [
+//                "id": collection.id,
+//                "name": collection.name
+////                "avatar": collection.avatar
+//            ]
+//            var newCollections = user.rawCollections
+//            newCollections.append(addedCollection)
+//
+//            userRef.updateData(["followed_accounts": newCollections]) { error in
+//                guard error == nil else {
+//                    completion(error)
+//                    return
+//                }
+//                completion(nil)
+//            }
+//        }
     }
 }
