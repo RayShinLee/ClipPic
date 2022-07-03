@@ -9,12 +9,18 @@ import UIKit
 import Kingfisher
 
 protocol ProfileCollectionViewDelegate: AnyObject {
-    func didSelectItemAt()
+    func didSelectItem(with postId: String)
 }
 
 class ProfileCollectionView: UICollectionView {
     
     // MARK: - Properties
+    
+    var items: [User.Collection] = [] {
+        didSet {
+            reloadData()
+        }
+    }
     
     weak var interactionDelegate: ProfileCollectionViewDelegate?
     
@@ -33,7 +39,6 @@ class ProfileCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 // MARK: - CollectionView DataSource & Delegate
@@ -55,7 +60,7 @@ extension ProfileCollectionView: UICollectionViewDataSource, UICollectionViewDel
     
     // MARK: DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -63,8 +68,8 @@ extension ProfileCollectionView: UICollectionViewDataSource, UICollectionViewDel
         guard let contentCell = cell as? ProfileCollectionViewCell else {
             return cell
         }
-        
-        contentCell.savedImageView.image = UIImage(named: "lemon")
+        let itme = items[indexPath.item]
+        contentCell.savedImageView.kf.setImage(with: URL(string: itme.imageURL))
         contentCell.savedImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20
         return contentCell
@@ -72,6 +77,7 @@ extension ProfileCollectionView: UICollectionViewDataSource, UICollectionViewDel
     
     // MARK: Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        interactionDelegate?.didSelectItemAt()
+        let postId = items[indexPath.item].id
+        interactionDelegate?.didSelectItem(with: postId)
     }
 }

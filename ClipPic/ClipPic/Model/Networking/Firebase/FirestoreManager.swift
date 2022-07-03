@@ -89,6 +89,19 @@ extension FireStoreManager {
             completion(nil)
         }
     }
+    
+    func fetchProfile(userUID: String, completion: @escaping((User?, Error?) -> Void)) {
+        dataBase.collection("User").document(userUID).getDocument { snapShot, error in
+            guard let snapShot = snapShot,
+                  let data = snapShot.data() else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let user = User(documentId: userUID, dictionary: data)
+            completion(user, nil)
+        }
+    }
 }
 
 // MARK: - Post
@@ -126,7 +139,25 @@ extension FireStoreManager {
             
             completion(posts, nil)
         }
+    }
+    
+    func fetchPosts(with author: Author, completion: @escaping (([Post]?, Error?) -> Void)) {
+        let refernce = dataBase.collection("Post").whereField("author", isEqualTo: author.rawValue)
         
+        refernce.getDocuments { snapShot, error in
+            guard let snapshot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            var posts: [Post] = []
+            snapshot.documents.forEach() { element in
+                let post = Post(documentId: element.documentID, dictionary: element.data())
+                posts.append(post)
+            }
+            
+            completion(posts, nil)
+        }
     }
     
     func publishPost(imageURL: String, title: String, category: Category, referenceLink: String?, description: String) {
@@ -204,7 +235,9 @@ extension FireStoreManager {
 // MARK: - Save Post
 
 extension FireStoreManager {
-    func savePost(userId: String, collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
+    func savePost(collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
+        guard let userId = AccountManager.shared.userUID else { return }
+        
         let userRef = dataBase.collection("User").document(userId)
         
         userRef.getDocument() { snapShot, error in
@@ -227,13 +260,11 @@ extension FireStoreManager {
                     completion(error)
                     return
                 }
+                
+                AccountManager.shared.appUser?.rawCollections = newCollections
                 completion(nil)
             }
         }
-    }
-    
-    func fetchSavedPosts() {
-        
     }
 }
 

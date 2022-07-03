@@ -6,12 +6,12 @@
 //
 
 import UIKit
-import SwiftUI
-import FirebaseAuth
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
+    var userPosts: [User.Collection] = []
     
     // MARK: - UI Properties
     
@@ -23,10 +23,11 @@ class ProfileViewController: UIViewController {
         return backgroundView
     }()
 
-    var collectionView: ProfileCollectionView = {
+    lazy var collectionView: ProfileCollectionView = {
         let collectionView = ProfileCollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .label
+        collectionView.interactionDelegate = self
         return collectionView
     }()
     
@@ -43,7 +44,9 @@ class ProfileViewController: UIViewController {
     var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.image = UIImage(named: "Quokdog")
+        if let avatarURL = AccountManager.shared.appUser?.avatar {
+            profileImageView.kf.setImage(with: URL(string: avatarURL))
+        }
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 50
         profileImageView.clipsToBounds = true
@@ -53,7 +56,7 @@ class ProfileViewController: UIViewController {
     var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Rayshin Lee"
+        nameLabel.text = "~~~~"
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
         nameLabel.textColor = .systemBackground
         return nameLabel
@@ -62,7 +65,9 @@ class ProfileViewController: UIViewController {
     var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.text = "@rayshinlee"
+        if let username = AccountManager.shared.appUser?.userName {
+            userNameLabel.text = "@\(username)"
+        }
         userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
         userNameLabel.textColor = .systemBackground
         return userNameLabel
@@ -100,19 +105,21 @@ class ProfileViewController: UIViewController {
         return totalSavedCountLabel
     }()
     
-    var postsTabButton: UIButton = {
+    lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
         postsTabButton.setTitleColor(.systemBackground, for: .normal)
         postsTabButton.setTitle("Posts", for: .normal)
+        postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
         return postsTabButton
     }()
     
-    var savedTabButton: UIButton = {
+    lazy var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
         savedTabButton.setTitleColor(.systemBackground, for: .normal)
         savedTabButton.setTitle("Saved", for: .normal)
+        savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
     }()
     
@@ -134,10 +141,13 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpView()
         settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
+        fetchPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        collectionView.reloadData()
     }
     
     // MARK: - Action Methods
@@ -147,7 +157,27 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    @objc func onSavedTabButtonTap() {
+        collectionView.items = AccountManager.shared.appUser?.collections ?? []
+    }
+    
+    @objc func onPostsTabButtonTap() {
+        collectionView.items = userPosts
+    }
+    
     // MARK: - Methods
+    
+    func fetchPosts() {
+        guard let user = AccountManager.shared.appUser else { return }
+        let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+        FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+            let items = (posts ?? []).compactMap {
+                return User.Collection(id: $0.id, imageURL: $0.imageUrl)
+            }
+            self.userPosts = items
+            self.collectionView.items = items
+        }
+    }
     
     func setUpView() {
         view.addSubview(backgroundView)
@@ -203,7 +233,6 @@ class ProfileViewController: UIViewController {
     }
     
     func setUpCollectionView() {
-        
         backgroundView.addSubview(tabStackView)
         tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
         tabStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor).isActive = true
@@ -223,7 +252,8 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: ProfileCollectionViewDelegate {
-    func didSelectItemAt() { // postId
-        //  self.show(PostViewController(), sender: nil)
+    func didSelectItem(with postId: String) {
+        let postViewController = PostViewController(with: postId)
+        navigationController?.pushViewController(postViewController, animated: true)
     }
 }

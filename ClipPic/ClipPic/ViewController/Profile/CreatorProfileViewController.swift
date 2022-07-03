@@ -6,15 +6,25 @@
 //
 
 import UIKit
-import SwiftUI
+import Kingfisher
 
 class CreatorProfileViewController: UIViewController {
+    let userId: String
+    var user: User! {
+        didSet {
+            profileImageView.kf.setImage(with: URL(string: user.avatar))
+            userNameLabel.text = "@\(user.userName)"
+        }
+    }
+    
+    var userPosts: [User.Collection] = []
     
     // MARK: - UI Properties
     
-    var collectionView: ProfileCollectionView = {
+    lazy var collectionView: ProfileCollectionView = {
         let collectionView = ProfileCollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.interactionDelegate = self
         return collectionView
     }()
     
@@ -31,7 +41,6 @@ class CreatorProfileViewController: UIViewController {
     var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.image = UIImage(named: "Quokdog")
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 50
         profileImageView.clipsToBounds = true
@@ -41,15 +50,14 @@ class CreatorProfileViewController: UIViewController {
     var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Rayshin Lee"
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
+        nameLabel.text = "~~~"
         return nameLabel
     }()
     
     var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.text = "@rayshinlee"
         userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
         return userNameLabel
     }()
@@ -96,31 +104,43 @@ class CreatorProfileViewController: UIViewController {
         return followButton
     }()
     
-    var postsTabButton: UIButton = {
+    lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
         postsTabButton.setTitleColor(.label, for: .normal)
         postsTabButton.setTitle("Posts", for: .normal)
+        postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
         return postsTabButton
     }()
     
-    var savedTabButton: UIButton = {
+    lazy var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
         savedTabButton.setTitleColor(.label, for: .normal)
         savedTabButton.setTitle("Saved", for: .normal)
+        savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
     }()
 
     // MARK: - Lifecyle
     
+    init(userId: String) {
+        self.userId = userId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpHeaderView()
-        gestures()
+        setUpGestures()
         followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
-        // Do any additional setup after loading the view.
+        
+        fetchProfile()
     }
     
     // MARK: - Action Methods
@@ -129,20 +149,46 @@ class CreatorProfileViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func onSavedTabButtonTap() {
+        collectionView.items = user.collections
+    }
+    
+    @objc func onPostsTabButtonTap() {
+        collectionView.items = userPosts
+    }
+    
     @objc func tapFollowButton() {
         
     }
     
     @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if (sender.direction == .right) {
+        if sender.direction == .right {
             print("Swipe Right")
             self.navigationController?.popViewController(animated: true)
         }
     }
     
     // MARK: - Methods
+    func fetchProfile() {
+        FireStoreManager.shared.fetchProfile(userUID: userId) { user, error in
+            guard let user = user else {
+                print("error")
+                return
+            }
+            self.user = user
+            
+            let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+            FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+                let items = (posts ?? []).compactMap {
+                    return User.Collection(id: $0.id, imageURL: $0.imageUrl)
+                }
+                self.userPosts = items
+                self.collectionView.items = items
+            }
+        }
+    }
     
-    func gestures() {
+    func setUpGestures() {
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
         rightSwipe.direction = .right
         view.addGestureRecognizer(rightSwipe)
@@ -211,5 +257,11 @@ class CreatorProfileViewController: UIViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
     }
+}
 
+extension CreatorProfileViewController: ProfileCollectionViewDelegate {
+    func didSelectItem(with postId: String) {
+        let postViewController = PostViewController(with: postId)
+        navigationController?.pushViewController(postViewController, animated: true)
+    }
 }

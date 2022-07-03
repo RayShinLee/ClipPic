@@ -16,7 +16,7 @@ struct User: Codable {
     let email: String
     let avatar: String
     let rawFollowedAccounts: [[String: String]]
-    let rawCollections: [[String: String]]
+    var rawCollections: [[String: String]]
     
     var followedAccounts: [FollowedAccount] {
         return rawFollowedAccounts.compactMap {

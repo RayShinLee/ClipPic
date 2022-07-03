@@ -187,7 +187,7 @@ class PostViewController: UIViewController {
     
     @objc func tapSaveButton() {
         let collection = User.Collection(id: postId, imageURL: post.imageUrl)
-        FireStoreManager.shared.savePost(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
+        FireStoreManager.shared.savePost(collection: collection) { error in
             if let error = error {
                 print(error)
             } else {
@@ -223,8 +223,8 @@ class PostViewController: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    @objc func tapCreatorProfileButton() { // 要帶入userid
-        self.show(CreatorProfileViewController(), sender: nil)
+    @objc func tapCreatorProfileButton() {
+        self.show(CreatorProfileViewController(userId: post.author.id), sender: nil)
     }
     
     @objc func postCommentAction() {
