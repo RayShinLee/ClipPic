@@ -19,7 +19,7 @@ class PostViewController: UIViewController {
     var post: Post! {
         didSet {
             contentImageView.kf.setImage(with: URL(string: post.imageUrl))
-            //creatorProfileImage.kf.setImage(with: URL(string: post.author.avatar))
+            //  creatorProfileImage.kf.setImage(with: URL(string: post.author.avatar))
             postTitleLabel.text = post.title
             creatorNameLabel.text = "@\(post.author.name)"
             postDescriptionLabel.text = post.description
@@ -94,7 +94,9 @@ class PostViewController: UIViewController {
     var shareButton: UIButton = {
         let shareButton = UIButton()
         shareButton.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "Icons_48x_share3")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "ellipsis.circle",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
         shareButton.setImage(image, for: .normal)
         return shareButton
     }()
@@ -372,6 +374,14 @@ class PostViewController: UIViewController {
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
         saveButton.bottomAnchor.constraint(equalTo: contentImageView.bottomAnchor, constant: -8).isActive = true
         
+        // share button
+        contentImageView.addSubview(shareButton)
+        shareButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        shareButton.trailingAnchor.constraint(equalTo: saveButton.trailingAnchor).isActive = true
+        shareButton.topAnchor.constraint(equalTo: backButton.topAnchor).isActive = true
+        shareButton.bottomAnchor.constraint(equalTo: backButton.bottomAnchor).isActive = true
+        
         //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
@@ -397,7 +407,7 @@ class PostViewController: UIViewController {
         followButton.heightAnchor.constraint(equalTo: creatorProfileImage.heightAnchor).isActive = true
         
         postDescriptionView.addSubview(postTitleLabel)
-        postTitleLabel.topAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor, constant: 5).isActive = true
+        postTitleLabel.topAnchor.constraint(equalTo: creatorProfileImage.bottomAnchor, constant: 10).isActive = true
         postTitleLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
         postTitleLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
         
@@ -406,13 +416,6 @@ class PostViewController: UIViewController {
         postDescriptionLabel.leadingAnchor.constraint(equalTo: creatorProfileImage.leadingAnchor).isActive = true
         postDescriptionLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
         postDescriptionLabel.centerXAnchor.constraint(equalTo: postDescriptionView.centerXAnchor).isActive = true
-        
-        postDescriptionView.addSubview(shareButton)
-        shareButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        shareButton.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
-        shareButton.topAnchor.constraint(equalTo: postDescriptionLabel.bottomAnchor, constant: 10).isActive = true
-        shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -7).isActive = true
         
         postDescriptionView.addSubview(creatorProfileButton)
         creatorProfileButton.topAnchor.constraint(equalTo: creatorProfileImage.topAnchor).isActive = true

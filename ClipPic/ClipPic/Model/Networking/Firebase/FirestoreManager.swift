@@ -200,7 +200,7 @@ extension FireStoreManager {
             let addedCollection = [
                 "id": collection.id,
                 "name": collection.name
-                //"avatar": collection.avatar
+                //  "avatar": collection.avatar
             ]
             var newCollections = user.rawCollections
             newCollections.append(addedCollection)

@@ -20,7 +20,7 @@ class ImageSearchViewController: UIViewController {
         return toSearchImageView
     }()
     
-    var addImageButton: UIButton = {
+    lazy var addImageButton: UIButton = {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
         addImageButton.setTitle("Select and Search", for: .normal)
@@ -74,20 +74,21 @@ class ImageSearchViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        DispatchQueue.main.async {
+            self.present(imagePicker, animated: true)
+        }
     }
     
     func uploadAndSearchImage() {
         guard let imageData = toSearchImageView.image?.jpegData(compressionQuality: 1.0) else {return}
-
-        // 1. Upload image to firebase storage
-        FirebaseStorageManager.shared.uploadSearchImage(with: imageData) { (downloadURL) in
-            guard let downloadURL = downloadURL else {
+        // 1. Upload image to Imgur
+        ImgurManager().uploadImage(imageData: imageData) { result, error in
+            guard let url = result?.data.link else {
                 // upload fail
                 return
             }
             // 2. Search image with SerpAPI
-            SerpAPIManager().search(with: "\(downloadURL)") { serpImages, error in
+            SerpAPIManager().search(with: "\(url)") { serpImages, error in
                 if let error = error {
                     print(error)
                     return

@@ -43,6 +43,7 @@ class SetUpAccountViewController: UIViewController {
         let userNameTextField = UITextField()
         userNameTextField.translatesAutoresizingMaskIntoConstraints = false
         userNameTextField.placeholder = "Enter user name"
+        userNameTextField.backgroundColor = .systemPink
         return userNameTextField
     }()
     
@@ -69,7 +70,7 @@ class SetUpAccountViewController: UIViewController {
         return addImageButton
     }()
     
-    var nextButton: UIButton = {
+    lazy var nextButton: UIButton = {
         let nextButton = UIButton()
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.backgroundColor = .systemBackground

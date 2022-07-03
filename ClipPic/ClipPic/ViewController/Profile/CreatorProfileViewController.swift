@@ -43,7 +43,6 @@ class CreatorProfileViewController: UIViewController {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Rayshin Lee"
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
-        //nameLabel.textColor = .label
         return nameLabel
     }()
     
@@ -52,7 +51,6 @@ class CreatorProfileViewController: UIViewController {
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.text = "@rayshinlee"
         userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
-        //userNameLabel.textColor = .label
         return userNameLabel
     }()
     

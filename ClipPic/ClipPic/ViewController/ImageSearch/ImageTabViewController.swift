@@ -136,7 +136,6 @@ class ImageTabViewController: UIViewController {
         
         imageSearchButton.addSubview(imageSearchDescriptionLabel)
         imageSearchDescriptionLabel.centerYAnchor.constraint(equalTo: imageSearchImageView.centerYAnchor).isActive = true
-        //imageSearchDescriptionLabel.bottomAnchor.constraint(equalTo: imageSearchImageView.bottomAnchor).isActive = true
         imageSearchDescriptionLabel.leadingAnchor.constraint(equalTo: imageSearchTitleLabel.leadingAnchor).isActive = true
         imageSearchDescriptionLabel.trailingAnchor.constraint(equalTo: imageSearchTitleLabel.trailingAnchor).isActive = true
     }
@@ -155,7 +154,6 @@ class ImageTabViewController: UIViewController {
         translateTitleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         translateImageButton.addSubview(translateDescriptionLabel)
-        //translateDescriptionLabel.bottomAnchor.constraint(equalTo: translateImageView.bottomAnchor).isActive = true
         translateDescriptionLabel.centerYAnchor.constraint(equalTo: translateImageView.centerYAnchor).isActive = true
         translateDescriptionLabel.trailingAnchor.constraint(equalTo: translateTitleLabel.trailingAnchor).isActive = true
         translateDescriptionLabel.leadingAnchor.constraint(equalTo: translateTitleLabel.leadingAnchor).isActive = true
