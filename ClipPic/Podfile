@@ -10,6 +10,7 @@ target 'ClipPic' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Core'
+  pod 'Firebase/MLVision'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
   pod 'GoogleSignIn'

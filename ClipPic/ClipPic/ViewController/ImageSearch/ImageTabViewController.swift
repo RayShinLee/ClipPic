@@ -94,12 +94,17 @@ class ImageTabViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpView()
         imageSearchButton.addTarget(self, action: #selector(tapimageSearchButton), for: .touchUpInside)
+        translateImageButton.addTarget(self, action: #selector(tapTranslateTextButton), for: .touchUpInside)
     }
     
     // MARK: - Action Methods
     
     @objc func tapimageSearchButton() {
         self.show(ImageSearchViewController(), sender: nil)
+    }
+    
+    @objc func tapTranslateTextButton() {
+        self.show(TranslateTextViewController(), sender: nil)
     }
     
     // MARK: - Methods

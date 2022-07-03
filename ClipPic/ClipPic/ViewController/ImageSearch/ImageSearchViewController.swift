@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import SafariServices
 
 class ImageSearchViewController: UIViewController {
     
@@ -127,9 +128,15 @@ extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewD
         }
         let serpImage = serpImages[indexPath.item]
         contentCell.homeImageView.kf.setImage(with: URL(string: serpImage.thumbnail))
-        contentCell.homeImageView.contentMode = .scaleAspectFit
+        contentCell.homeImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20
         return contentCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let url = URL(string: serpImages[indexPath.item].link) else { return }
+        let safariViewContorller = SFSafariViewController(url: url)
+        present(safariViewContorller, animated: true, completion: nil)
     }
 }
 
