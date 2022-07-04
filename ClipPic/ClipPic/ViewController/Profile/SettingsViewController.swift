@@ -62,7 +62,15 @@ class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: SettingsTableViewDelegate {
+    func showAccountSettingVC() {
+        self.show(EditProfileViewController(), sender: nil)
+    }
+    
     func signOut() {
         AccountManager.shared.signOut()
+    }
+    
+    func deleteAccount() {
+        
     }
 }

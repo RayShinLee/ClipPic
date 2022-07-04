@@ -8,7 +8,9 @@
 import UIKit
 
 protocol SettingsTableViewDelegate: AnyObject {
+    func showAccountSettingVC()
     func signOut()
+    func deleteAccount()
 }
 
 class SettingsTableView: UITableView {
@@ -34,12 +36,8 @@ class SettingsTableView: UITableView {
 
 extension SettingsTableView: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,9 +46,9 @@ extension SettingsTableView: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
         
-        switch indexPath.section {
+        switch indexPath.row {
         case 0:
-            settingCell.settingOptionLabel.text = "Account settings"
+            settingCell.settingOptionLabel.text = "Edit Profile"
         case 1:
             settingCell.settingOptionLabel.text = "Sign Out"
         case 2:
@@ -66,6 +64,15 @@ extension SettingsTableView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        interactionDelegate?.signOut()
+        switch indexPath.row {
+        case 0:
+            interactionDelegate?.showAccountSettingVC()
+        case 1:
+            interactionDelegate?.signOut()
+        case 2:
+            interactionDelegate?.deleteAccount()
+        default:
+            fatalError("didSelectRowAt error")
+        }
     }
 }

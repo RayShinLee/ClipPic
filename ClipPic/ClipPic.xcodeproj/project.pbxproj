@@ -56,13 +56,15 @@
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
-		87A71C80286ED4AB009F5A37 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A71C7F286ED4AB009F5A37 /* AccountSettingViewController.swift */; };
+		87A71C80286ED4AB009F5A37 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */; };
 		87A71C83286EFE50009F5A37 /* Pexels Videos 2045651.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C81286EFE4E009F5A37 /* Pexels Videos 2045651.mp4 */; };
 		87A71C84286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C82286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 */; };
 		87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B0A13428659FD200ADAABA /* SignInViewController.swift */; };
 		87B8A0DB2869EB6A00AE533D /* ImageTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */; };
 		87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0E0286A113B00AE533D /* dino.mp4 */; };
 		87B8A0E4286AE00500AE533D /* SetUpAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */; };
+		87BD2B382872E5DF000DC93F /* EditProfileTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BD2B372872E5DF000DC93F /* EditProfileTableView.swift */; };
+		87BD2B3B2872E6A5000DC93F /* EditProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BD2B3A2872E6A5000DC93F /* EditProfileTableViewCell.swift */; };
 		87C2719E287049D00042855F /* ImgurManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C2719D287049D00042855F /* ImgurManager.swift */; };
 		9D0689F634136C9E5B50D32C /* Pods_ClipPic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438AF79E0C9A55AE6DDA98A /* Pods_ClipPic.framework */; };
 		CE86E118848C53393DF84B78 /* Pods_ClipPic_ClipPicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */; };
@@ -144,7 +146,7 @@
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		87A71C7F286ED4AB009F5A37 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
+		87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		87A71C81286EFE4E009F5A37 /* Pexels Videos 2045651.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pexels Videos 2045651.mp4"; sourceTree = "<group>"; };
 		87A71C82286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pexels-teona-swift-6912204.mp4"; sourceTree = "<group>"; };
 		87B0A13428659FD200ADAABA /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,8 @@
 		87B8A0E0286A113B00AE533D /* dino.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dino.mp4; sourceTree = "<group>"; };
 		87B8A0E2286A9D4A00AE533D /* ClipPic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipPic.entitlements; sourceTree = "<group>"; };
 		87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpAccountViewController.swift; sourceTree = "<group>"; };
+		87BD2B372872E5DF000DC93F /* EditProfileTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableView.swift; sourceTree = "<group>"; };
+		87BD2B3A2872E6A5000DC93F /* EditProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewCell.swift; sourceTree = "<group>"; };
 		87C2719D287049D00042855F /* ImgurManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgurManager.swift; sourceTree = "<group>"; };
 		94733AF7F30D3E4A4AF5DE64 /* Pods_ClipPic_ClipPicUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPic_ClipPicUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E194686E9839A97F61008197 /* Pods-ClipPic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.release.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.release.xcconfig"; sourceTree = "<group>"; };
@@ -495,9 +499,10 @@
 		87B0A13328659F6300ADAABA /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				87BD2B392872E5E8000DC93F /* View */,
 				87B0A13428659FD200ADAABA /* SignInViewController.swift */,
 				87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */,
-				87A71C7F286ED4AB009F5A37 /* AccountSettingViewController.swift */,
+				87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -508,6 +513,15 @@
 				87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */,
 			);
 			path = Google;
+			sourceTree = "<group>";
+		};
+		87BD2B392872E5E8000DC93F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				87BD2B372872E5DF000DC93F /* EditProfileTableView.swift */,
+				87BD2B3A2872E6A5000DC93F /* EditProfileTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		87C2719C287049C00042855F /* Imgur */ = {
@@ -801,6 +815,7 @@
 				8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */,
 				878E108B285F046E00FF87C2 /* Post.swift in Sources */,
 				878E109C285F162B00FF87C2 /* FirebaseStorageManager.swift in Sources */,
+				87BD2B3B2872E6A5000DC93F /* EditProfileTableViewCell.swift in Sources */,
 				878E10C02862250300FF87C2 /* SeeMoreCommentView.swift in Sources */,
 				878E108F285F04A600FF87C2 /* Category.swift in Sources */,
 				878E10BB2862165100FF87C2 /* CommentView.swift in Sources */,
@@ -808,7 +823,7 @@
 				878E10BD28621F2B00FF87C2 /* AddCommentView.swift in Sources */,
 				87B8A0E4286AE00500AE533D /* SetUpAccountViewController.swift in Sources */,
 				87839F5B2859C69300620513 /* PostViewController.swift in Sources */,
-				87A71C80286ED4AB009F5A37 /* AccountSettingViewController.swift in Sources */,
+				87A71C80286ED4AB009F5A37 /* EditProfileViewController.swift in Sources */,
 				878E10B92861A6AC00FF87C2 /* CommentTableViewCell.swift in Sources */,
 				8755042E286C9F87009073DA /* AccountManager.swift in Sources */,
 				8755042B286BF035009073DA /* SettingTableViewCell.swift in Sources */,
@@ -825,6 +840,7 @@
 				87550430286D9F1B009073DA /* CreatorProfileViewController.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 				878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */,
+				87BD2B382872E5DF000DC93F /* EditProfileTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
