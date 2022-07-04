@@ -17,7 +17,7 @@ class SignInViewController: UIViewController {
     // MARK: - Properties
     
     var backgroundVideoPlayer: AVPlayer = {
-        guard let path = Bundle.main.path(forResource: "Pexels Videos 2045651", ofType: "mp4") else {
+        guard let path = Bundle.main.path(forResource: "pexels-teona-swift-6912204", ofType: "mp4") else {
             fatalError("Invalid Video path")
         }
         let player = AVPlayer(url: URL(fileURLWithPath: path))

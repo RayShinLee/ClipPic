@@ -56,7 +56,6 @@ class HomeViewController: UIViewController {
         setUpViews()
         fetchPosts()
         fetchCategories()
-        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         
         homeCollectionView.mj_header = header
         header.lastUpdatedTimeLabel?.isHidden = true        

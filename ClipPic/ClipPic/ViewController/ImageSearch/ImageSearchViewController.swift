@@ -89,7 +89,10 @@ class ImageSearchViewController: UIViewController {
                 // upload fail
                 return
             }
-            HUD.show(.labeledProgress(title: "Loading", subtitle: nil))
+            
+            DispatchQueue.main.async {
+                HUD.show(.labeledProgress(title: "Loading", subtitle: nil))
+            }
 
             // 2. Search image with SerpAPI
             SerpAPIManager().search(with: "\(url)") { serpImages, error in

@@ -62,7 +62,7 @@ extension FireStoreManager {
         }
     }
     
-    func createUser(avatar: URL, username: String, completion: @escaping ((Error?) -> Void)) {
+    func createUser(avatar: URL, username: String, firstName: String, lastName: String, completion: @escaping ((Error?) -> Void)) {
         guard let userUID = AccountManager.shared.userUID,
               let email = AccountManager.shared.currentFirebaseUser?.email else {
             fatalError("Invaid userUID")
@@ -71,8 +71,8 @@ extension FireStoreManager {
         let newDocument = Firestore.firestore().collection("User").document(userUID)
         let data: [String: Any] = [
            "user_name": username,
-           "last_name": "",
-           "first_name": "",
+           "last_name": firstName,
+           "first_name": lastName,
            "email": email,
            "created_time": Date().timeIntervalSince1970,
            "avatar": "\(avatar)",

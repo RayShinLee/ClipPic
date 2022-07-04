@@ -27,6 +27,20 @@ class SetUpAccountViewController: UIViewController {
         return separatorView
     }()
     
+    var firstNameSeparatorView: UIView = {
+        let firstNameSeparatorView = UIView()
+        firstNameSeparatorView.translatesAutoresizingMaskIntoConstraints = false
+        firstNameSeparatorView.backgroundColor = .systemBackground
+        return firstNameSeparatorView
+    }()
+    
+    var lastNameSeparatorView: UIView = {
+        let lastNameSeparatorView = UIView()
+        lastNameSeparatorView.translatesAutoresizingMaskIntoConstraints = false
+        lastNameSeparatorView.backgroundColor = .systemBackground
+        return lastNameSeparatorView
+    }()
+    
     var welcomeLabel: UILabel = {
         let welcomeLabel = UILabel()
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -39,11 +53,24 @@ class SetUpAccountViewController: UIViewController {
         return welcomeLabel
     }()
     
+    var firstNameTextField: UITextField = {
+        let firstNameTextField = UITextField()
+        firstNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        firstNameTextField.placeholder = "Enter first name"
+        return firstNameTextField
+    }()
+    
+    var lastNameTextField: UITextField = {
+        let lastNameTextField = UITextField()
+        lastNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        lastNameTextField.placeholder = "Enter last name"
+        return lastNameTextField
+    }()
+    
     var userNameTextField: UITextField = {
         let userNameTextField = UITextField()
         userNameTextField.translatesAutoresizingMaskIntoConstraints = false
         userNameTextField.placeholder = "Enter user name"
-        userNameTextField.backgroundColor = .systemPink
         return userNameTextField
     }()
     
@@ -102,7 +129,11 @@ class SetUpAccountViewController: UIViewController {
     @objc func tapNextButton() {
         guard let avatar = profileImageView.image,
               let imageData = avatar.jpegData(compressionQuality: 0.9),
+              let firstName = firstNameTextField.text,
+              let lastName = lastNameTextField.text,
               let username = userNameTextField.text,
+              !firstName.isEmpty,
+              !lastName.isEmpty,
               !username.isEmpty else {
                   print("empty data")
                   return
@@ -112,7 +143,7 @@ class SetUpAccountViewController: UIViewController {
             guard let avatarURL = url else {
                 return
             }
-            FireStoreManager.shared.createUser(avatar: avatarURL, username: username) { error in
+            FireStoreManager.shared.createUser(avatar: avatarURL, username: username, firstName: firstName, lastName: lastName) { error in
                 if let error = error {
                     print(error)
                 } else {
@@ -154,24 +185,53 @@ class SetUpAccountViewController: UIViewController {
         welcomeLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20).isActive = true
         welcomeLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
         welcomeLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.8).isActive = true
+        
+        backgroundView.addSubview(firstNameTextField)
+        firstNameTextField.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 25).isActive = true
+        firstNameTextField.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 10).isActive = true
+        firstNameTextField.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.45).isActive = true
+        firstNameTextField.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
+        
+        backgroundView.addSubview(lastNameTextField)
+        lastNameTextField.topAnchor.constraint(equalTo: firstNameTextField.topAnchor).isActive = true
+        lastNameTextField.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -10).isActive = true
+        lastNameTextField.widthAnchor.constraint(equalTo: firstNameTextField.widthAnchor).isActive = true
+        lastNameTextField.heightAnchor.constraint(equalTo: firstNameTextField.heightAnchor).isActive = true
 
         backgroundView.addSubview(userNameTextField)
-        userNameTextField.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 25).isActive = true
-        userNameTextField.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
-        userNameTextField.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.9).isActive = true
+        userNameTextField.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor, constant: 5).isActive = true
+        userNameTextField.leadingAnchor.constraint(equalTo: firstNameTextField.leadingAnchor).isActive = true
+        userNameTextField.trailingAnchor.constraint(equalTo: lastNameTextField.trailingAnchor).isActive = true
         userNameTextField.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
-        
-        backgroundView.addSubview(separatorView)
-        separatorView.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor).isActive = true
-        separatorView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
-        separatorView.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor).isActive = true
-        separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+    
+        setUpSeparator()
         
         backgroundView.addSubview(nextButton)
         nextButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 30).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
         nextButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         nextButton.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
+        
+    }
+    
+    func setUpSeparator() {
+        backgroundView.addSubview(separatorView)
+        separatorView.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor).isActive = true
+        separatorView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
+        separatorView.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        backgroundView.addSubview(firstNameSeparatorView)
+        firstNameSeparatorView.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor).isActive = true
+        firstNameSeparatorView.leadingAnchor.constraint(equalTo: firstNameTextField.leadingAnchor).isActive = true
+        firstNameSeparatorView.trailingAnchor.constraint(equalTo: firstNameTextField.trailingAnchor).isActive = true
+        firstNameSeparatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        backgroundView.addSubview(lastNameSeparatorView)
+        lastNameSeparatorView.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor).isActive = true
+        lastNameSeparatorView.leadingAnchor.constraint(equalTo: lastNameTextField.leadingAnchor).isActive = true
+        lastNameSeparatorView.trailingAnchor.constraint(equalTo: lastNameTextField.trailingAnchor).isActive = true
+        lastNameSeparatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
     }
 }
 
