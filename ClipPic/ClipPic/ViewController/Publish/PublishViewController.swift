@@ -21,6 +21,7 @@ class PublishViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.contentInsetAdjustmentBehavior = .never
         let tabBarHeight = tabBarController?.tabBar.bounds.height ?? 0
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
@@ -202,7 +203,9 @@ class PublishViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        DispatchQueue.main.async {
+            self.present(imagePicker, animated: true)
+        }
     }
     
     @objc func publish() {
@@ -216,7 +219,7 @@ class PublishViewController: UIViewController {
                   return
               }
         // 1. Upload image to firebase storage
-        FirebaseStorageManager.shared.uploadPostImage(with: imageData) { (downloadURL) in
+        FirebaseStorageManager.shared.uploadImage(for: .post, with: imageData) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 // upload fail
                 return
@@ -242,7 +245,7 @@ class PublishViewController: UIViewController {
     func showSuccesAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default) { action in
-                self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)

@@ -68,6 +68,10 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
         }
         
         let postImage = posts[indexPath.item]
+        contentCell.homeImageView.kf.setImage(with: URL(string: postImage.imageUrl),
+                                              placeholder: nil,
+                                              options: [.cacheOriginalImage],
+                                              completionHandler: nil)
         contentCell.homeImageView.kf.setImage(with: URL(string: postImage.imageUrl))
         contentCell.homeImageView.contentMode = .scaleAspectFill
         contentCell.layer.cornerRadius = 20

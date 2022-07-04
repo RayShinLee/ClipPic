@@ -36,7 +36,15 @@ class CommentView: UIView {
         creatorNameLabel.textColor = .label
         return creatorNameLabel
     }()
-        
+    
+    var commentDateLabel: UILabel = {
+       let commentDateLabel = UILabel()
+       commentDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentDateLabel.textColor = .lightGray
+       commentDateLabel.font = UIFont.systemFont(ofSize: 16.0)
+       return commentDateLabel
+    }()
+
     // MARK: - Lifecycle
     
     init() {
@@ -71,5 +79,11 @@ class CommentView: UIView {
         creatorThreadLabel.leadingAnchor.constraint(equalTo: creatorNameLabel.leadingAnchor).isActive = true
         creatorThreadLabel.trailingAnchor.constraint(equalTo: creatorNameLabel.trailingAnchor).isActive = true
         creatorThreadLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        // comment date
+        addSubview(commentDateLabel)
+        commentDateLabel.topAnchor.constraint(equalTo: creatorNameLabel.topAnchor).isActive = true
+        commentDateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2).isActive = true
+        commentDateLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }

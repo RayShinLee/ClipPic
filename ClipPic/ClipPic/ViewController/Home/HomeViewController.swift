@@ -65,6 +65,11 @@ class HomeViewController: UIViewController {
     // MARK: - Action methods
     
     @objc func tapPublishPost() {
+        guard AccountManager.shared.isLogin else {
+            TabBarViewController.shared.showSignInPage()
+            return
+        }
+        
         let publishVC = PublishViewController()
         self.show(publishVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true
@@ -123,10 +128,17 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: PostListCollectionViewDelegate, CategoryCollectionViewDelegate {
     func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, category: Category) {
+        let stautsBarManager = view.window?.windowScene?.statusBarManager
+        let statusBarInset =  (stautsBarManager?.statusBarFrame.height ?? 0) * -1
+        homeCollectionView.setContentOffset(CGPoint(x: 0, y: statusBarInset), animated: true)
         fetchPosts()
     }
 
     func didSelectItemAt(post: Post) {
+        guard AccountManager.shared.isLogin else {
+            TabBarViewController.shared.showSignInPage()
+            return
+        }
         let postVC = PostViewController(with: post.id)
         self.show(postVC, sender: nil)
         self.navigationController?.isNavigationBarHidden = true

@@ -39,6 +39,71 @@ extension FireStoreManager {
     }
 }
 
+// MARK: - User
+extension FireStoreManager {
+    
+    func fetchProfile(completion: @escaping((User?, Error?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID else {
+            fatalError("Invaid userUID")
+        }
+        dataBase.collection("User").document(userUID).getDocument { snapShot, error in
+            guard let snapShot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            guard let data = snapShot.data() else {
+                completion(nil, NetworkError.emptyData)
+                return
+            }
+            
+            let user = User(documentId: userUID, dictionary: data)
+            completion(user, nil)
+        }
+    }
+    
+    func createUser(avatar: URL, username: String, completion: @escaping ((Error?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID,
+              let email = AccountManager.shared.currentFirebaseUser?.email else {
+            fatalError("Invaid userUID")
+        }
+        let emptyArray: [String] = []
+        let newDocument = Firestore.firestore().collection("User").document(userUID)
+        let data: [String: Any] = [
+           "user_name": username,
+           "last_name": "",
+           "first_name": "",
+           "email": email,
+           "created_time": Date().timeIntervalSince1970,
+           "avatar": "\(avatar)",
+           "collections": emptyArray,
+           "followed_accounts": emptyArray
+        ]
+        
+        newDocument.setData(data) { error in
+            if let error = error {
+                completion(error)
+            }
+            let user = User(documentId: userUID, dictionary: data)
+            AccountManager.shared.appUser = user
+            completion(nil)
+        }
+    }
+    
+    func fetchProfile(userUID: String, completion: @escaping((User?, Error?) -> Void)) {
+        dataBase.collection("User").document(userUID).getDocument { snapShot, error in
+            guard let snapShot = snapShot,
+                  let data = snapShot.data() else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let user = User(documentId: userUID, dictionary: data)
+            completion(user, nil)
+        }
+    }
+}
+
 // MARK: - Post
 extension FireStoreManager {
     
@@ -74,15 +139,34 @@ extension FireStoreManager {
             
             completion(posts, nil)
         }
+    }
+    
+    func fetchPosts(with author: Author, completion: @escaping (([Post]?, Error?) -> Void)) {
+        let refernce = dataBase.collection("Post").whereField("author", isEqualTo: author.rawValue)
         
+        refernce.getDocuments { snapShot, error in
+            guard let snapshot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            var posts: [Post] = []
+            snapshot.documents.forEach() { element in
+                let post = Post(documentId: element.documentID, dictionary: element.data())
+                posts.append(post)
+            }
+            
+            completion(posts, nil)
+        }
     }
     
     func publishPost(imageURL: String, title: String, category: Category, referenceLink: String?, description: String) {
+        guard let user = AccountManager.shared.appUser else { return }
         let newDocument = Firestore.firestore().collection("Post").document()
         let data: [String: Any] = [
-           "author": [
-               "id": "b79Ms0w1mEEKdHb6VbmE",
-               "name": "rayshinlee"
+           "author": ["id": user.id,
+                      "name": user.userName,
+                      "avatar": user.avatar
            ],
            "title": title,
            "image_url": imageURL,
@@ -103,14 +187,14 @@ extension FireStoreManager {
 
 extension FireStoreManager {
     func publishComment(text: String, post: String, completion: @escaping ((Error?) -> Void)) {
+        guard let user = AccountManager.shared.appUser else { return }
         let newDocument = Firestore.firestore().collection("Comment").document()
         let timeStamp = Date().timeIntervalSince1970
 
         let data: [String: Any] = [
-            "creator": [
-                "id": "b79Ms0w1mEEKdHb6VbmE",
-                "name": "rayshinlee"
-                //  "avatar": "",
+            "creator": ["id": user.id,
+                        "name": user.userName,
+                        "avatar": user.avatar
             ],
             "text": text,
             "created_time": timeStamp,
@@ -151,7 +235,9 @@ extension FireStoreManager {
 // MARK: - Save Post
 
 extension FireStoreManager {
-    func savePost(userId: String, collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
+    func savePost(collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
+        guard let userId = AccountManager.shared.userUID else { return }
+        
         let userRef = dataBase.collection("User").document(userId)
         
         userRef.getDocument() { snapShot, error in
@@ -174,12 +260,42 @@ extension FireStoreManager {
                     completion(error)
                     return
                 }
+                
+                AccountManager.shared.appUser?.rawCollections = newCollections
                 completion(nil)
             }
         }
     }
+}
+
+extension FireStoreManager {
     
-    func fetchSavedPosts() {
-        
+    func followAccount(userId: String, collection: User.FollowedAccount, completion: @escaping ((Error?) -> Void)) {
+//        let userRef = dataBase.collection("User").document(userId)
+//
+//        userRef.getDocument() { snapShot, error in
+//            guard let snapshot = snapShot,
+//                  let data = snapshot.data() else {
+//                completion(NetworkError.invalidSnapshot)
+//                return
+//            }
+//
+//            let user = User(documentId: userId, dictionary: data)
+//            let addedCollection = [
+//                "id": collection.id,
+//                "name": collection.name
+//                "avatar": collection.avatar
+//            ]
+//            var newCollections = user.rawCollections
+//            newCollections.append(addedCollection)
+//
+//            userRef.updateData(["followed_accounts": newCollections]) { error in
+//                guard error == nil else {
+//                    completion(error)
+//                    return
+//                }
+//                completion(nil)
+//            }
+//        }
     }
 }

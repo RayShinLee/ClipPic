@@ -18,11 +18,21 @@ class FirebaseStorageManager {
         storage = Storage.storage()
     }
     
-    func uploadPostImage(with data: Data, completion: @escaping ((URL?) -> Void)) {
+    func uploadImage(for task: UploadTask, with data: Data, completion: @escaping ((URL?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID else {
+            completion(nil)
+            return
+        }
+        
         let storageRef = storage.reference()
-        let timeStamp = "\(Date().timeIntervalSince1970)"
-        let imagesRef = storageRef.child("posts/\(timeStamp).jpeg")
-
+        var imagesRef: StorageReference
+        switch task {
+        case .post:
+            let timeStamp = "\(Date().timeIntervalSince1970)"
+            imagesRef = storageRef.child("/\(userUID)/\(timeStamp).jpeg")
+        case .avatar:
+            imagesRef = storageRef.child("/\(userUID)/avatar.jpeg")
+        }
         imagesRef.putData(data, metadata: nil) { (metadata, error) in
             imagesRef.downloadURL { (url, error) in
                 guard let downloadURL = url else {
@@ -33,23 +43,11 @@ class FirebaseStorageManager {
             }
         }
     }
-    
-    func uploadSearchImage(with data: Data, completion: @escaping ((URL?) -> Void)) {
-        let storageRef = storage.reference()
-        let timeStamp = "\(Date().timeIntervalSince1970)"
-        let imagesRef = storageRef.child("search/\(timeStamp).jpeg")
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
+}
 
-        imagesRef.putData(data, metadata: metadata) { (metadata, error) in
-            imagesRef.downloadURL { (url, error) in
-                guard let downloadURL = url else {
-                    completion(nil)
-                    return
-                }
-                completion(downloadURL)
-            }
-        }
+extension FirebaseStorageManager {
+    enum UploadTask: String {
+        case post = "Posts"
+        case avatar = "Avatars"
     }
 }

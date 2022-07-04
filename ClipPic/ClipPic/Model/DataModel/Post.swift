@@ -40,16 +40,26 @@ struct Post {
 struct Author {
     let id: String
     let name: String
-    //  let avatar: String
+    let avatar: String
+    
+    var rawValue: [String: String] {
+        return ["id": id, "name": name, "avatar": avatar]
+    }
+    
+    init(id: String, name: String, avatar: String) {
+        self.id = id
+        self.name = name
+        self.avatar = avatar
+    }
     
     init(documentId: String, dictionary: [String: Any]) {
-        guard let authorName = dictionary["name"] as? String else {
-              //    let avatar = dictionary["avatar"] as? String
+        guard let authorName = dictionary["name"] as? String,
+              let avatar = dictionary["avatar"] as? String else {
             fatalError("Init fail: Author")
         }
         
         self.id = documentId
         self.name = authorName
-        //  self.avatar = avatar
+        self.avatar = avatar
     }
 }

@@ -34,16 +34,15 @@ struct Comment {
 struct Creator {
     let id: String
     let name: String
-    //  let avatar: String
+    let avatar: String
     
     init(documentId: String, dictionary: [String: Any]) {
-        guard let creatorName = dictionary["name"] as? String else {
-              //    let avatar = dictionary["avatar"] as? String
+        guard let creatorName = dictionary["name"] as? String,
+              let avatar = dictionary["avatar"] as? String else {
             fatalError("Init fail: Creator")
         }
-        
         self.id = documentId
         self.name = creatorName
-        //  self.avatar = avatar
+        self.avatar = avatar
     }
 }

@@ -19,10 +19,16 @@ class PostViewController: UIViewController {
     var post: Post! {
         didSet {
             contentImageView.kf.setImage(with: URL(string: post.imageUrl))
+            creatorProfileImageView.kf.setImage(with: URL(string: post.author.avatar))
+            postTitleLabel.text = post.title
+            creatorNameLabel.text = "@\(post.author.name)"
+            postDescriptionLabel.text = post.description
         }
     }
     
     // MARK: - UI Properties
+    
+    let addCommentView = AddCommentView()
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -57,6 +63,14 @@ class PostViewController: UIViewController {
         return stackView
     }()
     
+    var postDescriptionView: UIView = {
+       let postDescriptionView = UIView()
+        postDescriptionView.translatesAutoresizingMaskIntoConstraints = false
+        postDescriptionView.layer.cornerRadius = 30
+        postDescriptionView.backgroundColor = .systemFill
+        return postDescriptionView
+    }()
+    
     var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -67,22 +81,38 @@ class PostViewController: UIViewController {
         return backButton
     }()
     
-    var saveButton: UIButton = {
+    lazy var saveButton: UIButton = {
         let saveButton = UIButton(type: .custom)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
-        let image = UIImage(systemName: "paperclip.circle",
-                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
-        saveButton.setImage(image, for: .normal)
         return saveButton
     }()
     
     var shareButton: UIButton = {
         let shareButton = UIButton()
         shareButton.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "Icons_48x_share3")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "ellipsis.circle",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
         shareButton.setImage(image, for: .normal)
         return shareButton
+    }()
+    
+    var followButton: UIButton = {
+        let followButton = UIButton()
+        followButton.translatesAutoresizingMaskIntoConstraints = false
+        followButton.backgroundColor = .label
+        followButton.layer.cornerRadius = 25
+        followButton.setTitleColor(.systemBackground, for: .normal)
+        followButton.setTitle("Follow", for: .normal)
+        followButton.isHidden = true
+        return followButton
+    }()
+    
+    var creatorProfileButton: UIButton = {
+        let creatorProfileButton = UIButton()
+        creatorProfileButton.translatesAutoresizingMaskIntoConstraints = false
+        creatorProfileButton.backgroundColor = .clear
+        return creatorProfileButton
     }()
     
     var contentImageView: UIImageView = {
@@ -94,15 +124,41 @@ class PostViewController: UIViewController {
         return image
     }()
     
-    var postDescriptionView: UIView = {
-       let postDescriptionView = UIView()
-        postDescriptionView.translatesAutoresizingMaskIntoConstraints = false
-        postDescriptionView.layer.cornerRadius = 30
-        postDescriptionView.backgroundColor = .systemFill
-        return postDescriptionView
+    var creatorProfileImageView: UIImageView = {
+        let creatorProfileImage = UIImageView()
+        creatorProfileImage.translatesAutoresizingMaskIntoConstraints = false
+        creatorProfileImage.contentMode = .scaleAspectFill
+        creatorProfileImage.layer.cornerRadius = 25
+        creatorProfileImage.clipsToBounds = true
+        return creatorProfileImage
     }()
     
-    let addCommentView = AddCommentView()
+    var creatorNameLabel: UILabel = {
+        let creatorNameLabel = UILabel()
+        creatorNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        creatorNameLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
+        return creatorNameLabel
+    }()
+    
+    var postTitleLabel: UILabel = {
+        let postTitleLabel = UILabel()
+        postTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        postTitleLabel.font = UIFont.boldSystemFont(ofSize: 25.0)
+        postTitleLabel.lineBreakMode = .byWordWrapping
+        postTitleLabel.numberOfLines = 0
+        postTitleLabel.textAlignment = .center
+        return postTitleLabel
+    }()
+    
+    var postDescriptionLabel: UILabel = {
+        let postDescriptionLabel = UILabel()
+        postDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        postDescriptionLabel.lineBreakMode = .byWordWrapping
+        postDescriptionLabel.numberOfLines = 0
+        postDescriptionLabel.textAlignment = .center
+        postDescriptionLabel.textColor = .label
+        return postDescriptionLabel
+    }()
     
     // MARK: - Lifecycle
     
@@ -120,22 +176,36 @@ class PostViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpView()
         setUpButtonActions()
+        updateSavedButton()
         fetchPost()
+        gestures()
     }
     
     // MARK: - Action Methods
     
-    @objc func tapBackButton() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     @objc func tapSaveButton() {
+        guard !(AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) else {
+            return
+        }
+        
         let collection = User.Collection(id: postId, imageURL: post.imageUrl)
-        FireStoreManager.shared.savePost(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
+        FireStoreManager.shared.savePost(collection: collection) { error in
             if let error = error {
                 print(error)
             } else {
+                self.updateSavedButton()
                 self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
+            }
+        }
+    }
+    
+    @objc func tapFollowButton() {
+        let collection = User.FollowedAccount(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
+        FireStoreManager.shared.followAccount(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.showAlert(title: "Followed", message: "", optionTitle: "Ok")
             }
         }
     }
@@ -145,7 +215,7 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapShareButton() {
-        let sharedText = "There is a funny post from ClipPic!\n\n\(post.title)\nby \(post.author.name)\n\(post.imageUrl)"
+        let sharedText = "Checkout this post from ClipPic!\n\n\(post.title)\nby \(post.author.name)\n\(post.imageUrl)"
         var activityItems:[Any] = []
         if let image = contentImageView.image {
             activityItems = [sharedText, image]
@@ -153,7 +223,13 @@ class PostViewController: UIViewController {
             activityItems = [sharedText]
         }
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        self.present(activityViewController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func tapCreatorProfileButton() {
+        self.show(CreatorProfileViewController(userId: post.author.id), sender: nil)
     }
     
     @objc func postCommentAction() {
@@ -173,6 +249,17 @@ class PostViewController: UIViewController {
             }
         })
     }
+    
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .right {
+            print("Swipe Right")
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
 
     // MARK: - Methods
     
@@ -186,6 +273,7 @@ class PostViewController: UIViewController {
             }
             self.post = post
             self.fetchComments()
+            self.followButton.isHidden = (post.author.id == AccountManager.shared.appUser?.id)
         }
     }
     
@@ -217,8 +305,14 @@ class PostViewController: UIViewController {
                     break
                 }
                 let commentView = CommentView()
+                let createdTime = Date(timeIntervalSince1970: comments[index].createdTime)
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "YYYY.MM.dd"
+                
                 commentView.creatorNameLabel.text = comments[index].creator.name
                 commentView.creatorThreadLabel.text = comments[index].text
+                commentView.commentDateLabel.text = dateFormatter.string(from: createdTime)
+                commentView.creatorImageView.kf.setImage(with: URL(string: comments[index].creator.avatar))
                 commentSectionStackView.addArrangedSubview(commentView)
             }
         }
@@ -237,6 +331,14 @@ class PostViewController: UIViewController {
         backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
+        followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
+        creatorProfileButton.addTarget(self, action: #selector(tapCreatorProfileButton), for: .touchUpInside)
+    }
+    
+    func gestures() {
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        rightSwipe.direction = .right
+        view.addGestureRecognizer(rightSwipe)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
@@ -278,18 +380,61 @@ class PostViewController: UIViewController {
         saveButton.trailingAnchor.constraint(equalTo: contentImageView.trailingAnchor, constant: -8).isActive = true
         saveButton.bottomAnchor.constraint(equalTo: contentImageView.bottomAnchor, constant: -8).isActive = true
         
+        // share button
+        contentImageView.addSubview(shareButton)
+        shareButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        shareButton.trailingAnchor.constraint(equalTo: saveButton.trailingAnchor).isActive = true
+        shareButton.topAnchor.constraint(equalTo: backButton.topAnchor).isActive = true
+        shareButton.bottomAnchor.constraint(equalTo: backButton.bottomAnchor).isActive = true
+        
         //  image description
         postDescriptionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.2).isActive = true
+        postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
         
         setUpPostDescriptionView()
     }
     
+    private func updateSavedButton() {
+        let imageName = (AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) ? "paperclip.circle.fill" : "paperclip.circle"
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let image = UIImage(systemName: imageName,
+                            withConfiguration: imageSize)
+        saveButton.setImage(image, for: .normal)
+    }
+    
     func setUpPostDescriptionView() {
-        postDescriptionView.addSubview(shareButton)
-        shareButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        shareButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
-        shareButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -16).isActive = true
+        postDescriptionView.addSubview(creatorProfileImageView)
+        creatorProfileImageView.leadingAnchor.constraint(equalTo: postDescriptionView.leadingAnchor, constant: 10).isActive = true
+        creatorProfileImageView.topAnchor.constraint(equalTo: postDescriptionView.topAnchor, constant: 10).isActive = true
+        creatorProfileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        creatorProfileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        postDescriptionView.addSubview(creatorNameLabel)
+        creatorNameLabel.leadingAnchor.constraint(equalTo: creatorProfileImageView.trailingAnchor, constant: 10).isActive = true
+        creatorNameLabel.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
+        
+        postDescriptionView.addSubview(followButton)
+        followButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -16).isActive = true
+        followButton.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
+        followButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        followButton.heightAnchor.constraint(equalTo: creatorProfileImageView.heightAnchor).isActive = true
+        
+        postDescriptionView.addSubview(postTitleLabel)
+        postTitleLabel.topAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor, constant: 10).isActive = true
+        postTitleLabel.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
+        postTitleLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
+        
+        postDescriptionView.addSubview(postDescriptionLabel)
+        postDescriptionLabel.topAnchor.constraint(equalTo: postTitleLabel.bottomAnchor).isActive = true
+        postDescriptionLabel.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
+        postDescriptionLabel.trailingAnchor.constraint(equalTo: followButton.trailingAnchor).isActive = true
+        postDescriptionLabel.centerXAnchor.constraint(equalTo: postDescriptionView.centerXAnchor).isActive = true
+        
+        postDescriptionView.addSubview(creatorProfileButton)
+        creatorProfileButton.topAnchor.constraint(equalTo: creatorProfileImageView.topAnchor).isActive = true
+        creatorProfileButton.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
+        creatorProfileButton.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
+        creatorProfileButton.trailingAnchor.constraint(equalTo: creatorNameLabel.trailingAnchor).isActive = true
     }
 }

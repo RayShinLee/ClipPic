@@ -6,11 +6,12 @@
 //
 
 import UIKit
-import SwiftUI
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
+    var userPosts: [User.Collection] = []
     
     // MARK: - UI Properties
     
@@ -22,24 +23,30 @@ class ProfileViewController: UIViewController {
         return backgroundView
     }()
 
-    var recentSavedCollectionView: SavedPostsCollectionView = {
-        let recentSavedCollectionView = SavedPostsCollectionView()
-        recentSavedCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        recentSavedCollectionView.backgroundColor = .label
-        return recentSavedCollectionView
+    lazy var collectionView: ProfileCollectionView = {
+        let collectionView = ProfileCollectionView()
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .label
+        collectionView.interactionDelegate = self
+        return collectionView
     }()
     
-    var allSavedCollectionView: SavedPostsCollectionView = {
-        let allSavedCollectionView = SavedPostsCollectionView()
-        allSavedCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        allSavedCollectionView.backgroundColor = .label
-        return allSavedCollectionView
+    lazy var tabStackView: UIStackView = {
+        let tabStackView = UIStackView(arrangedSubviews: [postsTabButton, savedTabButton])
+        tabStackView.translatesAutoresizingMaskIntoConstraints = false
+        tabStackView.distribution  = .fillEqually
+        tabStackView.alignment = .fill
+        tabStackView.axis = .horizontal
+        tabStackView.spacing = 5
+        return tabStackView
     }()
     
     var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.image = UIImage(named: "Quokdog")
+        if let avatarURL = AccountManager.shared.appUser?.avatar {
+            profileImageView.kf.setImage(with: URL(string: avatarURL))
+        }
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 50
         profileImageView.clipsToBounds = true
@@ -49,7 +56,7 @@ class ProfileViewController: UIViewController {
     var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Rayshin Lee"
+        nameLabel.text = "~~~~"
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
         nameLabel.textColor = .systemBackground
         return nameLabel
@@ -58,7 +65,9 @@ class ProfileViewController: UIViewController {
     var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.text = "@rayshinlee"
+        if let username = AccountManager.shared.appUser?.userName {
+            userNameLabel.text = "@\(username)"
+        }
         userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
         userNameLabel.textColor = .systemBackground
         return userNameLabel
@@ -96,22 +105,22 @@ class ProfileViewController: UIViewController {
         return totalSavedCountLabel
     }()
     
-    var recentSavedLabel: UILabel = {
-        let recentSavesLabel = UILabel()
-        recentSavesLabel.translatesAutoresizingMaskIntoConstraints = false
-        recentSavesLabel.text = "Recent Saves"
-        recentSavesLabel.font = UIFont(name: "PingFang TC", size: 20.0)
-        recentSavesLabel.textColor = .systemBackground
-        return recentSavesLabel
+    lazy var postsTabButton: UIButton = {
+        let postsTabButton = UIButton()
+        postsTabButton.translatesAutoresizingMaskIntoConstraints = false
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        postsTabButton.setTitle("Posts", for: .normal)
+        postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
+        return postsTabButton
     }()
     
-    var allSavedLabel: UILabel = {
-        let allSavedLabel = UILabel()
-        allSavedLabel.translatesAutoresizingMaskIntoConstraints = false
-        allSavedLabel.text = "All Saved"
-        allSavedLabel.font = UIFont(name: "PingFang TC", size: 20.0)
-        allSavedLabel.textColor = .systemBackground
-        return allSavedLabel
+    lazy var savedTabButton: UIButton = {
+        let savedTabButton = UIButton()
+        savedTabButton.translatesAutoresizingMaskIntoConstraints = false
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.setTitle("Saved", for: .normal)
+        savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
+        return savedTabButton
     }()
     
     var settingsButton: UIButton = {
@@ -132,10 +141,13 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpView()
         settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
+        fetchPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        collectionView.reloadData()
     }
     
     // MARK: - Action Methods
@@ -145,7 +157,27 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    @objc func onSavedTabButtonTap() {
+        collectionView.items = AccountManager.shared.appUser?.collections ?? []
+    }
+    
+    @objc func onPostsTabButtonTap() {
+        collectionView.items = userPosts
+    }
+    
     // MARK: - Methods
+    
+    func fetchPosts() {
+        guard let user = AccountManager.shared.appUser else { return }
+        let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+        FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+            let items = (posts ?? []).compactMap {
+                return User.Collection(id: $0.id, imageURL: $0.imageUrl)
+            }
+            self.userPosts = items
+            self.collectionView.items = items
+        }
+    }
     
     func setUpView() {
         view.addSubview(backgroundView)
@@ -201,25 +233,27 @@ class ProfileViewController: UIViewController {
     }
     
     func setUpCollectionView() {
+        backgroundView.addSubview(tabStackView)
+        tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
+        tabStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor).isActive = true
+        tabStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor).isActive = true
         
-        backgroundView.addSubview(recentSavedLabel)
-        recentSavedLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
-        recentSavedLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
+        postsTabButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        postsTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        savedTabButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        savedTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        backgroundView.addSubview(recentSavedCollectionView)
-        recentSavedCollectionView.topAnchor.constraint(equalTo: recentSavedLabel.bottomAnchor).isActive = true
-        recentSavedCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        recentSavedCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        recentSavedCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
-        
-        backgroundView.addSubview(allSavedLabel)
-        allSavedLabel.topAnchor.constraint(equalTo: recentSavedCollectionView.bottomAnchor, constant: 5).isActive = true
-        allSavedLabel.leadingAnchor.constraint(equalTo: recentSavedLabel.leadingAnchor).isActive = true
+        backgroundView.addSubview(collectionView)
+        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+    }
+}
 
-        backgroundView.addSubview(allSavedCollectionView)
-        allSavedCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
-        allSavedCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        allSavedCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        allSavedCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
+extension ProfileViewController: ProfileCollectionViewDelegate {
+    func didSelectItem(with postId: String) {
+        let postViewController = PostViewController(with: postId)
+        navigationController?.pushViewController(postViewController, animated: true)
     }
 }
