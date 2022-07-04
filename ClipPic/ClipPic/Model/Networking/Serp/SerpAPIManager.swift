@@ -28,8 +28,6 @@ class SerpAPIManager {
         
         let request = AF.request(url)
         request.responseDecodable(of: SerpSearchResponse.self) { (response) in
-            print("===============================")
-            print(String.init(data: response.data!, encoding: .utf8))
             
             switch response.result {
             case .success(let searchResponse):
