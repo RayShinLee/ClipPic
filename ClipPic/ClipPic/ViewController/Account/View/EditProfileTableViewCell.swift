@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol EditProfileTableViewCellDelegate: AnyObject {
+    func didSelectTextfield()
+}
+
 class EditProfileTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    
+    weak var interactionDelegate: EditProfileTableViewCellDelegate?
     
     // MARK: - UI properties
     

@@ -57,8 +57,8 @@
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
 		87A71C80286ED4AB009F5A37 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */; };
-		87A71C83286EFE50009F5A37 /* Pexels Videos 2045651.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C81286EFE4E009F5A37 /* Pexels Videos 2045651.mp4 */; };
-		87A71C84286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C82286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 */; };
+		87A71C83286EFE50009F5A37 /* polaroid.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C81286EFE4E009F5A37 /* polaroid.mp4 */; };
+		87A71C84286EFE50009F5A37 /* takePicture.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C82286EFE50009F5A37 /* takePicture.mp4 */; };
 		87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B0A13428659FD200ADAABA /* SignInViewController.swift */; };
 		87B8A0DB2869EB6A00AE533D /* ImageTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */; };
 		87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87B8A0E0286A113B00AE533D /* dino.mp4 */; };
@@ -147,8 +147,8 @@
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
-		87A71C81286EFE4E009F5A37 /* Pexels Videos 2045651.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pexels Videos 2045651.mp4"; sourceTree = "<group>"; };
-		87A71C82286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pexels-teona-swift-6912204.mp4"; sourceTree = "<group>"; };
+		87A71C81286EFE4E009F5A37 /* polaroid.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = polaroid.mp4; sourceTree = "<group>"; };
+		87A71C82286EFE50009F5A37 /* takePicture.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = takePicture.mp4; sourceTree = "<group>"; };
 		87B0A13428659FD200ADAABA /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		87B8A0DA2869EB6A00AE533D /* ImageTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTabViewController.swift; sourceTree = "<group>"; };
 		87B8A0E0286A113B00AE533D /* dino.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dino.mp4; sourceTree = "<group>"; };
@@ -226,8 +226,8 @@
 		8740C2ED285888BF00ABA14D = {
 			isa = PBXGroup;
 			children = (
-				87A71C81286EFE4E009F5A37 /* Pexels Videos 2045651.mp4 */,
-				87A71C82286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 */,
+				87A71C81286EFE4E009F5A37 /* polaroid.mp4 */,
+				87A71C82286EFE50009F5A37 /* takePicture.mp4 */,
 				87B8A0E0286A113B00AE533D /* dino.mp4 */,
 				8740C2F8285888BF00ABA14D /* ClipPic */,
 				8740C312285888C600ABA14D /* ClipPicTests */,
@@ -642,8 +642,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87A71C83286EFE50009F5A37 /* Pexels Videos 2045651.mp4 in Resources */,
-				87A71C84286EFE50009F5A37 /* pexels-teona-swift-6912204.mp4 in Resources */,
+				87A71C83286EFE50009F5A37 /* polaroid.mp4 in Resources */,
+				87A71C84286EFE50009F5A37 /* takePicture.mp4 in Resources */,
 				87B8A0E1286A113B00AE533D /* dino.mp4 in Resources */,
 				8740C309285888C600ABA14D /* LaunchScreen.storyboard in Resources */,
 				879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */,

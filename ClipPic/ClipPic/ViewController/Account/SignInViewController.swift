@@ -17,7 +17,7 @@ class SignInViewController: UIViewController {
     // MARK: - Properties
     
     var backgroundVideoPlayer: AVPlayer = {
-        guard let path = Bundle.main.path(forResource: "pexels-teona-swift-6912204", ofType: "mp4") else {
+        guard let path = Bundle.main.path(forResource: "polaroid", ofType: "mp4") else {
             fatalError("Invalid Video path")
         }
         let player = AVPlayer(url: URL(fileURLWithPath: path))
@@ -56,10 +56,11 @@ class SignInViewController: UIViewController {
     var logoImageView: UIImageView = {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.backgroundColor = .white
         logoImageView.contentMode = .scaleAspectFill
+        logoImageView.backgroundColor = .white
         logoImageView.layer.cornerRadius = 20
         logoImageView.clipsToBounds = true
+        logoImageView.image = UIImage(named: "ClipPic_Logo_icon")
         return logoImageView
     }()
     
@@ -145,17 +146,17 @@ class SignInViewController: UIViewController {
         videoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
         videoView.layer.addSublayer(backgroundVideoPlayerLayer)
         
-        videoView.addSubview(logoImageView)
-        logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
-        logoImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        logoImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
         view.addSubview(backgroundView)
         backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 100).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 35).isActive = true
         backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+        
+        backgroundView.addSubview(logoImageView)
+        logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        logoImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -80).isActive = true
+        logoImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        logoImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         setUpBackgroundView()
     }
     
@@ -164,10 +165,10 @@ class SignInViewController: UIViewController {
         welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         welcomeLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
         welcomeLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        welcomeLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 30).isActive = true
+        welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 30).isActive = true
         
         backgroundView.addSubview(separatorView)
-        separatorView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 30).isActive = true
+        separatorView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20).isActive = true
         separatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         separatorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
@@ -184,7 +185,7 @@ class SignInViewController: UIViewController {
     func setUpSignInButtons() {
         backgroundView.addSubview(googleButton)
         googleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        googleButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 60).isActive = true
+        googleButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 40).isActive = true
         googleButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         googleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         

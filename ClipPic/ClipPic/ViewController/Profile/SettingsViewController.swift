@@ -85,18 +85,13 @@ extension SettingsViewController: SettingsTableViewDelegate {
     }
     
     func deleteAccount() {
-        FireStoreManager.shared.deleteUser() { error in
+        AccountManager.shared.deleteUser() { error in
             if let error = error {
                 print(error)
+                self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
             }
-            AccountManager.shared.deleteUser() { error in
-                if let error = error {
-                    print(error)
-                    self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
-                }
-                // To do
-                self.navigationController?.pushViewController(HomeViewController(), animated: true)
-            }
+            // To do
+            self.navigationController?.pushViewController(HomeViewController(), animated: true)
         }
     }
 }

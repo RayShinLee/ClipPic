@@ -70,7 +70,9 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc func tapDoneButton() {
+        //guard let avatar = profileImageView.image,
         
+        //FireStoreManager.shared.updateProfile(avatar: avatar, firstname: <#T##String#>, lastname: <#T##String#>, username: <#T##String#>, completion: <#T##((Error?) -> Void)##((Error?) -> Void)##(Error?) -> Void#>)
     }
     
     // MARK: - Methods
