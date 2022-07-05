@@ -37,6 +37,17 @@ class EditProfileViewController: UIViewController {
         addImageButton.addTarget(self, action: #selector(selectImage), for: .touchUpInside)
         return addImageButton
     }()
+    
+    var doneButton: UIButton = {
+        let doneButton = UIButton()
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.layer.cornerRadius = 15
+        doneButton.backgroundColor = .label
+        doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 20.0)
+        doneButton.setTitleColor(.systemBackground, for: .normal)
+        doneButton.setTitle("Done", for: .normal)
+        return doneButton
+    }()
 
     // MARK: - Lifecycle
     
@@ -56,6 +67,10 @@ class EditProfileViewController: UIViewController {
         DispatchQueue.main.async {
             self.present(imagePicker, animated: true)
         }
+    }
+    
+    @objc func tapDoneButton() {
+        
     }
     
     // MARK: - Methods
@@ -79,13 +94,19 @@ class EditProfileViewController: UIViewController {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        tableView.addSubview(doneButton)
+        doneButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        doneButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        doneButton.centerYAnchor.constraint(equalTo: tableView.centerYAnchor).isActive = true
+        doneButton.centerXAnchor.constraint(equalTo: tableView.centerXAnchor).isActive = true
     }
 }
 
 // MARK: - UIImagePickerController Delegate
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
-                           didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profileImageView.contentMode = .scaleAspectFill
             profileImageView.clipsToBounds = true

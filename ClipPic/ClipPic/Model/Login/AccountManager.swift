@@ -65,13 +65,26 @@ class AccountManager: NSObject {
         
     }
     
-    func signOut() {
+    func signOut(completion: @escaping ((Error?) -> Void)) {
         do {
             try firebaseAuth.signOut()
         } catch {
             print("sign out error")
         }
         appUser = nil
+    }
+    
+    func deleteUser(completion: @escaping ((Error?) -> Void)) {
+        let user = Auth.auth().currentUser
+        
+        user?.delete { error in
+            if let error = error {
+                print(error)
+            } else {
+                print ("success")
+                completion(nil)
+            }
+        }
     }
 }
 

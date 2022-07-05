@@ -42,26 +42,6 @@ extension FireStoreManager {
 // MARK: - User
 extension FireStoreManager {
     
-    func fetchProfile(completion: @escaping((User?, Error?) -> Void)) {
-        guard let userUID = AccountManager.shared.userUID else {
-            fatalError("Invaid userUID")
-        }
-        dataBase.collection("User").document(userUID).getDocument { snapShot, error in
-            guard let snapShot = snapShot else {
-                completion(nil, NetworkError.invalidSnapshot)
-                return
-            }
-            
-            guard let data = snapShot.data() else {
-                completion(nil, NetworkError.emptyData)
-                return
-            }
-            
-            let user = User(documentId: userUID, dictionary: data)
-            completion(user, nil)
-        }
-    }
-    
     func createUser(avatar: URL, username: String, firstName: String, lastName: String, completion: @escaping ((Error?) -> Void)) {
         guard let userUID = AccountManager.shared.userUID,
               let email = AccountManager.shared.currentFirebaseUser?.email else {
@@ -87,6 +67,40 @@ extension FireStoreManager {
             let user = User(documentId: userUID, dictionary: data)
             AccountManager.shared.appUser = user
             completion(nil)
+        }
+    }
+    
+    func deleteUser(completion: @escaping ((Error?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID else {
+            fatalError("Invaid userUID")
+        }
+        dataBase.collection("User").document(userUID).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+                completion(nil)
+            }
+        }
+    }
+    
+    func fetchProfile(completion: @escaping((User?, Error?) -> Void)) {
+        guard let userUID = AccountManager.shared.userUID else {
+            fatalError("Invaid userUID")
+        }
+        dataBase.collection("User").document(userUID).getDocument { snapShot, error in
+            guard let snapShot = snapShot else {
+                completion(nil, NetworkError.invalidSnapshot)
+                return
+            }
+            
+            guard let data = snapShot.data() else {
+                completion(nil, NetworkError.emptyData)
+                return
+            }
+            
+            let user = User(documentId: userUID, dictionary: data)
+            completion(user, nil)
         }
     }
     

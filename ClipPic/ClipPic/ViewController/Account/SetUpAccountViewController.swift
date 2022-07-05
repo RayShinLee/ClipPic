@@ -154,6 +154,13 @@ class SetUpAccountViewController: UIViewController {
     }
     
     // MARK: - Methods
+    
+    func showAlert(title: String, message: String, optionTitle: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 
     func setUpView() {
         view.backgroundColor = .systemBackground
@@ -238,7 +245,7 @@ class SetUpAccountViewController: UIViewController {
 // MARK: - UIImagePickerController Delegate
 extension SetUpAccountViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
-                           didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profileImageView.contentMode = .scaleAspectFill
             profileImageView.clipsToBounds = true
