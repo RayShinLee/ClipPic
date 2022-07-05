@@ -102,6 +102,44 @@ extension FireStoreManager {
             completion(user, nil)
         }
     }
+    
+    func updateProfile(collection: User, completion: @escaping ((Error?) -> Void)) {
+        guard let userId = AccountManager.shared.userUID else { return }
+        
+        let userRef = dataBase.collection("User").document(userId)
+        
+        userRef.getDocument() { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let user = User(documentId: userId, dictionary: data)
+            let addedCollection = [
+                "first_name": collection.firstName,
+                "last_name": collection.lastName,
+                "user_name": collection.userName,
+                "avatar": collection.avatar
+            ]
+//            var firstname = user.firstName
+//            var lastname = user.lastName
+//            var username = user.userName
+//            var avatar = user.avatar
+            var newCollections = user.rawCollections
+            newCollections.append(addedCollection)
+            
+            userRef.updateData(["collections": newCollections]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                
+                AccountManager.shared.appUser?.rawCollections = newCollections
+                completion(nil)
+            }
+        }
+    }
 }
 
 // MARK: - Post

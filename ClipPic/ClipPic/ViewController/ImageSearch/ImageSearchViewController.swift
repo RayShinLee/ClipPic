@@ -12,7 +12,11 @@ import SafariServices
 
 class ImageSearchViewController: UIViewController {
     
+    // MARK: - Properties
+    
     var serpImages: [SerpImage] = []
+    
+    // MARK: - UI Properties
     
     var toSearchImageView: UIImageView = {
         let toSearchImageView = UIImageView()
@@ -43,6 +47,8 @@ class ImageSearchViewController: UIViewController {
         return collectionView
     }()
 
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -50,6 +56,20 @@ class ImageSearchViewController: UIViewController {
         setUpView()
     }
 
+    // MARK: - ACtion Methods
+    
+    @objc func selectImage() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        DispatchQueue.main.async {
+            self.present(imagePicker, animated: true)
+        }
+    }
+    
+    // MARK: - Methods
+    
     func setUpView() {
         view.addSubview(collectionView)
         collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
@@ -71,33 +91,25 @@ class ImageSearchViewController: UIViewController {
         addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
-    @objc func selectImage() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
-        DispatchQueue.main.async {
-            self.present(imagePicker, animated: true)
-        }
-    }
-    
     func uploadAndSearchImage() {
-        guard let imageData = toSearchImageView.image?.jpegData(compressionQuality: 1.0) else {return}
+        guard let imageData = toSearchImageView.image?.jpegData(compressionQuality: 0.1) else {return}
+        
+        DispatchQueue.main.async {
+            HUD.show(.labeledProgress(title: "Loading", subtitle: nil))
+        }
+        
         // 1. Upload image to Imgur
         ImgurManager().uploadImage(imageData: imageData) { result, error in
             guard let url = result?.data.link else {
-                // upload fail
+                HUD.hide(nil)
                 return
-            }
-            
-            DispatchQueue.main.async {
-                HUD.show(.labeledProgress(title: "Loading", subtitle: nil))
             }
 
             // 2. Search image with SerpAPI
             SerpAPIManager().search(with: "\(url)") { serpImages, error in
                 if let error = error {
                     print(error)
+                    HUD.hide(nil)
                     return
                 }
                 self.serpImages = serpImages ?? []
@@ -107,6 +119,8 @@ class ImageSearchViewController: UIViewController {
         }
     }
 }
+
+    // MARK: - UICollectionView
 
 extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     // MARK: FlowLayout
@@ -147,7 +161,7 @@ extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewD
     }
 }
 
-// MARK: - UIImagePickerController Delegate
+    // MARK: - UIImagePickerController Delegate
 extension ImageSearchViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController,
