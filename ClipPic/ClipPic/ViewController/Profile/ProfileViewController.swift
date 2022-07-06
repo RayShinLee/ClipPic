@@ -108,7 +108,7 @@ class ProfileViewController: UIViewController {
     lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
-        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        postsTabButton.layer.cornerRadius = 20
         postsTabButton.setTitle("Posts", for: .normal)
         postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
         return postsTabButton
@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController {
     lazy var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
-        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.layer.cornerRadius = 20
         savedTabButton.setTitle("Saved", for: .normal)
         savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
@@ -147,6 +147,9 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.reloadData()
     }
     
@@ -158,10 +161,18 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func onSavedTabButtonTap() {
+        savedTabButton.backgroundColor = .systemBackground
+        savedTabButton.setTitleColor(.label, for: .normal)
+        postsTabButton.backgroundColor = .clear
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.items = AccountManager.shared.appUser?.collections ?? []
     }
     
     @objc func onPostsTabButtonTap() {
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.backgroundColor = .clear
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.items = userPosts
     }
     
@@ -235,8 +246,8 @@ class ProfileViewController: UIViewController {
     func setUpCollectionView() {
         backgroundView.addSubview(tabStackView)
         tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
-        tabStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor).isActive = true
-        tabStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor).isActive = true
+        tabStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 5).isActive = true
+        tabStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -5).isActive = true
         
         postsTabButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         postsTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true

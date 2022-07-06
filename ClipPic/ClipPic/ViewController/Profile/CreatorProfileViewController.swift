@@ -108,7 +108,7 @@ class CreatorProfileViewController: UIViewController {
     lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
-        postsTabButton.setTitleColor(.label, for: .normal)
+        postsTabButton.layer.cornerRadius = 22
         postsTabButton.setTitle("Posts", for: .normal)
         postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
         return postsTabButton
@@ -117,7 +117,7 @@ class CreatorProfileViewController: UIViewController {
     lazy var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
-        savedTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.layer.cornerRadius = 22
         savedTabButton.setTitle("Saved", for: .normal)
         savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
@@ -144,6 +144,14 @@ class CreatorProfileViewController: UIViewController {
         fetchProfile()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+        postsTabButton.backgroundColor = .label
+        savedTabButton.setTitleColor(.label, for: .normal)
+        collectionView.reloadData()
+    }
+    
     // MARK: - Action Methods
     
     @objc func tapBackButton() {
@@ -151,10 +159,18 @@ class CreatorProfileViewController: UIViewController {
     }
     
     @objc func onSavedTabButtonTap() {
+        savedTabButton.backgroundColor = .label
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        postsTabButton.backgroundColor = .clear
+        postsTabButton.setTitleColor(.label, for: .normal)
         collectionView.items = user.collections
     }
     
     @objc func onPostsTabButtonTap() {
+        postsTabButton.backgroundColor = .label
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .clear
+        savedTabButton.setTitleColor(.label, for: .normal)
         collectionView.items = userPosts
     }
     
@@ -244,8 +260,8 @@ class CreatorProfileViewController: UIViewController {
         
         view.addSubview(tabStackView)
         tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
-        tabStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tabStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tabStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+        tabStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
         
         postsTabButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         postsTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
