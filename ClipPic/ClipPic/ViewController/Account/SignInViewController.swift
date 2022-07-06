@@ -53,11 +53,24 @@ class SignInViewController: UIViewController {
         return separatorView
     }()
     
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [welcomeLabel,
+                                                       separatorView,
+                                                       googleButton,
+                                                       siwaButton,
+                                                       termsLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        stackView.spacing = 18
+        return stackView
+    }()
+    
     var logoImageView: UIImageView = {
         let logoImageView = UIImageView()
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFill
-        logoImageView.backgroundColor = .white
         logoImageView.layer.cornerRadius = 20
         logoImageView.clipsToBounds = true
         logoImageView.image = UIImage(named: "ClipPic_Logo_icon")
@@ -67,10 +80,10 @@ class SignInViewController: UIViewController {
     var welcomeLabel: UILabel = {
         let welcomeLabel = UILabel()
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
+        welcomeLabel.font = UIFont.boldSystemFont(ofSize: 30.0)
         welcomeLabel.text = "Welcome To ClipPic"
-        welcomeLabel.textColor = .black
+        welcomeLabel.textColor = UIColor(red: 137/255, green: 71/255, blue: 155/255, alpha: 1)
         welcomeLabel.textAlignment = .center
-        welcomeLabel.font = UIFont(name: "PingFang TC", size: 28.0)
         return welcomeLabel
     }()
     
@@ -82,7 +95,7 @@ class SignInViewController: UIViewController {
         termsLabel.textColor = .lightGray
         termsLabel.font = UIFont(name: "PingFang TC", size: 10.0)
         termsLabel.textAlignment = .center
-        termsLabel.text = "By continuing you agree to ClipPics's Terms of Service and Privacy Policy"
+        termsLabel.text = "By continuing you agree to ClipPics's\nTerms of Service and Privacy Policy"
         return termsLabel
     }()
     
@@ -150,50 +163,38 @@ class SignInViewController: UIViewController {
         backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 100).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 35).isActive = true
-        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
         
         backgroundView.addSubview(logoImageView)
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        logoImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -80).isActive = true
-        logoImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        logoImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        setUpBackgroundView()
+        logoImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 8).isActive = true
+        logoImageView.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        logoImageView.heightAnchor.constraint(equalToConstant: 110).isActive = true
+        
+        backgroundView.addSubview(stackView)
+        stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15).isActive = true
+
+        setUpStackView()
     }
     
-    func setUpBackgroundView() {
-        backgroundView.addSubview(welcomeLabel)
-        welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        welcomeLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
-        welcomeLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 30).isActive = true
-        
-        backgroundView.addSubview(separatorView)
-        separatorView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20).isActive = true
-        separatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    func setUpStackView() {
+        welcomeLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+        welcomeLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.13).isActive = true
         separatorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        
-        backgroundView.addSubview(termsLabel)
-        termsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        termsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
-        termsLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        termsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
         setUpSignInButtons()
+        termsLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        termsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     func setUpSignInButtons() {
-        backgroundView.addSubview(googleButton)
-        googleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        googleButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 40).isActive = true
         googleButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
-        googleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        backgroundView.addSubview(siwaButton)
-        siwaButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        siwaButton.topAnchor.constraint(equalTo: googleButton.bottomAnchor, constant: 20).isActive = true
+        googleButton.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.18).isActive = true
         siwaButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
-        siwaButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        siwaButton.heightAnchor.constraint(equalTo: googleButton.heightAnchor).isActive = true
     }
 }
 

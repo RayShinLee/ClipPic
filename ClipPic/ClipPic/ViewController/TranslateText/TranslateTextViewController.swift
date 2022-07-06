@@ -88,7 +88,6 @@ class TranslateTextViewController: UIViewController {
             let text = observations.compactMap( {
                 $0.topCandidates(1).first?.string
             }).joined(separator: ", ")
-            self.translateResultLabel.text = " 她確實表演了兩部電視特別節目\n在11月宣傳她的最新專輯30，但是這是她第一次正式的票務演出。"
         }
         
         request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]
