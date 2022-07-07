@@ -43,6 +43,7 @@ class HomeViewController: UIViewController {
         postButton.translatesAutoresizingMaskIntoConstraints = false
         postButton.setImage(UIImage(systemName: "plus"), for: .normal)
         postButton.imageView?.tintColor = .systemBackground
+        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         return postButton
     }()
     
