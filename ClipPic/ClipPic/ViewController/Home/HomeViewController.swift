@@ -120,7 +120,7 @@ class HomeViewController: UIViewController {
         postButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
-        postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
+        postButton.bottomAnchor.constraint(equalTo: categoryCollectionView.topAnchor, constant: -10).isActive = true
         postButton.backgroundColor = .label
         postButton.layer.cornerRadius = 22
     }
