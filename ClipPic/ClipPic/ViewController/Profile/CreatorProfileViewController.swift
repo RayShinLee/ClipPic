@@ -105,6 +105,15 @@ class CreatorProfileViewController: UIViewController {
         return followButton
     }()
     
+    lazy var seeMoreButton: UIButton = {
+        let seeMoreButton = UIButton()
+        seeMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        seeMoreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        seeMoreButton.isHidden = (AccountManager.shared.appUser?.id == userId)
+        seeMoreButton.addTarget(self, action: #selector(tapSeeMoreButton), for: .touchUpInside)
+        return seeMoreButton
+    }()
+    
     lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
@@ -121,6 +130,16 @@ class CreatorProfileViewController: UIViewController {
         savedTabButton.setTitle("Saved", for: .normal)
         savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
+    }()
+    
+    var backButton: UIButton = {
+        let backButton = UIButton.init(type: .custom)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.layer.cornerRadius = 20
+        backButton.imageView?.tintColor = .label
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        return backButton
     }()
 
     // MARK: - Lifecyle
@@ -148,6 +167,7 @@ class CreatorProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         postsTabButton.backgroundColor = .label
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
         savedTabButton.setTitleColor(.label, for: .normal)
         collectionView.reloadData()
     }
@@ -156,6 +176,20 @@ class CreatorProfileViewController: UIViewController {
     
     @objc func tapBackButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func tapSeeMoreButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = view
+
+        let xOrigin = view.bounds.width / 2
+
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+
+        alert.popoverPresentationController?.sourceRect = popoverRect
+
+        alert.popoverPresentationController?.permittedArrowDirections = .up
+        alert.addAction(UIAlertAction(title: "封鎖用戶", style: .destructive))
     }
     
     @objc func onSavedTabButtonTap() {
@@ -212,11 +246,16 @@ class CreatorProfileViewController: UIViewController {
     }
     
     func setUpHeaderView() {
+        view.addSubview(backButton)
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         view.addSubview(profileImageView)
         profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         view.addSubview(nameLabel)
@@ -250,8 +289,12 @@ class CreatorProfileViewController: UIViewController {
         view.addSubview(followButton)
         followButton.topAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
         followButton.leadingAnchor.constraint(equalTo: totalSavedTitleLabel.leadingAnchor).isActive = true
-        followButton.trailingAnchor.constraint(equalTo: followersTitleLabel.trailingAnchor).isActive = true
+        followButton.trailingAnchor.constraint(equalTo: followersTitleLabel.centerXAnchor).isActive = true
         followButton.bottomAnchor.constraint(equalTo: userNameLabel.bottomAnchor).isActive = true
+
+        view.addSubview(seeMoreButton)
+        seeMoreButton.centerYAnchor.constraint(equalTo: followButton.centerYAnchor).isActive = true
+        seeMoreButton.leadingAnchor.constraint(equalTo: followButton.trailingAnchor, constant: 30).isActive = true
         
         setUpCollectionView()
     }
@@ -269,10 +312,10 @@ class CreatorProfileViewController: UIViewController {
         savedTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         view.addSubview(collectionView)
-        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor, constant: 5).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.57).isActive = true
     }
 }
 
