@@ -70,10 +70,33 @@ extension FireStoreManager {
         }
     }
     
-    func blockUser() {
-        guard let userId = AccountManager.shared.userUID else { return }
-        let newDocument = dataBase.collection("Block").document(userId)
+    func blockUser(blockedUser: SimpleUser, completion: @escaping ((Error?) -> Void)) {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
         
+        let userRef = dataBase.collection("User").document(user.id)
+        userRef.getDocument { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                      completion(NetworkError.invalidSnapshot)
+                      return
+                  }
+            let user = User(documentId: user.id, dictionary: data)
+            let addedBlockedUser = blockedUser.rawValue
+            var newBlockedAccounts = user.rawBlockedAccounts
+            newBlockedAccounts.append(addedBlockedUser)
+            
+            userRef.updateData(["blocked_accounts": newBlockedAccounts]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                
+                AccountManager.shared.appUser?.rawBlockedAccounts = newBlockedAccounts
+                completion(nil)
+            }
+        }
     }
 
     func fetchProfile(completion: @escaping((User?, Error?) -> Void)) {
@@ -168,7 +191,8 @@ extension FireStoreManager {
     func fetchPosts(with category: Category, completion: @escaping (([Post]?, Error?) -> Void)) {
         let reference = (category == Category.all) ?
         dataBase.collection("Post") :
-        dataBase.collection("Post").whereField("category", isEqualTo: category.rawValue)
+        dataBase.collection("Post")
+            .whereField("category", isEqualTo: category.rawValue)
         
         reference.getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
@@ -181,6 +205,16 @@ extension FireStoreManager {
                 let post = Post(documentId: element.documentID, dictionary: element.data())
                 posts.append(post)
             }
+            
+            // filter block list
+            posts = posts.filter({ post in
+                guard let blockList = AccountManager.shared.appUser?.blockedAccounts else {
+                    return true
+                }
+                return !blockList.contains { user in
+                    user.id == post.author.id
+                }
+            })
             
             completion(posts, nil)
         }
@@ -229,7 +263,6 @@ extension FireStoreManager {
 }
 
 // MARK: - Comments
-
 extension FireStoreManager {
     func publishComment(text: String, post: String, completion: @escaping ((Error?) -> Void)) {
         guard let user = AccountManager.shared.appUser else { return }
@@ -255,7 +288,9 @@ extension FireStoreManager {
     }
     
     func fetchComments(postId: String, completion: @escaping (([Comment]?, Error?) -> Void)) {
-        dataBase.collection("Comment").whereField("post_id", isEqualTo: postId).getDocuments { snapShot, error in
+        let ref = dataBase.collection("Comment").whereField("post_id", isEqualTo: postId)
+        
+        ref.getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
                 completion(nil, NetworkError.invalidSnapshot)
                 return
@@ -265,6 +300,16 @@ extension FireStoreManager {
             snapshot.documents.forEach() { element in
                 let comment = Comment(documentId: element.documentID, dictionary: element.data())
                 comments.append(comment)
+            }
+            
+            // filter block list
+            comments = comments.filter() { comment in
+                guard let blockList = AccountManager.shared.appUser?.blockedAccounts else {
+                    return true
+                }
+                return !blockList.contains { user in
+                    return comment.creator.id == user.id
+                }
             }
             
             comments.sort { data0, data1 in
@@ -278,7 +323,6 @@ extension FireStoreManager {
 }
 
 // MARK: - Save Post
-
 extension FireStoreManager {
     func savePost(collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
         guard let userId = AccountManager.shared.userUID else { return }
@@ -314,7 +358,6 @@ extension FireStoreManager {
 }
 
 extension FireStoreManager {
-    
     func followAccount(followedAccount: SimpleUser, completion: @escaping ((Error?) -> Void)) {
         guard let user = AccountManager.shared.appUser else {
             return

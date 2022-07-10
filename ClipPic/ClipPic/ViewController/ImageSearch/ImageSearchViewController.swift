@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import PKHUD
 import SafariServices
 
 class ImageSearchViewController: UIViewController {
@@ -94,14 +93,12 @@ class ImageSearchViewController: UIViewController {
     func uploadAndSearchImage() {
         guard let imageData = toSearchImageView.image?.jpegData(compressionQuality: 0.1) else {return}
         
-        DispatchQueue.main.async {
-            HUD.show(.labeledProgress(title: "Loading", subtitle: nil))
-        }
+        ClipPicProgressHUD.show()
         
         // 1. Upload image to Imgur
         ImgurManager().uploadImage(imageData: imageData) { result, error in
             guard let url = result?.data.link else {
-                HUD.hide(nil)
+                ClipPicProgressHUD.hide()
                 return
             }
 
@@ -109,12 +106,12 @@ class ImageSearchViewController: UIViewController {
             SerpAPIManager().search(with: "\(url)") { serpImages, error in
                 if let error = error {
                     print(error)
-                    HUD.hide(nil)
+                    ClipPicProgressHUD.hide()
                     return
                 }
                 self.serpImages = serpImages ?? []
                 self.collectionView.reloadData()
-                HUD.hide(nil)
+                ClipPicProgressHUD.hide()
             }
         }
     }

@@ -16,6 +16,7 @@ struct User: Codable {
     let email: String
     var avatar: String
     var rawFollowedAccounts: [[String: String]]
+    var rawBlockedAccounts: [[String: String]]
     var rawCollections: [[String: String]]
     
     var followedAccounts: [SimpleUser] {
@@ -24,6 +25,14 @@ struct User: Codable {
             return SimpleUser(documentId: id, dictionary: $0)
         }
     }
+    
+    var blockedAccounts: [SimpleUser] {
+        return rawBlockedAccounts.compactMap {
+            guard let id = $0["id"] else { return nil }
+            return SimpleUser(documentId: id, dictionary: $0)
+        }
+    }
+    
     var collections: [Collection] {
         return rawCollections.compactMap {
             guard let id = $0["id"] else { return nil }
@@ -39,6 +48,7 @@ struct User: Codable {
               let avatar = dictionary["avatar"] as? String,
               let createdTime = dictionary["created_time"] as? Double,
               let rawFollowAccounts = dictionary["followed_accounts"] as? [[String: String]],
+              let rawBlockedAccounts = dictionary["blocked_accounts"] as? [[String: String]],
               let rawCollections = dictionary["collections"] as? [[String: String]]
         else {
                   fatalError("Init fail: User")
@@ -52,6 +62,7 @@ struct User: Codable {
         self.email = email
         self.rawCollections = rawCollections
         self.rawFollowedAccounts = rawFollowAccounts
+        self.rawBlockedAccounts = rawBlockedAccounts
         self.avatar = avatar
     }
     

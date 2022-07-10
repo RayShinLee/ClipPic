@@ -110,9 +110,11 @@ extension AccountManager {
             
             let firebaseCredential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
             
+            ClipPicProgressHUD.show()
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
+                    ClipPicProgressHUD.hide()
                     return
                 }
                 
@@ -129,6 +131,7 @@ extension AccountManager {
                         AccountManager.shared.appUser = user
                         self.delegte?.sigInSuccess(shouldSetUpAccount: false)
                     }
+                    ClipPicProgressHUD.hide()
                 }
             }
         }
@@ -251,9 +254,11 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
                                                               idToken: idTokenString,
                                                               rawNonce: nonce)
             
+            ClipPicProgressHUD.show()
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
+                    ClipPicProgressHUD.hide()
                     return
                 }
                 
@@ -270,6 +275,7 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
                         AccountManager.shared.appUser = user
                         self.delegte?.sigInSuccess(shouldSetUpAccount: false)
                     }
+                    ClipPicProgressHUD.hide()
                 }
             }
         }

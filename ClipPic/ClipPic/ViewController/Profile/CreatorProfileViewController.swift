@@ -186,7 +186,16 @@ class CreatorProfileViewController: UIViewController {
         alert.popoverPresentationController?.sourceRect = popoverRect
         alert.popoverPresentationController?.permittedArrowDirections = .up
         alert.addAction(UIAlertAction(title: "封鎖用戶", style: .destructive) { _ in
-            FireStoreManager.shared.blockUser()
+            let user = SimpleUser(id: self.user.id, name: self.user.userName, avatar: self.user.avatar)
+            ClipPicProgressHUD.show()
+            FireStoreManager.shared.blockUser(blockedUser: user) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                ClipPicProgressHUD.hide()
+            }
         })
         
         alert.addAction(UIAlertAction(title: "取消", style: .cancel))

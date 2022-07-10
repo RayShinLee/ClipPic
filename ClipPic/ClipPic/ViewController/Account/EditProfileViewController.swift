@@ -81,8 +81,10 @@ class EditProfileViewController: UIViewController {
             print("remind user enter data")
             return
         }
+        ClipPicProgressHUD.show()
         FirebaseStorageManager.shared.uploadImage(for: .avatar, with: imageData) { url in
             guard let avatarURL = url else {
+                ClipPicProgressHUD.hide()
                 return
             }
             FireStoreManager.shared.updateProfile(avatar: avatarURL, firstname: newFirstName, lastname: newLastName) { error in
@@ -95,6 +97,7 @@ class EditProfileViewController: UIViewController {
                         }
                     }
                 }
+                ClipPicProgressHUD.hide()
             }
         }
         
