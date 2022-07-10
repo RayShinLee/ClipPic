@@ -54,24 +54,27 @@ class SetUpAccountViewController: UIViewController {
     }()
     
     var firstNameTextField: UITextField = {
-        let firstNameTextField = UITextField()
-        firstNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        firstNameTextField.placeholder = "Enter first name"
-        return firstNameTextField
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "Enter first name",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemFill])
+        return textField
     }()
     
     var lastNameTextField: UITextField = {
-        let lastNameTextField = UITextField()
-        lastNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        lastNameTextField.placeholder = "Enter last name"
-        return lastNameTextField
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "Enter last name",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemFill])
+        return textField
     }()
     
     var userNameTextField: UITextField = {
-        let userNameTextField = UITextField()
-        userNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        userNameTextField.placeholder = "Enter user name"
-        return userNameTextField
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.attributedPlaceholder = NSAttributedString(string: "Enter user name",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemFill])
+        return textField
     }()
     
     var profileImageView: UIImageView = {

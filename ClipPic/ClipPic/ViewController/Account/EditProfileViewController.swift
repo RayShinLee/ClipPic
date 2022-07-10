@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class EditProfileViewController: UIViewController {
     
@@ -38,7 +39,7 @@ class EditProfileViewController: UIViewController {
         return addImageButton
     }()
     
-    var doneButton: UIButton = {
+    lazy var doneButton: UIButton = {
         let doneButton = UIButton()
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.layer.cornerRadius = 15
@@ -46,6 +47,7 @@ class EditProfileViewController: UIViewController {
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 20.0)
         doneButton.setTitleColor(.systemBackground, for: .normal)
         doneButton.setTitle("Done", for: .normal)
+        doneButton.addTarget(self, action: #selector(tapDoneButton), for: .touchUpInside)
         return doneButton
     }()
 
@@ -70,9 +72,32 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc func tapDoneButton() {
-        //guard let avatar = profileImageView.image,
+        guard let avatar = profileImageView.image,
+              let imageData = avatar.jpegData(compressionQuality: 0.9),
+              let newFirstName = tableView.firstName,
+              let newLastName = tableView.lastName,
+              !newFirstName.isEmpty,
+              !newLastName.isEmpty else {
+            print("remind user enter data")
+            return
+        }
+        FirebaseStorageManager.shared.uploadImage(for: .avatar, with: imageData) { url in
+            guard let avatarURL = url else {
+                return
+            }
+            FireStoreManager.shared.updateProfile(avatar: avatarURL, firstname: newFirstName, lastname: newLastName) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    KingfisherManager.shared.cache.removeImage(forKey: "\(avatarURL)") {
+                        DispatchQueue.main.async {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
+                }
+            }
+        }
         
-        //FireStoreManager.shared.updateProfile(avatar: avatar, firstname: <#T##String#>, lastname: <#T##String#>, username: <#T##String#>, completion: <#T##((Error?) -> Void)##((Error?) -> Void)##(Error?) -> Void#>)
     }
     
     // MARK: - Methods

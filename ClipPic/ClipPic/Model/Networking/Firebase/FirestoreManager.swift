@@ -109,7 +109,7 @@ extension FireStoreManager {
         }
     }
     
-    func updateProfile(avatar: URL, firstname: String, lastname: String, username: String, completion: @escaping ((Error?) -> Void)) {
+    func updateProfile(avatar: URL, firstname: String, lastname: String, completion: @escaping ((Error?) -> Void)) {
         guard let userId = AccountManager.shared.userUID else { return }
         
         let userRef = dataBase.collection("User").document(userId)
@@ -117,7 +117,6 @@ extension FireStoreManager {
         let newData: [String: String] = [
             "first_name": firstname,
             "last_name": lastname,
-            "user_name": username,
             "avatar": "\(avatar)"
         ]
         
@@ -126,7 +125,9 @@ extension FireStoreManager {
                 completion(error)
                 return
             }
-            
+            AccountManager.shared.appUser?.firstName = firstname
+            AccountManager.shared.appUser?.lastName = lastname
+            AccountManager.shared.appUser?.avatar = "\(avatar)"
             completion(nil)
         }
     }
@@ -136,8 +137,9 @@ extension FireStoreManager {
             return
         }
         let simpleUser = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar).rawValue
+        let field = "followed_accounts"
 
-        dataBase.collection("User").document().parent.whereField("followed_accounts", arrayContains: simpleUser).getDocuments { snapShot, _ in
+        dataBase.collection("User").document().parent.whereField(field, arrayContains: simpleUser).getDocuments { snapShot, _ in
             guard let snapShot = snapShot else {
                 completion(0)
                 return

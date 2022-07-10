@@ -39,7 +39,17 @@ class FirebaseStorageManager {
                     completion(nil)
                     return
                 }
-                completion(downloadURL)
+                if task == .avatar {
+                    var urlComponents = URLComponents(string: "\(downloadURL)")
+                    urlComponents?.queryItems = [URLQueryItem(name: "alt", value: "media")]
+                    guard let url = urlComponents?.url else {
+                        completion(nil)
+                        return
+                    }
+                    completion(url)
+                } else {
+                    completion(downloadURL)
+                }
             }
         }
     }

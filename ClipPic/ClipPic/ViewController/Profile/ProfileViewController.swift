@@ -53,7 +53,6 @@ class ProfileViewController: UIViewController {
     var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "~~~~"
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
         nameLabel.textColor = .systemBackground
         return nameLabel
@@ -178,10 +177,11 @@ class ProfileViewController: UIViewController {
         guard let user = AccountManager.shared.appUser else {
             return
         }
+        print(user.avatar)
+        nameLabel.text = "\(user.firstName) \(user.lastName)"
         userNameLabel.text = "@\(user.userName)"
         profileImageView.kf.setImage(with: URL(string: user.avatar))
         totalSavedCountLabel.text = "\(user.collections.count)"
-        
     }
     
     func fetchPosts() {
