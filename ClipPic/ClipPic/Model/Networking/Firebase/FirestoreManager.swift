@@ -169,7 +169,7 @@ extension FireStoreManager {
         }
     }
     
-    func fetchPosts(with author: Author, completion: @escaping (([Post]?, Error?) -> Void)) {
+    func fetchPosts(with author: SimpleUser, completion: @escaping (([Post]?, Error?) -> Void)) {
         let reference = dataBase.collection("Post").whereField("author", isEqualTo: author.rawValue)
         
         reference.getDocuments { snapShot, error in
@@ -298,32 +298,31 @@ extension FireStoreManager {
 
 extension FireStoreManager {
     
-    func followAccount(userId: String, collection: User.FollowedAccount, completion: @escaping ((Error?) -> Void)) {
-//        let userRef = dataBase.collection("User").document(userId)
-//
-//        userRef.getDocument() { snapShot, error in
-//            guard let snapshot = snapShot,
-//                  let data = snapshot.data() else {
-//                completion(NetworkError.invalidSnapshot)
-//                return
-//            }
-//
-//            let user = User(documentId: userId, dictionary: data)
-//            let addedCollection = [
-//                "id": collection.id,
-//                "name": collection.name
-//                "avatar": collection.avatar
-//            ]
-//            var newCollections = user.rawCollections
-//            newCollections.append(addedCollection)
-//
-//            userRef.updateData(["followed_accounts": newCollections]) { error in
-//                guard error == nil else {
-//                    completion(error)
-//                    return
-//                }
-//                completion(nil)
-//            }
-//        }
+    func followAccount(followedAccount: SimpleUser, completion: @escaping ((Error?) -> Void)) {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        let userRef = dataBase.collection("User").document(user.id)
+        userRef.getDocument { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(NetworkError.invalidSnapshot)
+                return
+            }
+            let user = User(documentId: user.id, dictionary: data)
+            let addedFollowed = followedAccount.rawValue
+            var newFollowedAccounts = user.rawFollowedAccounts
+            newFollowedAccounts.append(addedFollowed)
+            
+            userRef.updateData(["followed_accounts": newFollowedAccounts]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                
+                AccountManager.shared.appUser?.rawFollowedAccounts = newFollowedAccounts
+                completion(nil)
+            }
+        }
     }
 }

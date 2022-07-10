@@ -56,6 +56,7 @@
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
+		879FB230287ABCAD00C8900D /* SimpleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB22F287ABCAD00C8900D /* SimpleUser.swift */; };
 		87A71C80286ED4AB009F5A37 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */; };
 		87A71C83286EFE50009F5A37 /* polaroid.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C81286EFE4E009F5A37 /* polaroid.mp4 */; };
 		87A71C84286EFE50009F5A37 /* takePicture.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C82286EFE50009F5A37 /* takePicture.mp4 */; };
@@ -145,6 +146,7 @@
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		879FB22F287ABCAD00C8900D /* SimpleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleUser.swift; sourceTree = "<group>"; };
 		87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		87A71C81286EFE4E009F5A37 /* polaroid.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = polaroid.mp4; sourceTree = "<group>"; };
 		87A71C82286EFE50009F5A37 /* takePicture.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = takePicture.mp4; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				878E108A285F046E00FF87C2 /* Post.swift */,
 				878E108C285F049300FF87C2 /* User.swift */,
+				879FB22F287ABCAD00C8900D /* SimpleUser.swift */,
 				878E108E285F04A600FF87C2 /* Category.swift */,
 				878E1090285F04DF00FF87C2 /* Comment.swift */,
 				878E10A6285F311300FF87C2 /* SerpImage.swift */,
@@ -804,6 +807,7 @@
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,
 				87C2719E287049D00042855F /* ImgurManager.swift in Sources */,
 				878E10B328606C4E00FF87C2 /* ProfileViewController.swift in Sources */,
+				879FB230287ABCAD00C8900D /* SimpleUser.swift in Sources */,
 				878E10AE28606C0500FF87C2 /* CommentViewController.swift in Sources */,
 				878E10C5286444CF00FF87C2 /* ProfileCollectionView.swift in Sources */,
 				87550429286BEFB5009073DA /* SettingsTableView.swift in Sources */,

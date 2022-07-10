@@ -103,7 +103,6 @@ class PostViewController: UIViewController {
         followButton.backgroundColor = .label
         followButton.layer.cornerRadius = 25
         followButton.setTitleColor(.systemBackground, for: .normal)
-        followButton.setTitle("Follow", for: .normal)
         followButton.isHidden = true
         return followButton
     }()
@@ -200,12 +199,12 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapFollowButton() {
-        let collection = User.FollowedAccount(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
-        FireStoreManager.shared.followAccount(userId: "b79Ms0w1mEEKdHb6VbmE", collection: collection) { error in
+        let simpleUser = SimpleUser(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
+        FireStoreManager.shared.followAccount(followedAccount: simpleUser) { error in
             if let error = error {
                 print(error)
             } else {
-                self.showAlert(title: "Followed", message: "", optionTitle: "Ok")
+                self.updateFollowButton()
             }
         }
     }
@@ -273,7 +272,7 @@ class PostViewController: UIViewController {
             }
             self.post = post
             self.fetchComments()
-            self.followButton.isHidden = (post.author.id == AccountManager.shared.appUser?.id)
+            self.updateFollowButton()
         }
     }
     
@@ -401,6 +400,19 @@ class PostViewController: UIViewController {
         let image = UIImage(systemName: imageName,
                             withConfiguration: imageSize)
         saveButton.setImage(image, for: .normal)
+    }
+    
+    private func updateFollowButton() {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        self.followButton.isHidden = (post.author.id == user.id)
+        
+        if user.followedAccounts.contains(where: { $0.id == post.author.id }) {
+            followButton.setTitle("Unfollow", for: .normal)
+        } else {
+            followButton.setTitle("Follow", for: .normal)
+        }
     }
     
     func setUpPostDescriptionView() {

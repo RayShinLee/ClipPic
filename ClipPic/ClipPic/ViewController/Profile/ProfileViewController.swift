@@ -185,7 +185,7 @@ class ProfileViewController: UIViewController {
     
     func fetchPosts() {
         guard let user = AccountManager.shared.appUser else { return }
-        let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+        let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
         FireStoreManager.shared.fetchPosts(with: author) { posts, error in
             let items = (posts ?? []).compactMap {
                 return User.Collection(id: $0.id, imageURL: $0.imageUrl)

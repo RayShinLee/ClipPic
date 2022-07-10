@@ -229,7 +229,7 @@ class CreatorProfileViewController: UIViewController {
             }
             self.user = user
             
-            let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+            let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
             FireStoreManager.shared.fetchPosts(with: author) { posts, error in
                 let items = (posts ?? []).compactMap {
                     return User.Collection(id: $0.id, imageURL: $0.imageUrl)

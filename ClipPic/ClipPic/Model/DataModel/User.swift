@@ -15,13 +15,13 @@ struct User: Codable {
     let userName: String
     let email: String
     let avatar: String
-    let rawFollowedAccounts: [[String: String]]
+    var rawFollowedAccounts: [[String: String]]
     var rawCollections: [[String: String]]
     
-    var followedAccounts: [FollowedAccount] {
+    var followedAccounts: [SimpleUser] {
         return rawFollowedAccounts.compactMap {
             guard let id = $0["id"] else { return nil }
-            return FollowedAccount(documentId: id, dictionary: $0)
+            return SimpleUser(documentId: id, dictionary: $0)
         }
     }
     var collections: [Collection] {
@@ -57,29 +57,6 @@ struct User: Codable {
     
     func isMySavedPost(_ postId: String) -> Bool {
         return collections.contains { $0.id == postId }
-    }
- 
-    struct FollowedAccount: Codable {
-        let id: String
-        let name: String
-        let avatar: String
-        
-        init(id: String, name: String, avatar: String) {
-            self.id = id
-            self.name = name
-            self.avatar = avatar
-        }
-        
-        init(documentId: String, dictionary: [String: Any]) {
-            guard let name = dictionary["name"] as? String,
-                  let avatar = dictionary["avatar"] as? String else {
-                fatalError("Init fail: Followed Accounts")
-            }
-            
-            self.id = documentId
-            self.name = name
-            self.avatar = avatar
-        }
     }
     
     struct Collection: Codable {
