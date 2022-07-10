@@ -19,6 +19,7 @@ class CreatorProfileViewController: UIViewController {
     }
     
     var userPosts: [User.Collection] = []
+    var post: Post!
     
     // MARK: - UI Properties
     
@@ -74,7 +75,7 @@ class CreatorProfileViewController: UIViewController {
     var followersCountLabel: UILabel = {
         let followersCountLabel = UILabel()
         followersCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        followersCountLabel.text = "100"
+        followersCountLabel.text = "0"
         followersCountLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         return followersCountLabel
     }()
@@ -219,7 +220,14 @@ class CreatorProfileViewController: UIViewController {
     }
     
     @objc func tapFollowButton() {
-        
+        let simpleUser = SimpleUser(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
+        FireStoreManager.shared.followAccount(followedAccount: simpleUser) { error in
+            if let error = error {
+                print(error)
+            } else {
+                self.updateFollowButton()
+            }
+        }
     }
     
     @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
@@ -246,6 +254,19 @@ class CreatorProfileViewController: UIViewController {
                 self.userPosts = items
                 self.collectionView.items = items
             }
+        }
+    }
+    
+    private func updateFollowButton() {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        self.followButton.isHidden = (post.author.id == user.id)
+        
+        if user.followedAccounts.contains(where: { $0.id == post.author.id }) {
+            followButton.setTitle("Unfollow", for: .normal)
+        } else {
+            followButton.setTitle("Follow", for: .normal)
         }
     }
     
