@@ -43,6 +43,7 @@ class HomeViewController: UIViewController {
         postButton.translatesAutoresizingMaskIntoConstraints = false
         postButton.setImage(UIImage(systemName: "plus"), for: .normal)
         postButton.imageView?.tintColor = .systemBackground
+        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         return postButton
     }()
     
@@ -56,7 +57,6 @@ class HomeViewController: UIViewController {
         setUpViews()
         fetchPosts()
         fetchCategories()
-        postButton.addTarget(self, action: #selector(tapPublishPost), for: .touchUpInside)
         
         homeCollectionView.mj_header = header
         header.lastUpdatedTimeLabel?.isHidden = true        
@@ -120,7 +120,7 @@ class HomeViewController: UIViewController {
         postButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         postButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
-        postButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
+        postButton.bottomAnchor.constraint(equalTo: categoryCollectionView.topAnchor, constant: -10).isActive = true
         postButton.backgroundColor = .label
         postButton.layer.cornerRadius = 22
     }

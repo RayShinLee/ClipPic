@@ -65,13 +65,28 @@ class AccountManager: NSObject {
         
     }
     
-    func signOut() {
+    func signOut(completion: @escaping ((Error?) -> Void)) {
         do {
             try firebaseAuth.signOut()
         } catch {
-            print("sign out error")
+            completion(error)
+            return
         }
         appUser = nil
+        completion(nil)
+    }
+    
+    func deleteUser(completion: @escaping ((Error?) -> Void)) {
+        let user = Auth.auth().currentUser
+        
+        user?.delete { error in
+            if let error = error {
+                print(error)
+            } else {
+                print("success")
+                completion(nil)
+            }
+        }
     }
 }
 
@@ -95,9 +110,11 @@ extension AccountManager {
             
             let firebaseCredential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
             
+            ClipPicProgressHUD.show()
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
+                    ClipPicProgressHUD.hide()
                     return
                 }
                 
@@ -114,6 +131,7 @@ extension AccountManager {
                         AccountManager.shared.appUser = user
                         self.delegte?.sigInSuccess(shouldSetUpAccount: false)
                     }
+                    ClipPicProgressHUD.hide()
                 }
             }
         }
@@ -236,9 +254,11 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
                                                               idToken: idTokenString,
                                                               rawNonce: nonce)
             
+            ClipPicProgressHUD.show()
             Auth.auth().signIn(with: firebaseCredential) { (authResult, error) in
                 if let error = error {
                     print(error.localizedDescription)
+                    ClipPicProgressHUD.hide()
                     return
                 }
                 
@@ -255,6 +275,7 @@ extension AccountManager: ASAuthorizationControllerPresentationContextProviding,
                         AccountManager.shared.appUser = user
                         self.delegte?.sigInSuccess(shouldSetUpAccount: false)
                     }
+                    ClipPicProgressHUD.hide()
                 }
             }
         }

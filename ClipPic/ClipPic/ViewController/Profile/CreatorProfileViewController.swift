@@ -14,6 +14,7 @@ class CreatorProfileViewController: UIViewController {
         didSet {
             profileImageView.kf.setImage(with: URL(string: user.avatar))
             userNameLabel.text = "@\(user.userName)"
+            totalSavedCountLabel.text = "\(user.collections.count)"
         }
     }
     
@@ -89,7 +90,6 @@ class CreatorProfileViewController: UIViewController {
     var totalSavedCountLabel: UILabel = {
         let totalSavedCountLabel = UILabel()
         totalSavedCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalSavedCountLabel.text = "100"
         totalSavedCountLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         return totalSavedCountLabel
     }()
@@ -105,10 +105,19 @@ class CreatorProfileViewController: UIViewController {
         return followButton
     }()
     
+    lazy var seeMoreButton: UIButton = {
+        let seeMoreButton = UIButton()
+        seeMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        seeMoreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        seeMoreButton.isHidden = (AccountManager.shared.appUser?.id == userId)
+        seeMoreButton.addTarget(self, action: #selector(tapSeeMoreButton), for: .touchUpInside)
+        return seeMoreButton
+    }()
+    
     lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
-        postsTabButton.setTitleColor(.label, for: .normal)
+        postsTabButton.layer.cornerRadius = 22
         postsTabButton.setTitle("Posts", for: .normal)
         postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
         return postsTabButton
@@ -117,10 +126,20 @@ class CreatorProfileViewController: UIViewController {
     lazy var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
-        savedTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.layer.cornerRadius = 22
         savedTabButton.setTitle("Saved", for: .normal)
         savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
+    }()
+    
+    lazy var backButton: UIButton = {
+        let backButton = UIButton.init(type: .custom)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.layer.cornerRadius = 20
+        backButton.imageView?.tintColor = .label
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        return backButton
     }()
 
     // MARK: - Lifecyle
@@ -144,17 +163,58 @@ class CreatorProfileViewController: UIViewController {
         fetchProfile()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+        postsTabButton.backgroundColor = .label
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.setTitleColor(.label, for: .normal)
+        collectionView.reloadData()
+    }
+    
     // MARK: - Action Methods
     
     @objc func tapBackButton() {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func tapSeeMoreButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let xOrigin = view.bounds.width / 2
+        let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = popoverRect
+        alert.popoverPresentationController?.permittedArrowDirections = .up
+        alert.addAction(UIAlertAction(title: "封鎖用戶", style: .destructive) { _ in
+            let user = SimpleUser(id: self.user.id, name: self.user.userName, avatar: self.user.avatar)
+            ClipPicProgressHUD.show()
+            FireStoreManager.shared.blockUser(blockedUser: user) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                ClipPicProgressHUD.hide()
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        present(alert, animated: true)
+    }
+    
     @objc func onSavedTabButtonTap() {
+        savedTabButton.backgroundColor = .label
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        postsTabButton.backgroundColor = .clear
+        postsTabButton.setTitleColor(.label, for: .normal)
         collectionView.items = user.collections
     }
     
     @objc func onPostsTabButtonTap() {
+        postsTabButton.backgroundColor = .label
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .clear
+        savedTabButton.setTitleColor(.label, for: .normal)
         collectionView.items = userPosts
     }
     
@@ -178,7 +238,7 @@ class CreatorProfileViewController: UIViewController {
             }
             self.user = user
             
-            let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+            let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
             FireStoreManager.shared.fetchPosts(with: author) { posts, error in
                 let items = (posts ?? []).compactMap {
                     return User.Collection(id: $0.id, imageURL: $0.imageUrl)
@@ -196,11 +256,16 @@ class CreatorProfileViewController: UIViewController {
     }
     
     func setUpHeaderView() {
+        view.addSubview(backButton)
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         view.addSubview(profileImageView)
         profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         view.addSubview(nameLabel)
@@ -234,8 +299,12 @@ class CreatorProfileViewController: UIViewController {
         view.addSubview(followButton)
         followButton.topAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
         followButton.leadingAnchor.constraint(equalTo: totalSavedTitleLabel.leadingAnchor).isActive = true
-        followButton.trailingAnchor.constraint(equalTo: followersTitleLabel.trailingAnchor).isActive = true
+        followButton.trailingAnchor.constraint(equalTo: followersTitleLabel.centerXAnchor).isActive = true
         followButton.bottomAnchor.constraint(equalTo: userNameLabel.bottomAnchor).isActive = true
+
+        view.addSubview(seeMoreButton)
+        seeMoreButton.centerYAnchor.constraint(equalTo: followButton.centerYAnchor).isActive = true
+        seeMoreButton.leadingAnchor.constraint(equalTo: followButton.trailingAnchor, constant: 30).isActive = true
         
         setUpCollectionView()
     }
@@ -244,8 +313,8 @@ class CreatorProfileViewController: UIViewController {
         
         view.addSubview(tabStackView)
         tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
-        tabStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tabStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tabStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+        tabStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
         
         postsTabButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         postsTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -253,10 +322,10 @@ class CreatorProfileViewController: UIViewController {
         savedTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         view.addSubview(collectionView)
-        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor, constant: 5).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.57).isActive = true
     }
 }
 

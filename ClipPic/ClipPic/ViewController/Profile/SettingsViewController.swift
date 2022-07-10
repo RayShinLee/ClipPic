@@ -31,6 +31,13 @@ class SettingsViewController: UIViewController {
     
     // MARK: - Methods
     
+    func showAlert(title: String, message: String, optionTitle: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
     func setUpView() {
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -41,7 +48,31 @@ class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: SettingsTableViewDelegate {
+    func showAccountSettingVC() {
+        self.show(EditProfileViewController(), sender: nil)
+    }
+    
     func signOut() {
-        AccountManager.shared.signOut()
+        AccountManager.shared.signOut() { error in
+            if let error = error {
+                print(error)
+                self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
+            }
+            
+            self.navigationController?.popToRootViewController(animated: false)
+            TabBarViewController.shared.selectedIndex = 0
+        }
+    }
+    
+    func deleteAccount() {
+        AccountManager.shared.deleteUser() { error in
+            if let error = error {
+                print(error)
+                self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
+            }
+            
+            self.navigationController?.popToRootViewController(animated: false)
+            TabBarViewController.shared.selectedIndex = 0
+        }
     }
 }

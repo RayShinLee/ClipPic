@@ -44,9 +44,6 @@ class ProfileViewController: UIViewController {
     var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        if let avatarURL = AccountManager.shared.appUser?.avatar {
-            profileImageView.kf.setImage(with: URL(string: avatarURL))
-        }
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 50
         profileImageView.clipsToBounds = true
@@ -56,7 +53,6 @@ class ProfileViewController: UIViewController {
     var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "~~~~"
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
         nameLabel.textColor = .systemBackground
         return nameLabel
@@ -65,9 +61,6 @@ class ProfileViewController: UIViewController {
     var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let username = AccountManager.shared.appUser?.userName {
-            userNameLabel.text = "@\(username)"
-        }
         userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
         userNameLabel.textColor = .systemBackground
         return userNameLabel
@@ -100,7 +93,6 @@ class ProfileViewController: UIViewController {
     var totalSavedCountLabel: UILabel = {
         let totalSavedCountLabel = UILabel()
         totalSavedCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalSavedCountLabel.text = "100"
         totalSavedCountLabel.textColor = .systemBackground
         return totalSavedCountLabel
     }()
@@ -108,7 +100,7 @@ class ProfileViewController: UIViewController {
     lazy var postsTabButton: UIButton = {
         let postsTabButton = UIButton()
         postsTabButton.translatesAutoresizingMaskIntoConstraints = false
-        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        postsTabButton.layer.cornerRadius = 20
         postsTabButton.setTitle("Posts", for: .normal)
         postsTabButton.addTarget(self, action: #selector(onPostsTabButtonTap), for: .touchUpInside)
         return postsTabButton
@@ -117,7 +109,7 @@ class ProfileViewController: UIViewController {
     lazy var savedTabButton: UIButton = {
         let savedTabButton = UIButton()
         savedTabButton.translatesAutoresizingMaskIntoConstraints = false
-        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.layer.cornerRadius = 20
         savedTabButton.setTitle("Saved", for: .normal)
         savedTabButton.addTarget(self, action: #selector(onSavedTabButtonTap), for: .touchUpInside)
         return savedTabButton
@@ -147,6 +139,13 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        refresh()
+        fetchFollowersCount()
+        
+        // to adjust
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.reloadData()
     }
     
@@ -158,24 +157,48 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func onSavedTabButtonTap() {
+        savedTabButton.backgroundColor = .systemBackground
+        savedTabButton.setTitleColor(.label, for: .normal)
+        postsTabButton.backgroundColor = .clear
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.items = AccountManager.shared.appUser?.collections ?? []
     }
     
     @objc func onPostsTabButtonTap() {
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.backgroundColor = .clear
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.items = userPosts
     }
     
     // MARK: - Methods
+    func refresh() {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        print(user.avatar)
+        nameLabel.text = "\(user.firstName) \(user.lastName)"
+        userNameLabel.text = "@\(user.userName)"
+        profileImageView.kf.setImage(with: URL(string: user.avatar))
+        totalSavedCountLabel.text = "\(user.collections.count)"
+    }
     
     func fetchPosts() {
         guard let user = AccountManager.shared.appUser else { return }
-        let author = Author(id: user.id, name: user.userName, avatar: user.avatar)
+        let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
         FireStoreManager.shared.fetchPosts(with: author) { posts, error in
             let items = (posts ?? []).compactMap {
                 return User.Collection(id: $0.id, imageURL: $0.imageUrl)
             }
             self.userPosts = items
             self.collectionView.items = items
+        }
+    }
+    
+    func fetchFollowersCount() {
+        FireStoreManager.shared.fetchFollowersCount { count in
+            self.followersCountLabel.text = "\(count)"
         }
     }
     
@@ -235,8 +258,8 @@ class ProfileViewController: UIViewController {
     func setUpCollectionView() {
         backgroundView.addSubview(tabStackView)
         tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
-        tabStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor).isActive = true
-        tabStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor).isActive = true
+        tabStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 5).isActive = true
+        tabStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -5).isActive = true
         
         postsTabButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         postsTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
