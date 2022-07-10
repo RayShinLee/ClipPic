@@ -79,8 +79,9 @@ extension SettingsViewController: SettingsTableViewDelegate {
                 print(error)
                 self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
             }
-            // To do
-            self.navigationController?.pushViewController(HomeViewController(), animated: true)
+            
+            self.navigationController?.popToRootViewController(animated: false)
+            TabBarViewController.shared.selectedIndex = 0
         }
     }
     
@@ -90,8 +91,9 @@ extension SettingsViewController: SettingsTableViewDelegate {
                 print(error)
                 self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
             }
-            // To do
-            self.navigationController?.pushViewController(HomeViewController(), animated: true)
+            
+            self.navigationController?.popToRootViewController(animated: false)
+            TabBarViewController.shared.selectedIndex = 0
         }
     }
 }
