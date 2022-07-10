@@ -130,6 +130,21 @@ extension FireStoreManager {
             completion(nil)
         }
     }
+    
+    func fetchFollowersCount(completion: @escaping(Int) -> Void) {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        let simpleUser = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar).rawValue
+
+        dataBase.collection("User").document().parent.whereField("followed_accounts", arrayContains: simpleUser).getDocuments { snapShot, _ in
+            guard let snapShot = snapShot else {
+                completion(0)
+                return
+            }
+            completion(snapShot.documents.count)
+        }
+    }
 }
 
 // MARK: - Post

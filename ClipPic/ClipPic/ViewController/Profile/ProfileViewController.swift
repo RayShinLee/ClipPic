@@ -141,6 +141,7 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         refresh()
+        fetchFollowersCount()
         
         // to adjust
         postsTabButton.backgroundColor = .systemBackground
@@ -192,6 +193,12 @@ class ProfileViewController: UIViewController {
             }
             self.userPosts = items
             self.collectionView.items = items
+        }
+    }
+    
+    func fetchFollowersCount() {
+        FireStoreManager.shared.fetchFollowersCount { count in
+            self.followersCountLabel.text = "\(count)"
         }
     }
     
