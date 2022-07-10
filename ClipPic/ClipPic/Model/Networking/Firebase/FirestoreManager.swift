@@ -69,6 +69,12 @@ extension FireStoreManager {
             completion(nil)
         }
     }
+    
+    func blockUser() {
+        guard let userId = AccountManager.shared.userUID else { return }
+        let newDocument = dataBase.collection("Block").document(userId)
+        
+    }
 
     func fetchProfile(completion: @escaping((User?, Error?) -> Void)) {
         guard let userUID = AccountManager.shared.userUID else {
@@ -143,11 +149,11 @@ extension FireStoreManager {
     }
     
     func fetchPosts(with category: Category, completion: @escaping (([Post]?, Error?) -> Void)) {
-        let refernce = (category == Category.all) ?
+        let reference = (category == Category.all) ?
         dataBase.collection("Post") :
         dataBase.collection("Post").whereField("category", isEqualTo: category.rawValue)
         
-        refernce.getDocuments { snapShot, error in
+        reference.getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
                 completion(nil, NetworkError.invalidSnapshot)
                 return
@@ -164,9 +170,9 @@ extension FireStoreManager {
     }
     
     func fetchPosts(with author: Author, completion: @escaping (([Post]?, Error?) -> Void)) {
-        let refernce = dataBase.collection("Post").whereField("author", isEqualTo: author.rawValue)
+        let reference = dataBase.collection("Post").whereField("author", isEqualTo: author.rawValue)
         
-        refernce.getDocuments { snapShot, error in
+        reference.getDocuments { snapShot, error in
             guard let snapshot = snapShot else {
                 completion(nil, NetworkError.invalidSnapshot)
                 return

@@ -29,7 +29,7 @@ class SignInViewController: UIViewController {
         playerLayer.videoGravity = .resizeAspectFill
         return playerLayer
     }()
-    
+        
     // MARK: - UI Properties
     
     var backgroundView: UIView = {
@@ -90,12 +90,17 @@ class SignInViewController: UIViewController {
     var termsLabel: UILabel = {
         let termsLabel = UILabel()
         termsLabel.translatesAutoresizingMaskIntoConstraints = false
+        termsLabel.isUserInteractionEnabled = true
         termsLabel.lineBreakMode = .byWordWrapping
         termsLabel.numberOfLines = 0
         termsLabel.textColor = .lightGray
         termsLabel.font = UIFont(name: "PingFang TC", size: 10.0)
         termsLabel.textAlignment = .center
-        termsLabel.text = "By continuing you agree to ClipPics's\nTerms of Service and Privacy Policy"
+        var attributedString = NSMutableAttributedString(string: "Privacy Policy")
+        attributedString.addAttribute(.link,
+                                      value: "https://www.freeprivacypolicy.com/live/9bd68d82-0ebc-46ec-bcc9-75fe509bfcdd",
+                                      range: NSRange(location: 0, length: 14))
+        termsLabel.text = "By continuing you agree to ClipPics's \(attributedString)"
         return termsLabel
     }()
     

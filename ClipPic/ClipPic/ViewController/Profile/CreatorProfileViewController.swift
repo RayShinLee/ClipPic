@@ -14,6 +14,7 @@ class CreatorProfileViewController: UIViewController {
         didSet {
             profileImageView.kf.setImage(with: URL(string: user.avatar))
             userNameLabel.text = "@\(user.userName)"
+            totalSavedCountLabel.text = "\(user.collections.count)"
         }
     }
     
@@ -89,7 +90,6 @@ class CreatorProfileViewController: UIViewController {
     var totalSavedCountLabel: UILabel = {
         let totalSavedCountLabel = UILabel()
         totalSavedCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalSavedCountLabel.text = "100"
         totalSavedCountLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         return totalSavedCountLabel
     }()
@@ -132,7 +132,7 @@ class CreatorProfileViewController: UIViewController {
         return savedTabButton
     }()
     
-    var backButton: UIButton = {
+    lazy var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -180,16 +180,17 @@ class CreatorProfileViewController: UIViewController {
     
     @objc func tapSeeMoreButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = view
-
         let xOrigin = view.bounds.width / 2
-
         let popoverRect = CGRect(x: xOrigin, y: 0, width: 1, height: 1)
-
+        alert.popoverPresentationController?.sourceView = view
         alert.popoverPresentationController?.sourceRect = popoverRect
-
         alert.popoverPresentationController?.permittedArrowDirections = .up
-        alert.addAction(UIAlertAction(title: "封鎖用戶", style: .destructive))
+        alert.addAction(UIAlertAction(title: "封鎖用戶", style: .destructive) { _ in
+            FireStoreManager.shared.blockUser()
+        })
+        
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        present(alert, animated: true)
     }
     
     @objc func onSavedTabButtonTap() {

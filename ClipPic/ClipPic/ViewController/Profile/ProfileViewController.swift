@@ -44,9 +44,6 @@ class ProfileViewController: UIViewController {
     var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        if let avatarURL = AccountManager.shared.appUser?.avatar {
-            profileImageView.kf.setImage(with: URL(string: avatarURL))
-        }
         profileImageView.contentMode = .scaleAspectFill
         profileImageView.layer.cornerRadius = 50
         profileImageView.clipsToBounds = true
@@ -65,9 +62,6 @@ class ProfileViewController: UIViewController {
     var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        if let username = AccountManager.shared.appUser?.userName {
-            userNameLabel.text = "@\(username)"
-        }
         userNameLabel.font = UIFont(name: "PingFang TC", size: 15.0)
         userNameLabel.textColor = .systemBackground
         return userNameLabel
@@ -100,7 +94,6 @@ class ProfileViewController: UIViewController {
     var totalSavedCountLabel: UILabel = {
         let totalSavedCountLabel = UILabel()
         totalSavedCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalSavedCountLabel.text = "100"
         totalSavedCountLabel.textColor = .systemBackground
         return totalSavedCountLabel
     }()
@@ -147,6 +140,9 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        refresh()
+        
+        // to adjust
         postsTabButton.backgroundColor = .systemBackground
         postsTabButton.setTitleColor(.label, for: .normal)
         savedTabButton.setTitleColor(.systemBackground, for: .normal)
@@ -177,6 +173,15 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - Methods
+    func refresh() {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        userNameLabel.text = "@\(user.userName)"
+        profileImageView.kf.setImage(with: URL(string: user.avatar))
+        totalSavedCountLabel.text = "\(user.collections.count)"
+        
+    }
     
     func fetchPosts() {
         guard let user = AccountManager.shared.appUser else { return }
