@@ -47,6 +47,7 @@ class SettingsViewController: UIViewController {
     }
 }
 
+// MARK: - SettingsTableViewDelegate
 extension SettingsViewController: SettingsTableViewDelegate {
     func showAccountSettingVC() {
         self.show(EditProfileViewController(), sender: nil)
