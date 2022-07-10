@@ -70,8 +70,8 @@ class AddCommentView: UIView {
         addSubview(commentTextView)
         commentTextView.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 5).isActive = true
         commentTextView.trailingAnchor.constraint(equalTo: postCommentButton.leadingAnchor, constant: 5).isActive = true
-        commentTextView.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-        commentTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
+        commentTextView.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor).isActive = true
+        commentTextView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 
 }
