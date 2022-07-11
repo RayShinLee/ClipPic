@@ -12,12 +12,12 @@ target 'ClipPic' do
   pod 'Firebase/Core'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
+  pod 'FirebaseCrashlytics'
   pod 'GoogleSignIn'
   pod 'IQKeyboardManagerSwift'
   pod 'Alamofire'
   pod 'Kingfisher'
   pod 'MJRefresh'
-  pod 'PKHUD'
 
   target 'ClipPicTests' do
     inherit! :search_paths

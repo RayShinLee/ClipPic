@@ -543,11 +543,12 @@
 			buildConfigurationList = 8740C323285888C600ABA14D /* Build configuration list for PBXNativeTarget "ClipPic" */;
 			buildPhases = (
 				1B710F4E361C1740A0CB3661 /* [CP] Check Pods Manifest.lock */,
-				87839F5728598BB500620513 /* ShellScript */,
 				8740C2F2285888BF00ABA14D /* Sources */,
 				8740C2F3285888BF00ABA14D /* Frameworks */,
 				8740C2F4285888BF00ABA14D /* Resources */,
 				C3C2AC4C96F7520A40D97D56 /* [CP] Embed Pods Frameworks */,
+				87BDEF7A287BEE260046BE94 /* SwiftLint */,
+				87BDEF7B287BF3870046BE94 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -753,7 +754,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		87839F5728598BB500620513 /* ShellScript */ = {
+		87BDEF7A287BEE260046BE94 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -762,13 +763,33 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n \"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		87BDEF7B287BF3870046BE94 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		C3C2AC4C96F7520A40D97D56 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1017,6 +1038,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 937JA74FPR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipPic/Info.plist;

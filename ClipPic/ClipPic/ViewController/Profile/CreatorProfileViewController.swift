@@ -317,15 +317,16 @@ class CreatorProfileViewController: UIViewController {
         followersTitleLabel.centerXAnchor.constraint(equalTo: followersCountLabel.centerXAnchor).isActive = true
         followersTitleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
+        /*
         view.addSubview(followButton)
         followButton.topAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
         followButton.leadingAnchor.constraint(equalTo: totalSavedTitleLabel.leadingAnchor).isActive = true
         followButton.trailingAnchor.constraint(equalTo: followersTitleLabel.centerXAnchor).isActive = true
         followButton.bottomAnchor.constraint(equalTo: userNameLabel.bottomAnchor).isActive = true
-
+         */
         view.addSubview(seeMoreButton)
-        seeMoreButton.centerYAnchor.constraint(equalTo: followButton.centerYAnchor).isActive = true
-        seeMoreButton.leadingAnchor.constraint(equalTo: followButton.trailingAnchor, constant: 30).isActive = true
+        seeMoreButton.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
+        seeMoreButton.trailingAnchor.constraint(equalTo: followersTitleLabel.trailingAnchor).isActive = true
         
         setUpCollectionView()
     }
