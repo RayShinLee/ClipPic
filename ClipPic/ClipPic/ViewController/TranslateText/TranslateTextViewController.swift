@@ -9,6 +9,19 @@ import UIKit
 import Vision
 
 class TranslateTextViewController: UIViewController {
+    
+    // MARK: - UI Properties
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.contentInsetAdjustmentBehavior = .never
+        let tabBarHeight = tabBarController?.tabBar.bounds.height ?? 0
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
+        return scrollView
+    }()
+    
     var toSearchImageView: UIImageView = {
         let toSearchImageView = UIImageView()
         toSearchImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,14 +45,17 @@ class TranslateTextViewController: UIViewController {
         translateResultLabel.lineBreakMode = .byWordWrapping
         translateResultLabel.numberOfLines = 0
         translateResultLabel.layer.borderWidth = 3
+        translateResultLabel.font = UIFont.systemFont(ofSize: 20.0)
         return translateResultLabel
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
     }
     
+    // MARK: - Methods
     private func setUpView() {
         view.backgroundColor = .systemBackground
         
@@ -56,11 +72,18 @@ class TranslateTextViewController: UIViewController {
         addImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        view.addSubview(translateResultLabel)
+        view.addSubview(scrollView)
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: toSearchImageView.bottomAnchor, constant: 20).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        scrollView.addSubview(translateResultLabel)
         translateResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        translateResultLabel.topAnchor.constraint(equalTo: toSearchImageView.bottomAnchor, constant: 40).isActive = true
-        translateResultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        translateResultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        translateResultLabel.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        translateResultLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        translateResultLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
     }
     
     @objc func selectImage() {
@@ -88,6 +111,7 @@ class TranslateTextViewController: UIViewController {
             let text = observations.compactMap( {
                 $0.topCandidates(1).first?.string
             }).joined(separator: ", ")
+            self.translateResultLabel.text = text
         }
         
         request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]
@@ -100,6 +124,7 @@ class TranslateTextViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
 extension TranslateTextViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

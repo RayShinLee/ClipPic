@@ -71,7 +71,7 @@ class ImageTabViewController: UIViewController {
         translateTitleLabel.textAlignment = .left
         translateTitleLabel.font = UIFont(name: "PingFang TC", size: 19.0)
         translateTitleLabel.textColor = .systemBackground
-        translateTitleLabel.text = "Translate Image Text!"
+        translateTitleLabel.text = "Extract Text from Images!"
         return translateTitleLabel
     }()
     
@@ -83,7 +83,7 @@ class ImageTabViewController: UIViewController {
         translateDescriptionLabel.lineBreakMode = .byWordWrapping
         translateDescriptionLabel.numberOfLines = 0
         translateDescriptionLabel.textColor = .systemBackground
-        translateDescriptionLabel.text = "Upload a photo with foreign text and receive immediate translation."
+        translateDescriptionLabel.text = "Upload a photo with text and receive extract text immediately."
         return translateDescriptionLabel
     }()
     
