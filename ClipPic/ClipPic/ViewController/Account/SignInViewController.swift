@@ -93,7 +93,7 @@ class SignInViewController: UIViewController {
         termsLabel.isUserInteractionEnabled = true
         termsLabel.lineBreakMode = .byWordWrapping
         termsLabel.numberOfLines = 0
-        termsLabel.textColor = .lightGray
+        termsLabel.textColor = .white
         termsLabel.font = UIFont(name: "PingFang TC", size: 10.0)
         termsLabel.textAlignment = .center
         var attributedString = NSMutableAttributedString(string: "Privacy Policy")
