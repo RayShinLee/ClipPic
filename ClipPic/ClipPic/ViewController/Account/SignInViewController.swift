@@ -58,7 +58,7 @@ class SignInViewController: UIViewController {
                                                        separatorView,
                                                        googleButton,
                                                        siwaButton,
-                                                       termsLabel])
+                                                       termsButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -87,21 +87,13 @@ class SignInViewController: UIViewController {
         return welcomeLabel
     }()
     
-    var termsLabel: UILabel = {
-        let termsLabel = UILabel()
-        termsLabel.translatesAutoresizingMaskIntoConstraints = false
-        termsLabel.isUserInteractionEnabled = true
-        termsLabel.lineBreakMode = .byWordWrapping
-        termsLabel.numberOfLines = 0
-        termsLabel.textColor = .white
-        termsLabel.font = UIFont(name: "PingFang TC", size: 10.0)
-        termsLabel.textAlignment = .center
-        var attributedString = NSMutableAttributedString(string: "Privacy Policy")
-        attributedString.addAttribute(.link,
-                                      value: "https://www.freeprivacypolicy.com/live/9bd68d82-0ebc-46ec-bcc9-75fe509bfcdd",
-                                      range: NSRange(location: 0, length: 14))
-        termsLabel.text = "By continuing you agree to ClipPics's \(attributedString)"
-        return termsLabel
+    var termsButton: UIButton = {
+        let termsButton = UIButton()
+        termsButton.translatesAutoresizingMaskIntoConstraints = false
+        termsButton.isUserInteractionEnabled = true
+        termsButton.setTitleColor(.black, for: .normal)
+        termsButton.setTitle("Privacy Policy", for: .normal)
+        return termsButton
     }()
     
     var googleButton: GIDSignInButton = {
@@ -142,6 +134,12 @@ class SignInViewController: UIViewController {
     @objc func tapAppleSignIn() {
         AccountManager.shared.delegte = self
         AccountManager.shared.signInWithApple(on: view)
+    }
+    
+    @objc func taptermsButton() {
+        /*WebkitViewController().viewModel = WebkitModel(urlString: "https://www.freeprivacypolicy.com/live/9bd68d82-0ebc-46ec-bcc9-75fe509bfcdd")*/
+        self.navigationItem.backButtonTitle = ""
+        self.navigationController?.present(WebKitViewController(), animated: true, completion: nil)
     }
     
     // MARK: - Methods
@@ -191,8 +189,8 @@ class SignInViewController: UIViewController {
         separatorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
         setUpSignInButtons()
-        termsLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        termsLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        termsButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        termsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     func setUpSignInButtons() {
