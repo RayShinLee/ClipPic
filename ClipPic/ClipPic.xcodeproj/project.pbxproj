@@ -55,6 +55,8 @@
 		878E10C7286444F000FF87C2 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */; };
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
+		8799B6D8287D76C400C1659A /* WebKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8799B6D7287D76C400C1659A /* WebKitViewController.swift */; };
+		8799B6DA287D780000C1659A /* WebKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8799B6D9287D780000C1659A /* WebKitModel.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
 		879FB230287ABCAD00C8900D /* SimpleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB22F287ABCAD00C8900D /* SimpleUser.swift */; };
 		879FB232287ADC3D00C8900D /* ClipPicProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB231287ADC3C00C8900D /* ClipPicProgressHUD.swift */; };
@@ -146,6 +148,8 @@
 		878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
+		8799B6D7287D76C400C1659A /* WebKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebKitViewController.swift; sourceTree = "<group>"; };
+		8799B6D9287D780000C1659A /* WebKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebKitModel.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		879FB22F287ABCAD00C8900D /* SimpleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleUser.swift; sourceTree = "<group>"; };
 		879FB231287ADC3C00C8900D /* ClipPicProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipPicProgressHUD.swift; sourceTree = "<group>"; };
@@ -321,6 +325,7 @@
 				878E1090285F04DF00FF87C2 /* Comment.swift */,
 				878E10A6285F311300FF87C2 /* SerpImage.swift */,
 				878E10B4286170EB00FF87C2 /* GoogleSearchImage.swift */,
+				8799B6D9287D780000C1659A /* WebKitModel.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -506,6 +511,7 @@
 				87B0A13428659FD200ADAABA /* SignInViewController.swift */,
 				87B8A0E3286AE00500AE533D /* SetUpAccountViewController.swift */,
 				87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */,
+				8799B6D7287D76C400C1659A /* WebKitViewController.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -822,10 +828,12 @@
 				8740C2FE285888BF00ABA14D /* HomeViewController.swift in Sources */,
 				878E108D285F049300FF87C2 /* User.swift in Sources */,
 				87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */,
+				8799B6DA287D780000C1659A /* WebKitModel.swift in Sources */,
 				87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */,
 				878E10B72861A52F00FF87C2 /* CommentTableView.swift in Sources */,
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
 				87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */,
+				8799B6D8287D76C400C1659A /* WebKitViewController.swift in Sources */,
 				878E10A5285F2F9800FF87C2 /* SerpAPIManager.swift in Sources */,
 				878E10C7286444F000FF87C2 /* ProfileCollectionViewCell.swift in Sources */,
 				8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */,

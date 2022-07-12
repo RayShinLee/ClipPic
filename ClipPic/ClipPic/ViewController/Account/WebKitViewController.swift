@@ -12,7 +12,7 @@ class WebKitViewController: UIViewController {
     
     private weak var webView: WKWebView!
     
-    var viewModel: WebkitViewModel?
+    var viewModel: WebkitModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
