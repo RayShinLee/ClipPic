@@ -57,7 +57,8 @@ class SetUpAccountViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.attributedPlaceholder = NSAttributedString(string: "Enter first name",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemFill])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        textField.textColor = .systemBackground
         return textField
     }()
     
@@ -65,7 +66,8 @@ class SetUpAccountViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.attributedPlaceholder = NSAttributedString(string: "Enter last name",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemFill])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        textField.textColor = .systemBackground
         return textField
     }()
     
@@ -73,7 +75,8 @@ class SetUpAccountViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.attributedPlaceholder = NSAttributedString(string: "Enter user name",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemFill])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        textField.textColor = .systemBackground
         return textField
     }()
     
@@ -130,6 +133,7 @@ class SetUpAccountViewController: UIViewController {
     }
     
     @objc func tapNextButton() {
+        ClipPicProgressHUD.show()
         guard let avatar = profileImageView.image,
               let imageData = avatar.jpegData(compressionQuality: 0.9),
               let firstName = firstNameTextField.text,
@@ -150,6 +154,7 @@ class SetUpAccountViewController: UIViewController {
                 if let error = error {
                     print(error)
                 } else {
+                    ClipPicProgressHUD.hide()
                     self.dismiss(animated: true, completion: nil)
                 }
             }

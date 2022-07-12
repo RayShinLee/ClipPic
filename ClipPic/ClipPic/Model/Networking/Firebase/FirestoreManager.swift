@@ -57,7 +57,8 @@ extension FireStoreManager {
            "created_time": Date().timeIntervalSince1970,
            "avatar": "\(avatar)",
            "collections": emptyArray,
-           "followed_accounts": emptyArray
+           "followed_accounts": emptyArray,
+           "blocked_accounts": emptyArray
         ]
         
         newDocument.setData(data) { error in
