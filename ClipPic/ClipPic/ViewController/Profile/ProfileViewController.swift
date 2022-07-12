@@ -238,16 +238,16 @@ class ProfileViewController: UIViewController {
         
         backgroundView.addSubview(totalSavedCountLabel)
         totalSavedCountLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 7).isActive = true
-        totalSavedCountLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 100).isActive = true
+        
+        backgroundView.addSubview(followersCountLabel)
+        followersCountLabel.topAnchor.constraint(equalTo: totalSavedCountLabel.topAnchor).isActive = true
+        followersCountLabel.leadingAnchor.constraint(equalTo: totalSavedCountLabel.trailingAnchor, constant: 100).isActive = true
+        followersCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80).isActive = true
         
         backgroundView.addSubview(totalSavedTitleLabel)
         totalSavedTitleLabel.topAnchor.constraint(equalTo: totalSavedCountLabel.bottomAnchor, constant: 5).isActive = true
         totalSavedTitleLabel.centerXAnchor.constraint(equalTo: totalSavedCountLabel.centerXAnchor).isActive = true
         totalSavedTitleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
-        backgroundView.addSubview(followersCountLabel)
-        followersCountLabel.topAnchor.constraint(equalTo: totalSavedCountLabel.topAnchor).isActive = true
-        followersCountLabel.leadingAnchor.constraint(equalTo: totalSavedCountLabel.trailingAnchor, constant: 70).isActive = true
         
         backgroundView.addSubview(followersTitleLabel)
         followersTitleLabel.topAnchor.constraint(equalTo: followersCountLabel.bottomAnchor, constant: 5).isActive = true
