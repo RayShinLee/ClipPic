@@ -123,6 +123,7 @@ class ProfileViewController: UIViewController {
                             withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
         settingsButton.setImage(image, for: .normal)
         settingsButton.imageView?.tintColor = .label
+        settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
         return settingsButton
     }()
     
@@ -132,7 +133,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        settingsButton.addTarget(self, action: #selector(tapSettingsButton), for: .touchUpInside)
         fetchPosts()
     }
     

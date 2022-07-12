@@ -15,6 +15,7 @@ class CreatorProfileViewController: UIViewController {
             profileImageView.kf.setImage(with: URL(string: user.avatar))
             userNameLabel.text = "@\(user.userName)"
             totalSavedCountLabel.text = "\(user.collections.count)"
+            nameLabel.text = "\(user.firstName) \(user.lastName)"
         }
     }
     
@@ -53,7 +54,6 @@ class CreatorProfileViewController: UIViewController {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont(name: "PingFang TC", size: 20.0)
-        nameLabel.text = "~~~"
         return nameLabel
     }()
     
@@ -186,7 +186,7 @@ class CreatorProfileViewController: UIViewController {
         alert.popoverPresentationController?.sourceView = view
         alert.popoverPresentationController?.sourceRect = popoverRect
         alert.popoverPresentationController?.permittedArrowDirections = .up
-        alert.addAction(UIAlertAction(title: "封鎖用戶", style: .destructive) { _ in
+        alert.addAction(UIAlertAction(title: "Block user", style: .destructive) { _ in
             let user = SimpleUser(id: self.user.id, name: self.user.userName, avatar: self.user.avatar)
             ClipPicProgressHUD.show()
             FireStoreManager.shared.blockUser(blockedUser: user) { error in
@@ -199,7 +199,7 @@ class CreatorProfileViewController: UIViewController {
             }
         })
         
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true)
     }
     
