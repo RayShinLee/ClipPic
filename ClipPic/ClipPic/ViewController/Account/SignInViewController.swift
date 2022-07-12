@@ -137,7 +137,7 @@ class SignInViewController: UIViewController {
     }
     
     @objc func taptermsButton() {
-        /*WebkitViewController().viewModel = WebkitModel(urlString: "https://www.freeprivacypolicy.com/live/9bd68d82-0ebc-46ec-bcc9-75fe509bfcdd")*/
+        WebKitViewController().viewModel = WebkitModel(urlString: "https://www.freeprivacypolicy.com/live/9bd68d82-0ebc-46ec-bcc9-75fe509bfcdd")
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.present(WebKitViewController(), animated: true, completion: nil)
     }
