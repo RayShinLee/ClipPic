@@ -55,6 +55,7 @@
 		878E10C7286444F000FF87C2 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */; };
 		878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */; };
 		878E10CB2864571F00FF87C2 /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */; };
+		8799B6DC287F1EE500C1659A /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8799B6DB287F1EE400C1659A /* UIViewControllerExtension.swift */; };
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
 		879FB230287ABCAD00C8900D /* SimpleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB22F287ABCAD00C8900D /* SimpleUser.swift */; };
 		879FB232287ADC3D00C8900D /* ClipPicProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB231287ADC3C00C8900D /* ClipPicProgressHUD.swift */; };
@@ -146,6 +147,7 @@
 		878E10C6286444F000FF87C2 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10C82864570000FF87C2 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		878E10CA2864571E00FF87C2 /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
+		8799B6DB287F1EE400C1659A /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		879FB22F287ABCAD00C8900D /* SimpleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleUser.swift; sourceTree = "<group>"; };
 		879FB231287ADC3C00C8900D /* ClipPicProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipPicProgressHUD.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				87839F582859B41D00620513 /* CategoryCollectionViewCell.swift */,
 				878E10A9286038A300FF87C2 /* CategoryCollectionView.swift */,
 				878E10BA2862165100FF87C2 /* CommentView.swift */,
+				8799B6DB287F1EE400C1659A /* UIViewControllerExtension.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -863,6 +866,7 @@
 				878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */,
 				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
 				87550430286D9F1B009073DA /* CreatorProfileViewController.swift in Sources */,
+				8799B6DC287F1EE500C1659A /* UIViewControllerExtension.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
 				878E1099285F0FE800FF87C2 /* NetworkError.swift in Sources */,
 				87BD2B382872E5DF000DC93F /* EditProfileTableView.swift in Sources */,
