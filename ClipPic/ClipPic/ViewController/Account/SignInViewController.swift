@@ -71,9 +71,9 @@ class SignInViewController: UIViewController {
     lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [privacyPolicyButton, eulaButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = 0
         return stackView
     }()
     
@@ -98,20 +98,22 @@ class SignInViewController: UIViewController {
     }()
     
     lazy var privacyPolicyButton: UIButton = {
-        let termsButton = UIButton()
-        termsButton.translatesAutoresizingMaskIntoConstraints = false
-        termsButton.isUserInteractionEnabled = true
-        termsButton.setTitleColor(.black, for: .normal)
-        termsButton.setTitle("Privacy Policy", for: .normal)
-        termsButton.addTarget(self, action: #selector(taptermsButton), for: .touchUpInside)
-        return termsButton
+        let privacyPolicyButton = UIButton()
+        privacyPolicyButton.translatesAutoresizingMaskIntoConstraints = false
+        privacyPolicyButton.isUserInteractionEnabled = true
+        privacyPolicyButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
+        privacyPolicyButton.setTitleColor(.systemGray, for: .normal)
+        privacyPolicyButton.setTitle("Privacy Policy", for: .normal)
+        privacyPolicyButton.addTarget(self, action: #selector(taptermsButton), for: .touchUpInside)
+        return privacyPolicyButton
     }()
     
     lazy var eulaButton: UIButton = {
         let eulaButton = UIButton()
         eulaButton.translatesAutoresizingMaskIntoConstraints = false
         eulaButton.isUserInteractionEnabled = true
-        eulaButton.setTitleColor(.black, for: .normal)
+        eulaButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
+        eulaButton.setTitleColor(.systemGray, for: .normal)
         eulaButton.setTitle("EULA", for: .normal)
         eulaButton.addTarget(self, action: #selector(tapEULAButton), for: .touchUpInside)
         return eulaButton
@@ -231,9 +233,9 @@ class SignInViewController: UIViewController {
         separatorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
         setUpSignInButtons()
-        privacyPolicyButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        privacyPolicyButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         privacyPolicyButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        eulaButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        eulaButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         eulaButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
