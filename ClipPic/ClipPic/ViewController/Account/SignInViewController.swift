@@ -11,6 +11,7 @@ import FirebaseAuth
 import GoogleSignIn
 import SwiftUI
 import AuthenticationServices
+import SafariServices
 
 class SignInViewController: UIViewController {
     
@@ -87,26 +88,29 @@ class SignInViewController: UIViewController {
         return welcomeLabel
     }()
     
-    var termsButton: UIButton = {
+    lazy var termsButton: UIButton = {
         let termsButton = UIButton()
         termsButton.translatesAutoresizingMaskIntoConstraints = false
         termsButton.isUserInteractionEnabled = true
         termsButton.setTitleColor(.black, for: .normal)
         termsButton.setTitle("Privacy Policy", for: .normal)
+        termsButton.addTarget(self, action: #selector(taptermsButton), for: .touchUpInside)
         return termsButton
     }()
     
-    var googleButton: GIDSignInButton = {
+    lazy var googleButton: GIDSignInButton = {
         let googleButton = GIDSignInButton()
         googleButton.translatesAutoresizingMaskIntoConstraints = false
         googleButton.colorScheme = .light
         googleButton.style = .wide
+        googleButton.addTarget(self, action: #selector(tapGoogleSignIn), for: .touchUpInside)
         return googleButton
     }()
     
-    var siwaButton: ASAuthorizationAppleIDButton = {
+    lazy var siwaButton: ASAuthorizationAppleIDButton = {
         let siwaButton = ASAuthorizationAppleIDButton()
         siwaButton.translatesAutoresizingMaskIntoConstraints = false
+        siwaButton.addTarget(self, action: #selector(tapAppleSignIn), for: .touchUpInside)
         return siwaButton
     }()
     
@@ -116,8 +120,6 @@ class SignInViewController: UIViewController {
         tabBarController?.tabBar.isHidden = true
         setUpView()
         loopVideo()
-        siwaButton.addTarget(self, action: #selector(tapAppleSignIn), for: .touchUpInside)
-        googleButton.addTarget(self, action: #selector(tapGoogleSignIn), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -137,9 +139,13 @@ class SignInViewController: UIViewController {
     }
     
     @objc func taptermsButton() {
-        WebKitViewController().viewModel = WebkitModel(urlString: "https://www.freeprivacypolicy.com/live/9bd68d82-0ebc-46ec-bcc9-75fe509bfcdd")
-        self.navigationItem.backButtonTitle = ""
-        self.navigationController?.present(WebKitViewController(), animated: true, completion: nil)
+        guard let url = URL(
+            string: "https://www.privacypolicies.com/live/67f30222-1200-4518-82cd-2408a0ea3728") else {
+            showAlert(title: "Error", message: "Something went wrong.\nPlease try again.", optionTitle: "")
+            return
+        }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     // MARK: - Methods
@@ -150,6 +156,13 @@ class SignInViewController: UIViewController {
             self.backgroundVideoPlayer.seek(to: .zero)
             self.backgroundVideoPlayer.play()
         }
+    }
+    
+    func showAlert(title: String, message: String, optionTitle: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     func setUpView() {
