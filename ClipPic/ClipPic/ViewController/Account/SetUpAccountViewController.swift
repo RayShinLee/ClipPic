@@ -47,8 +47,8 @@ class SetUpAccountViewController: UIViewController {
         welcomeLabel.lineBreakMode = .byWordWrapping
         welcomeLabel.numberOfLines = 0
         welcomeLabel.textAlignment = .center
-        welcomeLabel.text = "Welcome to ClipPic!\n Enter a unique user name and join the community."
-        welcomeLabel.font = UIFont(name: "PingFang TC", size: 25.0)
+        welcomeLabel.text = "Welcome to ClipPic!\n Enter a unique user name\nand join the community."
+        welcomeLabel.font = UIFont(name: "PingFang TC", size: 22.0)
         welcomeLabel.textColor = .systemBackground
         return welcomeLabel
     }()
@@ -180,13 +180,13 @@ class SetUpAccountViewController: UIViewController {
         backgroundView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         backgroundView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         backgroundView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
-        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.6).isActive = true
+        backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7).isActive = true
         
         backgroundView.addSubview(profileImageView)
         profileImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -50).isActive = true
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
-        profileImageView.heightAnchor.constraint(equalTo: profileImageView.widthAnchor).isActive = true
+        profileImageView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.45).isActive = true
+        profileImageView.heightAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.45).isActive = true
         
         profileImageView.addSubview(addImageButton)
         addImageButton.widthAnchor.constraint(equalTo: profileImageView.widthAnchor).isActive = true
@@ -198,14 +198,14 @@ class SetUpAccountViewController: UIViewController {
     }
 
     func setUpBackgroundView() {
-        
         backgroundView.addSubview(welcomeLabel)
-        welcomeLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20).isActive = true
+        welcomeLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 15).isActive = true
         welcomeLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
-        welcomeLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.8).isActive = true
+        welcomeLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.95).isActive = true
+        welcomeLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         backgroundView.addSubview(firstNameTextField)
-        firstNameTextField.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 25).isActive = true
+        firstNameTextField.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 15).isActive = true
         firstNameTextField.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 10).isActive = true
         firstNameTextField.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.45).isActive = true
         firstNameTextField.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
@@ -225,11 +225,11 @@ class SetUpAccountViewController: UIViewController {
         setUpSeparator()
         
         backgroundView.addSubview(nextButton)
-        nextButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 30).isActive = true
+        nextButton.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 40).isActive = true
+        nextButton.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -30).isActive = true
         nextButton.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
         nextButton.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.7).isActive = true
         nextButton.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, multiplier: 0.1).isActive = true
-        
     }
     
     func setUpSeparator() {
