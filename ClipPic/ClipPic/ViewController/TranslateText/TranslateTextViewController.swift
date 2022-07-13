@@ -7,20 +7,11 @@
 
 import UIKit
 import Vision
+import SwiftUI
 
 class TranslateTextViewController: UIViewController {
     
     // MARK: - UI Properties
-    
-    lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsHorizontalScrollIndicator = true
-        scrollView.contentInsetAdjustmentBehavior = .never
-        let tabBarHeight = tabBarController?.tabBar.bounds.height ?? 0
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
-        return scrollView
-    }()
     
     var toSearchImageView: UIImageView = {
         let toSearchImageView = UIImageView()
@@ -39,14 +30,13 @@ class TranslateTextViewController: UIViewController {
         return addImageButton
     }()
     
-    var translateResultLabel: UILabel = {
-        let translateResultLabel = UILabel()
-        translateResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        translateResultLabel.lineBreakMode = .byWordWrapping
-        translateResultLabel.numberOfLines = 0
-        translateResultLabel.layer.borderWidth = 3
-        translateResultLabel.font = UIFont.systemFont(ofSize: 20.0)
-        return translateResultLabel
+    var resultTextView: UITextView = {
+        let resultTextView = UITextView()
+        resultTextView.translatesAutoresizingMaskIntoConstraints = false
+        resultTextView.layer.borderWidth = 3
+        resultTextView.font = UIFont.systemFont(ofSize: 20.0)
+        resultTextView.isEditable = false
+        return resultTextView
     }()
     
     // MARK: - Lifecycle
@@ -80,10 +70,10 @@ class TranslateTextViewController: UIViewController {
                       return
                   }
             
-            let text = observations.compactMap( {
+            let text = observations.compactMap({
                 $0.topCandidates(1).first?.string
             }).joined(separator: ", ")
-            self.translateResultLabel.text = text
+            self.resultTextView.text = text
         }
         
         request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]
@@ -111,18 +101,11 @@ class TranslateTextViewController: UIViewController {
         addImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        view.addSubview(scrollView)
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: toSearchImageView.bottomAnchor, constant: 20).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        scrollView.addSubview(translateResultLabel)
-        translateResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        translateResultLabel.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        translateResultLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        translateResultLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        view.addSubview(resultTextView)
+        resultTextView.topAnchor.constraint(equalTo: toSearchImageView.bottomAnchor, constant: 20).isActive = true
+        resultTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        resultTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
+        resultTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
     }
 }
 

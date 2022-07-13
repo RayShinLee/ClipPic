@@ -70,7 +70,7 @@ class PostViewController: UIViewController {
         return postDescriptionView
     }()
     
-    var backButton: UIButton = {
+    lazy var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -88,7 +88,7 @@ class PostViewController: UIViewController {
         return saveButton
     }()
     
-    var shareButton: UIButton = {
+    lazy var shareButton: UIButton = {
         let shareButton = UIButton()
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         let imageSize = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
@@ -99,7 +99,7 @@ class PostViewController: UIViewController {
         return shareButton
     }()
     
-    var followButton: UIButton = {
+    lazy var followButton: UIButton = {
         let followButton = UIButton()
         followButton.translatesAutoresizingMaskIntoConstraints = false
         followButton.backgroundColor = .label
@@ -110,7 +110,7 @@ class PostViewController: UIViewController {
         return followButton
     }()
     
-    var creatorProfileButton: UIButton = {
+    lazy var creatorProfileButton: UIButton = {
         let creatorProfileButton = UIButton()
         creatorProfileButton.translatesAutoresizingMaskIntoConstraints = false
         creatorProfileButton.backgroundColor = .clear
@@ -332,7 +332,11 @@ class PostViewController: UIViewController {
         let imageName = (AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) ? "paperclip.circle.fill" : "paperclip.circle"
         let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
         let image = UIImage(systemName: imageName,
-                            withConfiguration: imageSize)
+                            withConfiguration: imageSize)?.withTintColor(UIColor(red: 122/255,
+                                                                                 green: 79/255,
+                                                                                 blue: 160/255,
+                                                                                 alpha: 1.0),
+                                                                         renderingMode: .alwaysOriginal)
         saveButton.setImage(image, for: .normal)
     }
     
@@ -395,8 +399,6 @@ class PostViewController: UIViewController {
         
         // share button
         contentImageView.addSubview(shareButton)
-        shareButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        shareButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         shareButton.trailingAnchor.constraint(equalTo: saveButton.trailingAnchor).isActive = true
         shareButton.topAnchor.constraint(equalTo: backButton.topAnchor).isActive = true
         shareButton.bottomAnchor.constraint(equalTo: backButton.bottomAnchor).isActive = true

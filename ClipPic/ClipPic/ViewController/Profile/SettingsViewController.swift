@@ -33,8 +33,12 @@ class SettingsViewController: UIViewController {
     
     func showAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
+        let deleteAction = UIAlertAction(title: optionTitle, style: .default, handler: { _ in
+            
+        })
+        let cancelAction = UIAlertAction(title: optionTitle, style: .cancel, handler: nil)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
     
