@@ -292,7 +292,7 @@ class CreatorProfileViewController: UIViewController {
         view.addSubview(nameLabel)
         nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
         view.addSubview(userNameLabel)
         userNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5).isActive = true
