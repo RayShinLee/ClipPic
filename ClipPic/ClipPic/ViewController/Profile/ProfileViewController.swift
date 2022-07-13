@@ -197,7 +197,7 @@ class ProfileViewController: UIViewController {
     }
     
     func fetchFollowersCount() {
-        FireStoreManager.shared.fetchFollowersCount { count in
+        FireStoreManager.shared.fetchMyFollowersCount { count in
             self.followersCountLabel.text = "\(count)"
         }
     }
@@ -267,7 +267,7 @@ class ProfileViewController: UIViewController {
         savedTabButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         backgroundView.addSubview(collectionView)
-        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: postsTabButton.bottomAnchor, constant: 5).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true

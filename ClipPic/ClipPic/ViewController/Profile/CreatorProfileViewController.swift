@@ -75,8 +75,8 @@ class CreatorProfileViewController: UIViewController {
     var followersCountLabel: UILabel = {
         let followersCountLabel = UILabel()
         followersCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        followersCountLabel.text = "0"
         followersCountLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
+        followersCountLabel.text = "0"
         return followersCountLabel
     }()
     
@@ -170,6 +170,7 @@ class CreatorProfileViewController: UIViewController {
         postsTabButton.backgroundColor = .label
         postsTabButton.setTitleColor(.systemBackground, for: .normal)
         savedTabButton.setTitleColor(.label, for: .normal)
+        fetchFollowersCount()
         collectionView.reloadData()
     }
     
@@ -254,6 +255,13 @@ class CreatorProfileViewController: UIViewController {
                 self.userPosts = items
                 self.collectionView.items = items
             }
+        }
+    }
+    
+    func fetchFollowersCount() {
+        let simpleuser = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
+        FireStoreManager.shared.fetchCreatorFollowersCount(user: simpleuser) { count in
+            self.followersCountLabel.text = "\(count)"
         }
     }
     
