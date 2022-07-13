@@ -55,7 +55,7 @@ class ImageSearchViewController: UIViewController {
         setUpView()
     }
 
-    // MARK: - ACtion Methods
+    // MARK: - Action Methods
     
     @objc func selectImage() {
         let imagePicker = UIImagePickerController()

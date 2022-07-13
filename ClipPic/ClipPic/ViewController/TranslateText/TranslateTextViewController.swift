@@ -15,7 +15,7 @@ class TranslateTextViewController: UIViewController {
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsHorizontalScrollIndicator = true
         scrollView.contentInsetAdjustmentBehavior = .never
         let tabBarHeight = tabBarController?.tabBar.bounds.height ?? 0
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
@@ -55,7 +55,46 @@ class TranslateTextViewController: UIViewController {
         setUpView()
     }
     
+    // MARK: - Action Methods
+    @objc func selectImage() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        DispatchQueue.main.async {
+            self.present(imagePicker, animated: true)
+        }
+    }
+    
     // MARK: - Methods
+    
+    func translateImage() {
+        guard let cgImage = toSearchImageView.image?.cgImage else {
+            return
+        }
+        
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        let request = VNRecognizeTextRequest { request, error in
+            guard let observations = request.results as? [VNRecognizedTextObservation],
+                  error == nil else {
+                      return
+                  }
+            
+            let text = observations.compactMap( {
+                $0.topCandidates(1).first?.string
+            }).joined(separator: ", ")
+            self.translateResultLabel.text = text
+        }
+        
+        request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]
+        request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
+        do {
+            try handler.perform([request])
+        } catch {
+            print(error)
+        }
+    }
+    
     private func setUpView() {
         view.backgroundColor = .systemBackground
         
@@ -85,43 +124,6 @@ class TranslateTextViewController: UIViewController {
         translateResultLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         translateResultLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
     }
-    
-    @objc func selectImage() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
-        DispatchQueue.main.async {
-            self.present(imagePicker, animated: true)
-        }
-    }
-    
-    func translateImage() {
-        guard let cgImage = toSearchImageView.image?.cgImage else {
-            return
-        }
-        
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        let request = VNRecognizeTextRequest { request, error in
-            guard let observations = request.results as? [VNRecognizedTextObservation],
-                  error == nil else {
-                      return
-                  }
-            
-            let text = observations.compactMap( {
-                $0.topCandidates(1).first?.string
-            }).joined(separator: ", ")
-            self.translateResultLabel.text = text
-        }
-        
-        request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]
-        request.recognitionLevel = VNRequestTextRecognitionLevel.accurate
-        do {
-            try handler.perform([request])
-        } catch {
-            print(error)
-        }
-    }
 }
 
 // MARK: - UIImagePickerControllerDelegate
@@ -129,7 +131,7 @@ extension TranslateTextViewController: UIImagePickerControllerDelegate, UINaviga
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            toSearchImageView.contentMode = .scaleAspectFill
+            toSearchImageView.contentMode = .scaleToFill
             toSearchImageView.clipsToBounds = true
             toSearchImageView.image = pickedImage
             
