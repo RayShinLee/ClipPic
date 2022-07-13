@@ -100,7 +100,7 @@ class PublishViewController: UIViewController {
     
     var enterDestinationLinkLabel: UILabel = {
         let enterDestinationLinkLabel = UILabel()
-        enterDestinationLinkLabel.text = "Destination  Link"
+        enterDestinationLinkLabel.text = "Share a link"
         enterDestinationLinkLabel.font = UIFont(name: "PingFang TC", size: 18.0)
         enterDestinationLinkLabel.textColor = .label
         return enterDestinationLinkLabel

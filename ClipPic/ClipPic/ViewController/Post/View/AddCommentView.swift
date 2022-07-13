@@ -44,7 +44,6 @@ class AddCommentView: UIView {
         commentTextView.translatesAutoresizingMaskIntoConstraints = false
         commentTextView.backgroundColor = .clear
         commentTextView.font = UIFont(name: "PingFang TC", size: 18)
-        //commentTextView.layer.cornerRadius = 20
         return commentTextView
     }()
 
