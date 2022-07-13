@@ -11,6 +11,13 @@ import Kingfisher
 class AddCommentView: UIView {
 
     // MARK: - UI Properties
+    lazy var view: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemFill
+        view.layer.cornerRadius = 20
+        return view
+    }()
     
     lazy var userImageView: UIImageView = {
         let userImageView = UIImageView()
@@ -35,9 +42,9 @@ class AddCommentView: UIView {
     var commentTextView: UITextView = {
         let commentTextView = UITextView()
         commentTextView.translatesAutoresizingMaskIntoConstraints = false
-        commentTextView.backgroundColor = .systemFill
+        commentTextView.backgroundColor = .clear
         commentTextView.font = UIFont(name: "PingFang TC", size: 18)
-        commentTextView.layer.cornerRadius = 20
+        //commentTextView.layer.cornerRadius = 20
         return commentTextView
     }()
 
@@ -67,10 +74,16 @@ class AddCommentView: UIView {
         postCommentButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         postCommentButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
         
-        addSubview(commentTextView)
-        commentTextView.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 5).isActive = true
-        commentTextView.trailingAnchor.constraint(equalTo: postCommentButton.leadingAnchor, constant: 5).isActive = true
-        commentTextView.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor).isActive = true
+        addSubview(view)
+        view.leadingAnchor.constraint(equalTo: userImageView.trailingAnchor, constant: 5).isActive = true
+        view.trailingAnchor.constraint(equalTo: postCommentButton.leadingAnchor, constant: 5).isActive = true
+        view.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        view.addSubview(commentTextView)
+        commentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        commentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        commentTextView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         commentTextView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 

@@ -117,6 +117,7 @@ class SetUpAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(true, animated: false)
         setUpView()
     }
     
@@ -142,6 +143,8 @@ class SetUpAccountViewController: UIViewController {
               !firstName.isEmpty,
               !lastName.isEmpty,
               !username.isEmpty else {
+                  ClipPicProgressHUD.hide()
+                  showAlert(title: "Oops!", message: "Please upload your profile picture and fill all fields", optionTitle: "Ok")
                   print("empty data")
                   return
               }

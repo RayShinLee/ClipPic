@@ -11,7 +11,6 @@ import Kingfisher
 class PostViewController: UIViewController {
     
     // MARK: - Properties
-    
     var comments: [Comment] = []
     
     var postId: String
@@ -78,22 +77,25 @@ class PostViewController: UIViewController {
         backButton.layer.cornerRadius = 20
         backButton.imageView?.tintColor = .systemBackground
         backButton.backgroundColor = .label
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         return backButton
     }()
     
     lazy var saveButton: UIButton = {
         let saveButton = UIButton(type: .custom)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
         return saveButton
     }()
     
     var shareButton: UIButton = {
         let shareButton = UIButton()
         shareButton.translatesAutoresizingMaskIntoConstraints = false
-        let imageSize = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
         let image = UIImage(systemName: "ellipsis.circle",
                             withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
         shareButton.setImage(image, for: .normal)
+        shareButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
         return shareButton
     }()
     
@@ -104,6 +106,7 @@ class PostViewController: UIViewController {
         followButton.layer.cornerRadius = 25
         followButton.setTitleColor(.systemBackground, for: .normal)
         followButton.isHidden = true
+        followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
         return followButton
     }()
     
@@ -111,6 +114,7 @@ class PostViewController: UIViewController {
         let creatorProfileButton = UIButton()
         creatorProfileButton.translatesAutoresizingMaskIntoConstraints = false
         creatorProfileButton.backgroundColor = .clear
+        creatorProfileButton.addTarget(self, action: #selector(tapCreatorProfileButton), for: .touchUpInside)
         return creatorProfileButton
     }()
     
@@ -174,7 +178,6 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        setUpButtonActions()
         updateSavedButton()
         fetchPost()
         gestures()
@@ -292,7 +295,6 @@ class PostViewController: UIViewController {
     }
     
     func updateCommentSection() {
-        
         commentSectionStackView.arrangedSubviews.forEach { view in
             commentSectionStackView.removeArrangedSubview(view)
             view.removeFromSuperview()
@@ -326,12 +328,25 @@ class PostViewController: UIViewController {
         }
     }
     
-    func setUpButtonActions() {
-        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
-        shareButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
-        saveButton.addTarget(self, action: #selector(tapSaveButton), for: .touchUpInside)
-        followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
-        creatorProfileButton.addTarget(self, action: #selector(tapCreatorProfileButton), for: .touchUpInside)
+    private func updateSavedButton() {
+        let imageName = (AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) ? "paperclip.circle.fill" : "paperclip.circle"
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let image = UIImage(systemName: imageName,
+                            withConfiguration: imageSize)
+        saveButton.setImage(image, for: .normal)
+    }
+    
+    private func updateFollowButton() {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        self.followButton.isHidden = (post.author.id == user.id)
+        
+        if user.followedAccounts.contains(where: { $0.id == post.author.id }) {
+            followButton.setTitle("Unfollow", for: .normal)
+        } else {
+            followButton.setTitle("Follow", for: .normal)
+        }
     }
     
     func gestures() {
@@ -348,7 +363,6 @@ class PostViewController: UIViewController {
     }
     
     func setUpView() {
-        
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -392,27 +406,6 @@ class PostViewController: UIViewController {
         postDescriptionView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 0.3).isActive = true
         
         setUpPostDescriptionView()
-    }
-    
-    private func updateSavedButton() {
-        let imageName = (AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) ? "paperclip.circle.fill" : "paperclip.circle"
-        let imageSize = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
-        let image = UIImage(systemName: imageName,
-                            withConfiguration: imageSize)
-        saveButton.setImage(image, for: .normal)
-    }
-    
-    private func updateFollowButton() {
-        guard let user = AccountManager.shared.appUser else {
-            return
-        }
-        self.followButton.isHidden = (post.author.id == user.id)
-        
-        if user.followedAccounts.contains(where: { $0.id == post.author.id }) {
-            followButton.setTitle("Unfollow", for: .normal)
-        } else {
-            followButton.setTitle("Follow", for: .normal)
-        }
     }
     
     func setUpPostDescriptionView() {
