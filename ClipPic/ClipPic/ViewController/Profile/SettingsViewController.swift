@@ -31,13 +31,11 @@ class SettingsViewController: UIViewController {
     
     // MARK: - Methods
     
-    func showAlert(title: String, message: String, optionTitle: String) {
+    func showAlert(title: String, message: String, optionTitle: String, actionHandler: @escaping (UIAlertAction) -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let deleteAction = UIAlertAction(title: optionTitle, style: .default, handler: { _ in
-            
-        })
-        let cancelAction = UIAlertAction(title: optionTitle, style: .cancel, handler: nil)
-        alert.addAction(deleteAction)
+        let action = UIAlertAction(title: optionTitle, style: .default, handler: actionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(action)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
@@ -58,26 +56,30 @@ extension SettingsViewController: SettingsTableViewDelegate {
     }
     
     func signOut() {
-        AccountManager.shared.signOut() { error in
-            if let error = error {
-                print(error)
-                self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
+        showAlert(title: "Sign Out", message: "Are you sure you want to Sign Out?", optionTitle: "Sign Out") { _ in
+            AccountManager.shared.signOut() { error in
+                if let error = error {
+                    print(error)
+                    self.showError(message: "Something went wrong.\nPlease try again.")
+                }
+                
+                self.navigationController?.popToRootViewController(animated: false)
+                TabBarViewController.shared.selectedIndex = 0
             }
-            
-            self.navigationController?.popToRootViewController(animated: false)
-            TabBarViewController.shared.selectedIndex = 0
         }
     }
     
     func deleteAccount() {
-        AccountManager.shared.deleteUser() { error in
-            if let error = error {
-                print(error)
-                self.showAlert(title: "Error", message: "\(error)", optionTitle: "")
+        showAlert(title: "Delete Account", message: "Are you sure you want to delete your account?", optionTitle: "Delete") { _ in
+            AccountManager.shared.deleteUser() { error in
+                if let error = error {
+                    print(error)
+                    self.showError(message: "Something went wrong.\nPlease try again.")
+                }
+                
+                self.navigationController?.popToRootViewController(animated: false)
+                TabBarViewController.shared.selectedIndex = 0
             }
-            
-            self.navigationController?.popToRootViewController(animated: false)
-            TabBarViewController.shared.selectedIndex = 0
         }
     }
 }
