@@ -59,12 +59,21 @@ class SignInViewController: UIViewController {
                                                        separatorView,
                                                        googleButton,
                                                        siwaButton,
-                                                       termsButton])
+                                                       buttonStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.axis = .vertical
         stackView.spacing = 18
+        return stackView
+    }()
+    
+    lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [privacyPolicyButton, eulaButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -88,7 +97,7 @@ class SignInViewController: UIViewController {
         return welcomeLabel
     }()
     
-    lazy var termsButton: UIButton = {
+    lazy var privacyPolicyButton: UIButton = {
         let termsButton = UIButton()
         termsButton.translatesAutoresizingMaskIntoConstraints = false
         termsButton.isUserInteractionEnabled = true
@@ -96,6 +105,16 @@ class SignInViewController: UIViewController {
         termsButton.setTitle("Privacy Policy", for: .normal)
         termsButton.addTarget(self, action: #selector(taptermsButton), for: .touchUpInside)
         return termsButton
+    }()
+    
+    lazy var eulaButton: UIButton = {
+        let eulaButton = UIButton()
+        eulaButton.translatesAutoresizingMaskIntoConstraints = false
+        eulaButton.isUserInteractionEnabled = true
+        eulaButton.setTitleColor(.black, for: .normal)
+        eulaButton.setTitle("EULA", for: .normal)
+        eulaButton.addTarget(self, action: #selector(tapEULAButton), for: .touchUpInside)
+        return eulaButton
     }()
     
     lazy var googleButton: GIDSignInButton = {
@@ -141,6 +160,16 @@ class SignInViewController: UIViewController {
     @objc func taptermsButton() {
         guard let url = URL(
             string: "https://www.privacypolicies.com/live/67f30222-1200-4518-82cd-2408a0ea3728") else {
+            showAlert(title: "Error", message: "Something went wrong.\nPlease try again.", optionTitle: "")
+            return
+        }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
+    }
+    
+    @objc func tapEULAButton() {
+        guard let url = URL(
+            string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") else {
             showAlert(title: "Error", message: "Something went wrong.\nPlease try again.", optionTitle: "")
             return
         }
@@ -202,8 +231,10 @@ class SignInViewController: UIViewController {
         separatorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
         setUpSignInButtons()
-        termsButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        termsButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        privacyPolicyButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        privacyPolicyButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        eulaButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        eulaButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
     func setUpSignInButtons() {
