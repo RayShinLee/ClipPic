@@ -209,12 +209,27 @@ class PostViewController: UIViewController {
     }
     
     @objc func tapFollowButton() {
+        guard let appUser = AccountManager.shared.appUser else {
+            return
+        }
+        
         let simpleUser = SimpleUser(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
-        FireStoreManager.shared.followAccount(followedAccount: simpleUser) { error in
-            if let error = error {
-                print(error)
-            } else {
-                self.updateFollowButton()
+        
+        if appUser.isInMyFollowing(post.author.id) {
+            FireStoreManager.shared.unFollowAccount(account: simpleUser) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.updateFollowButton()
+                }
+            }
+        } else {
+            FireStoreManager.shared.followAccount(followedAccount: simpleUser) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.updateFollowButton()
+                }
             }
         }
     }
@@ -353,7 +368,7 @@ class PostViewController: UIViewController {
         }
         self.followButton.isHidden = (post.author.id == user.id)
         
-        if user.followedAccounts.contains(where: { $0.id == post.author.id }) {
+        if user.isInMyFollowing(post.author.id) {
             followButton.setTitle("Unfollow", for: .normal)
         } else {
             followButton.setTitle("Follow", for: .normal)

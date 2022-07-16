@@ -221,12 +221,27 @@ class CreatorProfileViewController: UIViewController {
     }
     
     @objc func tapFollowButton() {
-        let simpleUser = SimpleUser(id: post.author.id, name: post.author.name, avatar: post.author.avatar)
-        FireStoreManager.shared.followAccount(followedAccount: simpleUser) { error in
-            if let error = error {
-                print(error)
-            } else {
-                self.updateFollowButton()
+        guard let appUser = AccountManager.shared.appUser else {
+            return
+        }
+        
+        let simpleUser = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
+        
+        if appUser.isInMyFollowing(user.id) {
+            FireStoreManager.shared.unFollowAccount(account: simpleUser) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.updateFollowButton()
+                }
+            }
+        } else {
+            FireStoreManager.shared.followAccount(followedAccount: simpleUser) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.updateFollowButton()
+                }
             }
         }
     }
@@ -246,6 +261,7 @@ class CreatorProfileViewController: UIViewController {
                 return
             }
             self.user = user
+            self.updateFollowButton()
             
             let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
             FireStoreManager.shared.fetchPosts(with: author) { posts, error in
@@ -266,12 +282,12 @@ class CreatorProfileViewController: UIViewController {
     }
     
     private func updateFollowButton() {
-        guard let user = AccountManager.shared.appUser else {
+        guard let appUser = AccountManager.shared.appUser else {
             return
         }
-        self.followButton.isHidden = (post.author.id == user.id)
+        self.followButton.isHidden = (user.id == appUser.id)
         
-        if user.followedAccounts.contains(where: { $0.id == post.author.id }) {
+        if appUser.isInMyFollowing(user.id) {
             followButton.setTitle("Unfollow", for: .normal)
         } else {
             followButton.setTitle("Follow", for: .normal)
@@ -325,13 +341,12 @@ class CreatorProfileViewController: UIViewController {
         followersTitleLabel.centerXAnchor.constraint(equalTo: followersCountLabel.centerXAnchor).isActive = true
         followersTitleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        /*
         view.addSubview(followButton)
         followButton.topAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
         followButton.leadingAnchor.constraint(equalTo: totalSavedTitleLabel.leadingAnchor).isActive = true
         followButton.trailingAnchor.constraint(equalTo: followersTitleLabel.centerXAnchor).isActive = true
         followButton.bottomAnchor.constraint(equalTo: userNameLabel.bottomAnchor).isActive = true
-         */
+        
         view.addSubview(seeMoreButton)
         seeMoreButton.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
         seeMoreButton.trailingAnchor.constraint(equalTo: followersTitleLabel.trailingAnchor).isActive = true

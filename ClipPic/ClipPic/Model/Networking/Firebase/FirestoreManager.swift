@@ -432,4 +432,35 @@ extension FireStoreManager {
             }
         }
     }
+    
+    func unFollowAccount(account: SimpleUser, completion: @escaping ((Error?) -> Void)) {
+        guard let user = AccountManager.shared.appUser else {
+            return
+        }
+        let userRef = dataBase.collection("User").document(user.id)
+        userRef.getDocument { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(NetworkError.invalidSnapshot)
+                return
+            }
+            let user = User(documentId: user.id, dictionary: data)
+            let toDeleteFollowed = account.rawValue
+            var newFollowedAccounts = user.rawFollowedAccounts
+            
+            if let index = newFollowedAccounts.firstIndex(where: { $0 == toDeleteFollowed }) {
+                newFollowedAccounts.remove(at: index)
+            }
+            
+            userRef.updateData(["followed_accounts": newFollowedAccounts]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                
+                AccountManager.shared.appUser?.rawFollowedAccounts = newFollowedAccounts
+                completion(nil)
+            }
+        }
+    }
 }

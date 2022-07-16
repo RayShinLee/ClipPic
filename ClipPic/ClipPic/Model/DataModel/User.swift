@@ -70,6 +70,10 @@ struct User: Codable {
         return collections.contains { $0.id == postId }
     }
     
+    func isInMyFollowing(_ userId: String) -> Bool {
+        return followedAccounts.contains { $0.id == userId }
+    }
+    
     struct Collection: Codable {
         let id: String
         let imageURL: String
