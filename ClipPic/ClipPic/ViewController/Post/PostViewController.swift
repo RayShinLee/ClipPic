@@ -186,17 +186,24 @@ class PostViewController: UIViewController {
     // MARK: - Action Methods
     
     @objc func tapSaveButton() {
-        guard !(AccountManager.shared.appUser?.isMySavedPost(postId) ?? false) else {
-            return
-        }
-        
         let collection = User.Collection(id: postId, imageURL: post.imageUrl)
-        FireStoreManager.shared.savePost(collection: collection) { error in
-            if let error = error {
-                print(error)
-            } else {
-                self.updateSavedButton()
-                self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
+        if AccountManager.shared.appUser?.isMySavedPost(postId) ?? false {
+            FireStoreManager.shared.unsavePost(collection: collection) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.updateSavedButton()
+                    self.showAlert(title: "Unsaved!", message: "", optionTitle: "Ok")
+                }
+            }
+        } else {
+            FireStoreManager.shared.savePost(collection: collection) { error in
+                if let error = error {
+                    print(error)
+                } else {
+                    self.updateSavedButton()
+                    self.showAlert(title: "Saved!", message: "", optionTitle: "Ok")
+                }
             }
         }
     }

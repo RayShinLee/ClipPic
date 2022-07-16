@@ -368,6 +368,40 @@ extension FireStoreManager {
             }
         }
     }
+    
+    func unsavePost(collection: User.Collection, completion: @escaping ((Error?) -> Void)) {
+        guard let userId = AccountManager.shared.userUID else { return }
+        
+        let userRef = dataBase.collection("User").document(userId)
+        
+        userRef.getDocument() { snapShot, error in
+            guard let snapshot = snapShot,
+                  let data = snapshot.data() else {
+                completion(NetworkError.invalidSnapshot)
+                return
+            }
+            
+            let user = User(documentId: userId, dictionary: data)
+            let toDeleteCollection = [
+                "id": collection.id,
+                "image_url": collection.imageURL
+            ]
+            var newCollections = user.rawCollections
+            if let index = newCollections.firstIndex(where: { $0 == toDeleteCollection }) {
+                newCollections.remove(at: index)
+            }
+            
+            userRef.updateData(["collections": newCollections]) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+                
+                AccountManager.shared.appUser?.rawCollections = newCollections
+                completion(nil)
+            }
+        }
+    }
 }
 
 extension FireStoreManager {

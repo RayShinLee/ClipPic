@@ -45,20 +45,6 @@ class PostListCollectionView: UICollectionView {
 // MARK: - CollectionView DataSource & Delegate
 extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    // MARK: FlowLayout
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-//         let fullScreenSize = UIScreen.main.bounds.size
-//         return CGSize(width: CGFloat(fullScreenSize.width)/2 - 15.0, height: 300)
-//    }
-    
     // MARK: DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
