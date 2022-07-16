@@ -115,7 +115,7 @@ class ProfileViewController: UIViewController {
         return savedTabButton
     }()
     
-    var settingsButton: UIButton = {
+    lazy var settingsButton: UIButton = {
         let settingsButton = UIButton(type: .custom)
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         let imageSize = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
@@ -141,11 +141,6 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         refresh()
         fetchFollowersCount()
-        
-        // to adjust
-        postsTabButton.backgroundColor = .systemBackground
-        postsTabButton.setTitleColor(.label, for: .normal)
-        savedTabButton.setTitleColor(.systemBackground, for: .normal)
         collectionView.reloadData()
     }
     
@@ -182,6 +177,9 @@ class ProfileViewController: UIViewController {
         userNameLabel.text = "@\(user.userName)"
         profileImageView.kf.setImage(with: URL(string: user.avatar))
         totalSavedCountLabel.text = "\(user.collections.count)"
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
     }
     
     func fetchPosts() {
@@ -273,6 +271,8 @@ class ProfileViewController: UIViewController {
         collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55).isActive = true
     }
 }
+
+    // MARK: - ProfileCollectionViewDelegate
 
 extension ProfileViewController: ProfileCollectionViewDelegate {
     func didSelectItem(with postId: String) {

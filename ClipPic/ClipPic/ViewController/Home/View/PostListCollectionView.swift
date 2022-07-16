@@ -23,9 +23,13 @@ class PostListCollectionView: UICollectionView {
     
     // MARK: - View life cycle
     init() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        super.init(frame: .zero, collectionViewLayout: layout)
+        let waterFallLayout = WaterFallFlowLayout()
+        waterFallLayout.minimumLineSpacing = 15
+        waterFallLayout.minimumInteritemSpacing = 15
+        waterFallLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        super.init(frame: .zero, collectionViewLayout: waterFallLayout)
+        waterFallLayout.delegate = self
+        
         register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "contentCell")
         showsVerticalScrollIndicator = false
         
@@ -36,25 +40,24 @@ class PostListCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 // MARK: - CollectionView DataSource & Delegate
-extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: FlowLayout
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let fullScreenSize = UIScreen.main.bounds.size
-        return CGSize(width: CGFloat(fullScreenSize.width)/2 - 15.0, height: 300)
-    }
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//         let fullScreenSize = UIScreen.main.bounds.size
+//         return CGSize(width: CGFloat(fullScreenSize.width)/2 - 15.0, height: 300)
+//    }
     
     // MARK: DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -81,5 +84,14 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
     // MARK: Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         interactionDelegate?.didSelectItemAt(post: posts[indexPath.item])
+    }
+}
+
+extension PostListCollectionView: WaterFallLayoutDelegate {
+    func waterFlowLayout(_ waterFlowLayout: WaterFallFlowLayout, itemHeight indexPath: IndexPath) -> CGFloat {
+        let pool: [CGFloat] = [300, 250, 320, 280]
+        let randomIndex = Int.random(in: 0...2)
+        let dynamicHeight = pool[randomIndex]
+        return dynamicHeight
     }
 }

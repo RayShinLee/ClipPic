@@ -29,10 +29,10 @@ class PostCollectionViewCell: UICollectionViewCell {
     }
     
     func setUpViews() {
-        self.addSubview(homeImageView)
-        homeImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        homeImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        homeImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        homeImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        contentView.addSubview(homeImageView)
+        homeImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        homeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        homeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        homeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
 }

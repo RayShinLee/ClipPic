@@ -59,6 +59,7 @@
 		879D0F63286B2B580066174E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879D0F62286B2B580066174E /* GoogleService-Info.plist */; };
 		879FB230287ABCAD00C8900D /* SimpleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB22F287ABCAD00C8900D /* SimpleUser.swift */; };
 		879FB232287ADC3D00C8900D /* ClipPicProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB231287ADC3C00C8900D /* ClipPicProgressHUD.swift */; };
+		87A674AD2882A1C400A1541B /* WaterFallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A674AC2882A1C400A1541B /* WaterFallLayout.swift */; };
 		87A71C80286ED4AB009F5A37 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */; };
 		87A71C83286EFE50009F5A37 /* polaroid.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C81286EFE4E009F5A37 /* polaroid.mp4 */; };
 		87A71C84286EFE50009F5A37 /* takePicture.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 87A71C82286EFE50009F5A37 /* takePicture.mp4 */; };
@@ -151,6 +152,7 @@
 		879D0F62286B2B580066174E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		879FB22F287ABCAD00C8900D /* SimpleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleUser.swift; sourceTree = "<group>"; };
 		879FB231287ADC3C00C8900D /* ClipPicProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipPicProgressHUD.swift; sourceTree = "<group>"; };
+		87A674AC2882A1C400A1541B /* WaterFallLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterFallLayout.swift; sourceTree = "<group>"; };
 		87A71C7F286ED4AB009F5A37 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		87A71C81286EFE4E009F5A37 /* polaroid.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = polaroid.mp4; sourceTree = "<group>"; };
 		87A71C82286EFE50009F5A37 /* takePicture.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = takePicture.mp4; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 			children = (
 				878E1084285ECF7800FF87C2 /* PostListCollectionView.swift */,
 				87839F532859739700620513 /* PostCollectionViewCell.swift */,
+				87A674AC2882A1C400A1541B /* WaterFallLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -826,6 +829,7 @@
 				878E108D285F049300FF87C2 /* User.swift in Sources */,
 				87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */,
 				87839F592859B41D00620513 /* CategoryCollectionViewCell.swift in Sources */,
+				87A674AD2882A1C400A1541B /* WaterFallLayout.swift in Sources */,
 				878E10B72861A52F00FF87C2 /* CommentTableView.swift in Sources */,
 				878E1091285F04DF00FF87C2 /* Comment.swift in Sources */,
 				87B0A13528659FD200ADAABA /* SignInViewController.swift in Sources */,
@@ -1041,7 +1045,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 937JA74FPR;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1075,7 +1079,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 937JA74FPR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipPic/Info.plist;
