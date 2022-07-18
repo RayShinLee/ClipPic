@@ -26,6 +26,10 @@ class WaterFallFlowLayout: UICollectionViewFlowLayout {
         super.prepare()
         let itemWidth = (collectionView!.bounds.width - sectionInset.left - sectionInset.right - minimumInteritemSpacing * CGFloat(cols - 1)) / CGFloat(cols)
         let itemCount = collectionView!.numberOfItems(inSection: 0)
+        guard itemCount > layoutAttributeArray.count else {
+            return
+        }
+        
         var minHeightIndex = 0
         for index in layoutAttributeArray.count ..< itemCount {
             let indexPath = IndexPath(item: index, section: 0)
