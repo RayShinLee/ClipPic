@@ -1,1 +1,1 @@
-# personalProject
+# ClipPic
