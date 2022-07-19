@@ -73,8 +73,7 @@ class TranslateTextViewController: UIViewController {
             let text = observations.compactMap({
                 $0.topCandidates(1).first?.string
             }).joined(separator: ", ")
-            //self.resultTextView.text = text
-            self.resultTextView.text = "你好，世界！＿"
+            self.resultTextView.text = text
         }
         
         request.recognitionLanguages = ["zh-Hans", "zh-Hant", "en", "fr-FR", "it-IT", "de-DE", "es-ES"]

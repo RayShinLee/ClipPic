@@ -9,6 +9,7 @@ import UIKit
 import SafariServices
 
 class SearchViewController: UIViewController {
+    
     // MARK: - Properties
     
     // MARK: - UI Properties
@@ -98,7 +99,7 @@ class SearchViewController: UIViewController {
     }
 }
 
-// MARK: - UITextField Delegate
+    // MARK: - UITextField Delegate
 extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
@@ -109,7 +110,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - SearchResultCollectionView Delegate
+    // MARK: - SearchResultCollectionView Delegate
 extension SearchViewController: SearchResultCollectionViewDelegate {
     func openWebView(with url: URL) {
         let safariViewContorller = SFSafariViewController(url: url)

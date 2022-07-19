@@ -11,7 +11,7 @@ class ImageTabViewController: UIViewController {
     
     // MARK: - UI Properties
 
-    var imageSearchButton: UIButton = {
+    lazy var imageSearchButton: UIButton = {
         let imageSearchButton = UIButton()
         imageSearchButton.translatesAutoresizingMaskIntoConstraints = false
         imageSearchButton.backgroundColor = .label
@@ -20,7 +20,7 @@ class ImageTabViewController: UIViewController {
         return imageSearchButton
     }()
     
-    var translateImageButton: UIButton = {
+    lazy var translateImageButton: UIButton = {
         let translateImageButton = UIButton()
         translateImageButton.translatesAutoresizingMaskIntoConstraints = false
         translateImageButton.backgroundColor = .label
@@ -89,7 +89,7 @@ class ImageTabViewController: UIViewController {
         return translateDescriptionLabel
     }()
     
-    // MARK: - Lifecyle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

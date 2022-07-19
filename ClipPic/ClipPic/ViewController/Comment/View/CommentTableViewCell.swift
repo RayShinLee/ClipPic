@@ -66,13 +66,11 @@ class CommentTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
 
     // MARK: - Methods
     
     func setUpView() {
-        
         //  comment profile pic
         contentView.addSubview(commentCreatorImageView)
         commentCreatorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
@@ -96,7 +94,6 @@ class CommentTableViewCell: UITableViewCell {
         contentView.addSubview(commentDateLabel)
         commentDateLabel.topAnchor.constraint(equalTo: commentCreatorName.topAnchor).isActive = true
         commentDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2).isActive = true
-        //  commentDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
         commentDateLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }

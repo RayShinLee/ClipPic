@@ -9,6 +9,8 @@ import UIKit
 
 class SeeMoreCommentView: UIView {
     
+    // MARK: - UI Properties
+    
     var seeMoreCommentsButton: UIButton = {
        let seeMoreCommentsButton = UIButton()
         seeMoreCommentsButton.translatesAutoresizingMaskIntoConstraints = false
@@ -19,6 +21,7 @@ class SeeMoreCommentView: UIView {
         return seeMoreCommentsButton
     }()
 
+    // MARK: - Lifecycle
     init() {
         super.init(frame: .zero)
         setUpViews()
@@ -28,6 +31,7 @@ class SeeMoreCommentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Methods
     func setUpViews() {
         addSubview(seeMoreCommentsButton)
         seeMoreCommentsButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

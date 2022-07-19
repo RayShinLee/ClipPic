@@ -56,7 +56,7 @@ class PublishViewController: UIViewController {
         return imageToPost
     }()
     
-    var backButton: UIButton = {
+    lazy var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
@@ -65,7 +65,7 @@ class PublishViewController: UIViewController {
         return backButton
     }()
     
-    var addImageButton: UIButton = {
+    lazy var addImageButton: UIButton = {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
         addImageButton.setTitle("Select an image", for: .normal)
@@ -75,7 +75,7 @@ class PublishViewController: UIViewController {
         return addImageButton
     }()
     
-    var publishButton: UIButton = {
+    lazy var publishButton: UIButton = {
         let publishButton = UIButton()
         publishButton.translatesAutoresizingMaskIntoConstraints = false
         publishButton.setTitle("Publish", for: .normal)

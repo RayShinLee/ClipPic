@@ -368,13 +368,6 @@ class PostViewController: UIViewController {
         }
     }
     
-    func showAlert(title: String, message: String, optionTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-    
     func setUpView() {
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

@@ -144,7 +144,7 @@ class SetUpAccountViewController: UIViewController {
               !lastName.isEmpty,
               !username.isEmpty else {
                   ClipPicProgressHUD.hide()
-                  showAlert(title: "Oops!", message: "Please upload your profile picture and fill all fields", optionTitle: "Ok")
+                  self.showAlert(title: "Oops!", message: "Please upload your profile picture and fill all fields", optionTitle: "Ok")
                   print("empty data")
                   return
               }
@@ -165,13 +165,6 @@ class SetUpAccountViewController: UIViewController {
     }
     
     // MARK: - Methods
-    
-    func showAlert(title: String, message: String, optionTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
 
     func setUpView() {
         view.backgroundColor = .systemBackground

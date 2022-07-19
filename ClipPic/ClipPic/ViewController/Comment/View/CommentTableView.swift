@@ -34,6 +34,8 @@ class CommentTableView: UITableView {
     
 }
 
+    // MARK: - UITableView
+
 extension CommentTableView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count

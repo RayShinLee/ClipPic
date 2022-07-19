@@ -18,6 +18,13 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func showAlert(title: String, message: String, optionTitle: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Gesture Method
     @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
         if sender.direction == .right {
