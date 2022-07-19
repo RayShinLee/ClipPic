@@ -9,7 +9,8 @@ import UIKit
 import CoreGraphics
 
 class ClipPicProgressHUD: UIView {
-    // MARK: Type properties & methods
+    
+    // MARK: - Type properties & methods
     private static let `default` = ClipPicProgressHUD()
     
     static func show() {
@@ -32,7 +33,7 @@ class ClipPicProgressHUD: UIView {
         }
     }
     
-    // MARK: - Properties
+    // MARK: - UI Properties
     private lazy var hudBackgroundView: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +60,7 @@ class ClipPicProgressHUD: UIView {
     
     private var logoInnerImageViewHeightConstraint: NSLayoutConstraint?
     
-    // MARK: Object life cycle
+    // MARK: - Object life cycle
     private init() {
         super.init(frame: .zero)
         setUpViews()
@@ -67,32 +68,6 @@ class ClipPicProgressHUD: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setUpViews() {
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        
-        addSubview(hudBackgroundView)
-        hudBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        hudBackgroundView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        hudBackgroundView.widthAnchor.constraint(equalToConstant: 160).isActive = true
-        hudBackgroundView.heightAnchor.constraint(equalToConstant: 160).isActive = true
-        
-        hudBackgroundView.addSubview(logoOutsideImageView)
-        logoOutsideImageView.widthAnchor.constraint(equalToConstant: 130).isActive = true
-        logoOutsideImageView.heightAnchor.constraint(equalToConstant: 130).isActive = true
-        logoOutsideImageView.centerXAnchor.constraint(equalTo: hudBackgroundView.centerXAnchor).isActive = true
-        logoOutsideImageView.centerYAnchor.constraint(equalTo: hudBackgroundView.centerYAnchor).isActive = true
-        
-        hudBackgroundView.addSubview(logoInnerImageView)
-        logoInnerImageViewWidthConstraint = logoInnerImageView.widthAnchor.constraint(equalToConstant: 130)
-        logoInnerImageViewHeightConstraint = logoInnerImageView.heightAnchor.constraint(equalToConstant: 130)
-        logoInnerImageViewWidthConstraint?.isActive = true
-        logoInnerImageViewHeightConstraint?.isActive = true
-        logoInnerImageView.centerXAnchor.constraint(equalTo: hudBackgroundView.centerXAnchor).isActive = true
-        logoInnerImageView.centerYAnchor.constraint(equalTo: hudBackgroundView.centerYAnchor).isActive = true
-        animate()
     }
     
     private func show(on view: UIView) {
@@ -124,5 +99,31 @@ class ClipPicProgressHUD: UIView {
                 self.animate()
             }
         }
+    }
+
+    private func setUpViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        
+        addSubview(hudBackgroundView)
+        hudBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        hudBackgroundView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        hudBackgroundView.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        hudBackgroundView.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        
+        hudBackgroundView.addSubview(logoOutsideImageView)
+        logoOutsideImageView.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        logoOutsideImageView.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        logoOutsideImageView.centerXAnchor.constraint(equalTo: hudBackgroundView.centerXAnchor).isActive = true
+        logoOutsideImageView.centerYAnchor.constraint(equalTo: hudBackgroundView.centerYAnchor).isActive = true
+        
+        hudBackgroundView.addSubview(logoInnerImageView)
+        logoInnerImageViewWidthConstraint = logoInnerImageView.widthAnchor.constraint(equalToConstant: 130)
+        logoInnerImageViewHeightConstraint = logoInnerImageView.heightAnchor.constraint(equalToConstant: 130)
+        logoInnerImageViewWidthConstraint?.isActive = true
+        logoInnerImageViewHeightConstraint?.isActive = true
+        logoInnerImageView.centerXAnchor.constraint(equalTo: hudBackgroundView.centerXAnchor).isActive = true
+        logoInnerImageView.centerYAnchor.constraint(equalTo: hudBackgroundView.centerYAnchor).isActive = true
+        animate()
     }
 }

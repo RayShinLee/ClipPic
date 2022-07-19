@@ -16,6 +16,7 @@ class ImageTabViewController: UIViewController {
         imageSearchButton.translatesAutoresizingMaskIntoConstraints = false
         imageSearchButton.backgroundColor = .label
         imageSearchButton.layer.cornerRadius = 20
+        imageSearchButton.addTarget(self, action: #selector(tapimageSearchButton), for: .touchUpInside)
         return imageSearchButton
     }()
     
@@ -24,6 +25,7 @@ class ImageTabViewController: UIViewController {
         translateImageButton.translatesAutoresizingMaskIntoConstraints = false
         translateImageButton.backgroundColor = .label
         translateImageButton.layer.cornerRadius = 20
+        translateImageButton.addTarget(self, action: #selector(tapTranslateTextButton), for: .touchUpInside)
         return translateImageButton
     }()
     
@@ -93,8 +95,6 @@ class ImageTabViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        imageSearchButton.addTarget(self, action: #selector(tapimageSearchButton), for: .touchUpInside)
-        translateImageButton.addTarget(self, action: #selector(tapTranslateTextButton), for: .touchUpInside)
     }
     
     // MARK: - Action Methods

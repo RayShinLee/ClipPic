@@ -13,6 +13,7 @@ class PublishViewController: UIViewController {
     
     // MARK: - Properties
     var categories: [Category] = []
+    
     var selectedCategory: Category? = nil
     
     var fullScreenSize: CGSize!
@@ -60,6 +61,7 @@ class PublishViewController: UIViewController {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
         backButton.imageView?.tintColor = .white
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         return backButton
     }()
     
@@ -69,6 +71,7 @@ class PublishViewController: UIViewController {
         addImageButton.setTitle("Select an image", for: .normal)
         addImageButton.layer.cornerRadius = 10
         addImageButton.backgroundColor = .systemFill
+        addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
         return addImageButton
     }()
     
@@ -79,6 +82,7 @@ class PublishViewController: UIViewController {
         publishButton.setTitleColor(.systemBackground, for: .normal)
         publishButton.layer.cornerRadius = 5
         publishButton.backgroundColor = .label
+        publishButton.addTarget(self, action: #selector(publish), for: .touchUpInside)
         return publishButton
     }()
     
@@ -174,22 +178,7 @@ class PublishViewController: UIViewController {
         setUpBaseView()
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
-        addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
-        publishButton.addTarget(self, action: #selector(publish), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
-        
         fetchCategories()
-    }
-    
-    func fetchCategories() {
-        FireStoreManager.shared.fetchCategories() { (categories, error) in
-            if let error = error {
-                print("Fail to fetch categories with error: \(error)")
-            } else {
-                self.categories = categories ?? []
-                self.categoryCollectionView.reloadData()
-            }
-        }
     }
     
     // MARK: - Action methods
@@ -235,6 +224,18 @@ class PublishViewController: UIViewController {
     }
     
     // MARK: - methods
+    
+    func fetchCategories() {
+        FireStoreManager.shared.fetchCategories() { (categories, error) in
+            if let error = error {
+                print("Fail to fetch categories with error: \(error)")
+            } else {
+                self.categories = categories ?? []
+                self.categoryCollectionView.reloadData()
+            }
+        }
+    }
+    
     func showErrorAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
@@ -360,7 +361,7 @@ extension PublishViewController: UICollectionViewDelegateFlowLayout {
             height: 30)
     }
 }
-
+    // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 extension PublishViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.count

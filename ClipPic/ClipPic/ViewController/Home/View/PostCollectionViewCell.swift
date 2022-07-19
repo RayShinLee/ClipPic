@@ -19,6 +19,8 @@ class PostCollectionViewCell: UICollectionViewCell {
         return homeImageView
     }()
 
+    // MARK: - Lifecycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
@@ -27,6 +29,8 @@ class PostCollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     func setUpViews() {
         contentView.addSubview(homeImageView)
