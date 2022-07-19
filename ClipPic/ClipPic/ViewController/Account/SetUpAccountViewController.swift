@@ -253,7 +253,8 @@ class SetUpAccountViewController: UIViewController {
     }
 }
 
-// MARK: - UIImagePickerController Delegate
+    // MARK: - UIImagePickerController Delegate
+
 extension SetUpAccountViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

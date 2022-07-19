@@ -19,6 +19,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         return savedImageView
     }()
 
+    // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
@@ -27,6 +28,8 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     func setUpViews() {
         self.addSubview(savedImageView)

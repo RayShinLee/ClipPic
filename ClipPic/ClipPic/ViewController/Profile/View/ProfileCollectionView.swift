@@ -25,6 +25,7 @@ class ProfileCollectionView: UICollectionView {
     weak var interactionDelegate: ProfileCollectionViewDelegate?
     
     // MARK: - View life cycle
+    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -41,7 +42,8 @@ class ProfileCollectionView: UICollectionView {
     }
 }
 
-// MARK: - CollectionView DataSource & Delegate
+    // MARK: - CollectionView DataSource & Delegate
+
 extension ProfileCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: FlowLayout

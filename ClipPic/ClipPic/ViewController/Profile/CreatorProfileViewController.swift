@@ -9,6 +9,9 @@ import UIKit
 import Kingfisher
 
 class CreatorProfileViewController: UIViewController {
+    
+    // MARK: - Properties
+    
     let userId: String
     var user: User! {
         didSet {
@@ -102,6 +105,7 @@ class CreatorProfileViewController: UIViewController {
         followButton.layer.cornerRadius = 22
         followButton.setTitleColor(.systemBackground, for: .normal)
         followButton.setTitle("Follow", for: .normal)
+        followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
         followButton.isHidden = (AccountManager.shared.appUser?.id == userId)
         return followButton
     }()
@@ -157,10 +161,8 @@ class CreatorProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setUpHeaderView()
-        setUpGestures()
-        followButton.addTarget(self, action: #selector(tapFollowButton), for: .touchUpInside)
-        
+        setUpView()
+        self.gestures()
         fetchProfile()
     }
     
@@ -246,13 +248,6 @@ class CreatorProfileViewController: UIViewController {
         }
     }
     
-    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .right {
-            print("Swipe Right")
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
-    
     // MARK: - Methods
     func fetchProfile() {
         FireStoreManager.shared.fetchProfile(userUID: userId) { user, error in
@@ -294,13 +289,7 @@ class CreatorProfileViewController: UIViewController {
         }
     }
     
-    func setUpGestures() {
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        rightSwipe.direction = .right
-        view.addGestureRecognizer(rightSwipe)
-    }
-    
-    func setUpHeaderView() {
+    func setUpView() {
         view.addSubview(backButton)
         backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -313,6 +302,11 @@ class CreatorProfileViewController: UIViewController {
         profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
+        setUpHeaderView()
+        setUpCollectionView()
+    }
+    
+    func setUpHeaderView() {
         view.addSubview(nameLabel)
         nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor).isActive = true
@@ -350,12 +344,9 @@ class CreatorProfileViewController: UIViewController {
         view.addSubview(seeMoreButton)
         seeMoreButton.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
         seeMoreButton.trailingAnchor.constraint(equalTo: followersTitleLabel.trailingAnchor).isActive = true
-        
-        setUpCollectionView()
     }
     
     func setUpCollectionView() {
-        
         view.addSubview(tabStackView)
         tabStackView.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 20).isActive = true
         tabStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
@@ -373,6 +364,8 @@ class CreatorProfileViewController: UIViewController {
         collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.57).isActive = true
     }
 }
+
+    // MARK: - ProfileCollectionViewDelegate
 
 extension CreatorProfileViewController: ProfileCollectionViewDelegate {
     func didSelectItem(with postId: String) {

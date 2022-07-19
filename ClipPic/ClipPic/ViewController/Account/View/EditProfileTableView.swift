@@ -9,10 +9,13 @@ import UIKit
 
 class EditProfileTableView: UITableView {
 
+    // MARK: - Properties
+    
     var firstName: String?
     var lastName: String?
     
     // MARK: - View life cycle
+    
     init(frame: CGRect) {
         super.init(frame: frame, style: .plain)
         self.backgroundColor = .systemBackground
@@ -27,8 +30,11 @@ class EditProfileTableView: UITableView {
     }
 }
 
+    // MARK: - UITableView
+
 extension EditProfileTableView: UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }

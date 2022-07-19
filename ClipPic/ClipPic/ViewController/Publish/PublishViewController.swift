@@ -204,7 +204,7 @@ class PublishViewController: UIViewController {
               !description.isEmpty,
               let imageData = toPostImageView.image?.jpegData(compressionQuality: 1.0),
               let category = selectedCategory else {
-                  showErrorAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+                  self.showError(message: "Empty Input")
                   return
               }
         // 1. Upload image to firebase storage
@@ -234,13 +234,6 @@ class PublishViewController: UIViewController {
                 self.categoryCollectionView.reloadData()
             }
         }
-    }
-    
-    func showErrorAlert(title: String, message: String, optionTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
     }
     
     func showSuccesAlert(title: String, message: String, optionTitle: String) {

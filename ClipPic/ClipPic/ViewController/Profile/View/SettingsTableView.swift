@@ -34,6 +34,8 @@ class SettingsTableView: UITableView {
     }
 }
 
+    // MARK: - UITableView
+
 extension SettingsTableView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

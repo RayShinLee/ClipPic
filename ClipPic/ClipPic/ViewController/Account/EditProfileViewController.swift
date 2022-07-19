@@ -104,6 +104,7 @@ class EditProfileViewController: UIViewController {
     }
     
     // MARK: - Methods
+    
     func setUpView() {
         view.backgroundColor = .systemBackground
 
@@ -133,7 +134,8 @@ class EditProfileViewController: UIViewController {
     }
 }
 
-// MARK: - UIImagePickerController Delegate
+    // MARK: - UIImagePickerController Delegate
+
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

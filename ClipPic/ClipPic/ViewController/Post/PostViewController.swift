@@ -180,7 +180,7 @@ class PostViewController: UIViewController {
         setUpView()
         updateSavedButton()
         fetchPost()
-        gestures()
+        self.gestures()
     }
     
     // MARK: - Action Methods
@@ -259,7 +259,7 @@ class PostViewController: UIViewController {
     @objc func postCommentAction() {
         guard let comment = addCommentView.commentTextView.text,
               !comment.isEmpty else {
-                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+                  self.showError(message: "Empty Input")
                   return
               }
         
@@ -272,13 +272,6 @@ class PostViewController: UIViewController {
                 self.addCommentView.commentTextView.text = ""
             }
         })
-    }
-    
-    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .right {
-            print("Swipe Right")
-            self.navigationController?.popViewController(animated: true)
-        }
     }
     
     @objc func tapBackButton() {
@@ -373,12 +366,6 @@ class PostViewController: UIViewController {
         } else {
             followButton.setTitle("Follow", for: .normal)
         }
-    }
-    
-    func gestures() {
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        rightSwipe.direction = .right
-        view.addGestureRecognizer(rightSwipe)
     }
     
     func showAlert(title: String, message: String, optionTitle: String) {
