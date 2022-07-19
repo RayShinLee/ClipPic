@@ -17,25 +17,4 @@ extension UIViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
-    func showAlert(title: String, message: String, optionTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - Gesture Method
-    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .right {
-            print("Swipe Right")
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    func gestures() {
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        rightSwipe.direction = .right
-        view.addGestureRecognizer(rightSwipe)
-    }
 }

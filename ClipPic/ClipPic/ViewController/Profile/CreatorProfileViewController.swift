@@ -162,7 +162,7 @@ class CreatorProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        self.gestures()
+        gestures()
         fetchProfile()
     }
     
@@ -248,6 +248,13 @@ class CreatorProfileViewController: UIViewController {
         }
     }
     
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .right {
+            print("Swipe Right")
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     // MARK: - Methods
     func fetchProfile() {
         FireStoreManager.shared.fetchProfile(userUID: userId) { user, error in
@@ -287,6 +294,12 @@ class CreatorProfileViewController: UIViewController {
         } else {
             followButton.setTitle("Follow", for: .normal)
         }
+    }
+
+    func gestures() {
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        rightSwipe.direction = .right
+        view.addGestureRecognizer(rightSwipe)
     }
     
     func setUpView() {
