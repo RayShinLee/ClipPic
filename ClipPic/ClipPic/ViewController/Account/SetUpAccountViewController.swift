@@ -252,8 +252,6 @@ extension SetUpAccountViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            profileImageView.contentMode = .scaleAspectFill
-            profileImageView.clipsToBounds = true
             profileImageView.image = pickedImage
         }
         picker.dismiss(animated: true, completion: nil)
