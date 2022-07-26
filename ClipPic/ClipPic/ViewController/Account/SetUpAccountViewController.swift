@@ -56,7 +56,7 @@ class SetUpAccountViewController: UIViewController {
     var firstNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.attributedPlaceholder = NSAttributedString(string: "Enter first name",
+        textField.attributedPlaceholder = NSAttributedString(string: "First name(optional)",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         textField.textColor = .systemBackground
         return textField
@@ -65,7 +65,7 @@ class SetUpAccountViewController: UIViewController {
     var lastNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.attributedPlaceholder = NSAttributedString(string: "Enter last name",
+        textField.attributedPlaceholder = NSAttributedString(string: "Last name(optional)",
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         textField.textColor = .systemBackground
         return textField
@@ -135,19 +135,30 @@ class SetUpAccountViewController: UIViewController {
     
     @objc func tapNextButton() {
         ClipPicProgressHUD.show()
-        guard let avatar = profileImageView.image,
-              let imageData = avatar.jpegData(compressionQuality: 0.9),
-              let firstName = firstNameTextField.text,
-              let lastName = lastNameTextField.text,
+
+        guard let avatar = profileImageView.image ?? UIImage(named: "profileicon"),
+              let imageData = avatar.jpegData(compressionQuality: 0.1),
               let username = userNameTextField.text,
-              !firstName.isEmpty,
-              !lastName.isEmpty,
               !username.isEmpty else {
                   ClipPicProgressHUD.hide()
-                  self.showAlert(title: "Oops!", message: "Please upload your profile picture and fill all fields", optionTitle: "Ok")
+                  self.showAlert(title: "Oops!", message: "Please enter a username", optionTitle: "Ok")
                   print("empty data")
                   return
               }
+        var firstName: String
+        var lastName: String
+        
+        if let text = firstNameTextField.text, !text.isEmpty {
+            firstName = text
+        } else {
+            firstName = "ClipPic"
+        }
+        
+        if let text = lastNameTextField.text, !text.isEmpty {
+            lastName = text
+        } else {
+            lastName = "User"
+        }        
         
         FirebaseStorageManager.shared.uploadImage(for: .avatar, with: imageData) { url in
             guard let avatarURL = url else {
