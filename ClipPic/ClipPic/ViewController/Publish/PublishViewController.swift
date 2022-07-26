@@ -53,6 +53,8 @@ class PublishViewController: UIViewController {
         imageToPost.translatesAutoresizingMaskIntoConstraints = false
         imageToPost.isUserInteractionEnabled = true
         imageToPost.backgroundColor = .systemFill
+        imageToPost.contentMode = .scaleAspectFill
+        imageToPost.clipsToBounds = true
         return imageToPost
     }()
     
@@ -389,12 +391,9 @@ extension PublishViewController: UICollectionViewDataSource, UICollectionViewDel
 
     // MARK: - UIImagePickerController Delegate
 extension PublishViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            toPostImageView.contentMode = .scaleAspectFill
-            toPostImageView.clipsToBounds = true
             toPostImageView.image = pickedImage
         }
         picker.dismiss(animated: true, completion: nil)
