@@ -99,6 +99,17 @@ class PostViewController: UIViewController {
         return shareButton
     }()
     
+    lazy var reportButton: UIButton = {
+        let reportButton = UIButton()
+        reportButton.translatesAutoresizingMaskIntoConstraints = false
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "exclamationmark.triangle.fill",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        reportButton.setImage(image, for: .normal)
+        reportButton.addTarget(self, action: #selector(tapReportButton), for: .touchUpInside)
+        return reportButton
+    }()
+    
     lazy var followButton: UIButton = {
         let followButton = UIButton()
         followButton.translatesAutoresizingMaskIntoConstraints = false
@@ -252,6 +263,14 @@ class PostViewController: UIViewController {
         }
     }
     
+    @objc func tapReportButton() {
+        showReportAlert(title: "Report Post", message: "Do you wish to report this post?", optionTitle: "Report") { _ in
+            self.showAlert(title: "Thank you for reporting to us.",
+                           message: "This post has been reported. We will evaluate this post and take necessary actions.",
+                           optionTitle: "Ok")
+        }
+    }
+    
     @objc func tapCreatorProfileButton() {
         self.show(CreatorProfileViewController(userId: post.author.id), sender: nil)
     }
@@ -375,6 +394,15 @@ class PostViewController: UIViewController {
         }
     }
     
+    func showReportAlert(title: String, message: String, optionTitle: String, actionHandler: @escaping (UIAlertAction) -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: optionTitle, style: .default, handler: actionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(action)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     func showAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
@@ -465,5 +493,9 @@ class PostViewController: UIViewController {
         creatorProfileButton.leadingAnchor.constraint(equalTo: creatorProfileImageView.leadingAnchor).isActive = true
         creatorProfileButton.bottomAnchor.constraint(equalTo: creatorProfileImageView.bottomAnchor).isActive = true
         creatorProfileButton.trailingAnchor.constraint(equalTo: creatorNameLabel.trailingAnchor).isActive = true
+        
+        postDescriptionView.addSubview(reportButton)
+        reportButton.bottomAnchor.constraint(equalTo: postDescriptionView.bottomAnchor, constant: -10).isActive = true
+        reportButton.trailingAnchor.constraint(equalTo: postDescriptionView.trailingAnchor, constant: -10).isActive = true
     }
 }
