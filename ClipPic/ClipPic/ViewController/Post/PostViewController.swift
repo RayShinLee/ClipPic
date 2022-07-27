@@ -99,6 +99,17 @@ class PostViewController: UIViewController {
         return shareButton
     }()
     
+    lazy var reportButton: UIButton = {
+        let reportButton = UIButton()
+        reportButton.translatesAutoresizingMaskIntoConstraints = false
+        let imageSize = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "ellipsis.circle",
+                            withConfiguration: imageSize)?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        reportButton.setImage(image, for: .normal)
+        reportButton.addTarget(self, action: #selector(tapShareButton), for: .touchUpInside)
+        return reportButton
+    }()
+    
     lazy var followButton: UIButton = {
         let followButton = UIButton()
         followButton.translatesAutoresizingMaskIntoConstraints = false
@@ -250,6 +261,10 @@ class PostViewController: UIViewController {
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true, completion: nil)
         }
+    }
+    
+    @objc func tapReportButton() {
+        
     }
     
     @objc func tapCreatorProfileButton() {
