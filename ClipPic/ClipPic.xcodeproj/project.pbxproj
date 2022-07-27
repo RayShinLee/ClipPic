@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5FEB3826566316281773F22B /* Pods_ClipPicTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF11A23085A283591335FC6 /* Pods_ClipPicTests.framework */; };
 		87395FA5285DB7880028D217 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA4285DB7880028D217 /* SearchViewController.swift */; };
-		87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */; };
 		87395FA9285E1F9D0028D217 /* GoogleSearchAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */; };
 		8740C2FA285888BF00ABA14D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2F9285888BF00ABA14D /* AppDelegate.swift */; };
 		8740C2FC285888BF00ABA14D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8740C2FB285888BF00ABA14D /* SceneDelegate.swift */; };
@@ -98,7 +97,6 @@
 		4AF11A23085A283591335FC6 /* Pods_ClipPicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClipPicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E59B4F91EE347B4F2B8A63 /* Pods-ClipPic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClipPic.debug.xcconfig"; path = "Target Support Files/Pods-ClipPic/Pods-ClipPic.debug.xcconfig"; sourceTree = "<group>"; };
 		87395FA4285DB7880028D217 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBottomSheet.swift; sourceTree = "<group>"; };
 		87395FA8285E1F9D0028D217 /* GoogleSearchAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchAPIManager.swift; sourceTree = "<group>"; };
 		8740C2F6285888BF00ABA14D /* ClipPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8740C2F9285888BF00ABA14D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -460,7 +458,6 @@
 		878E10B028606C1F00FF87C2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				87395FA6285DB9F40028D217 /* SearchBottomSheet.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -868,7 +865,6 @@
 				87B8A0DB2869EB6A00AE533D /* ImageTabViewController.swift in Sources */,
 				878E10AA286038A300FF87C2 /* CategoryCollectionView.swift in Sources */,
 				878E10C92864570100FF87C2 /* SearchResultCollectionViewCell.swift in Sources */,
-				87395FA7285DB9F40028D217 /* SearchBottomSheet.swift in Sources */,
 				87550430286D9F1B009073DA /* CreatorProfileViewController.swift in Sources */,
 				8799B6DC287F1EE500C1659A /* UIViewControllerExtension.swift in Sources */,
 				87839F5D285AC49D00620513 /* PublishViewController.swift in Sources */,
@@ -1045,7 +1041,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 937JA74FPR;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1079,7 +1075,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ClipPic/ClipPic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 937JA74FPR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipPic/Info.plist;

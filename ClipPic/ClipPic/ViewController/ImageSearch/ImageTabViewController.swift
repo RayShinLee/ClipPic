@@ -11,19 +11,21 @@ class ImageTabViewController: UIViewController {
     
     // MARK: - UI Properties
 
-    var imageSearchButton: UIButton = {
+    lazy var imageSearchButton: UIButton = {
         let imageSearchButton = UIButton()
         imageSearchButton.translatesAutoresizingMaskIntoConstraints = false
         imageSearchButton.backgroundColor = .label
         imageSearchButton.layer.cornerRadius = 20
+        imageSearchButton.addTarget(self, action: #selector(tapimageSearchButton), for: .touchUpInside)
         return imageSearchButton
     }()
     
-    var translateImageButton: UIButton = {
+    lazy var translateImageButton: UIButton = {
         let translateImageButton = UIButton()
         translateImageButton.translatesAutoresizingMaskIntoConstraints = false
         translateImageButton.backgroundColor = .label
         translateImageButton.layer.cornerRadius = 20
+        translateImageButton.addTarget(self, action: #selector(tapTranslateTextButton), for: .touchUpInside)
         return translateImageButton
     }()
     
@@ -87,14 +89,12 @@ class ImageTabViewController: UIViewController {
         return translateDescriptionLabel
     }()
     
-    // MARK: - Lifecyle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        imageSearchButton.addTarget(self, action: #selector(tapimageSearchButton), for: .touchUpInside)
-        translateImageButton.addTarget(self, action: #selector(tapTranslateTextButton), for: .touchUpInside)
     }
     
     // MARK: - Action Methods

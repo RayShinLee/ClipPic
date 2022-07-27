@@ -8,6 +8,9 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
+    
+    // MARK: - Propeties
+    
     static let shared = TabBarViewController()
     
     // MARK: - Lifecycle
@@ -78,6 +81,7 @@ class TabBarViewController: UITabBarController {
     }
 }
 
+    // MARK: - UITabBarControllerDelegate
 extension TabBarViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if ((viewController as? UINavigationController)?.viewControllers.first) as? HomeViewController != nil {

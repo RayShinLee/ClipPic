@@ -22,6 +22,8 @@ class ImageSearchViewController: UIViewController {
         toSearchImageView.translatesAutoresizingMaskIntoConstraints = false
         toSearchImageView.isUserInteractionEnabled = true
         toSearchImageView.backgroundColor = .systemFill
+        toSearchImageView.contentMode = .scaleAspectFill
+        toSearchImageView.clipsToBounds = true
         return toSearchImageView
     }()
     
@@ -160,12 +162,9 @@ extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewD
 
     // MARK: - UIImagePickerController Delegate
 extension ImageSearchViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            toSearchImageView.contentMode = .scaleAspectFill
-            toSearchImageView.clipsToBounds = true
             toSearchImageView.image = pickedImage
             
             uploadAndSearchImage()

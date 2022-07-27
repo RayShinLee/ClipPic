@@ -126,6 +126,8 @@ class HomeViewController: UIViewController {
     }
 }
 
+    // MARK: - PostListCollectionViewDelegate, CategoryCollectionViewDelegate
+
 extension HomeViewController: PostListCollectionViewDelegate, CategoryCollectionViewDelegate {
     func didSelectCategoryAt(_ categoryCollectionView: CategoryCollectionView, category: Category) {
         let stautsBarManager = view.window?.windowScene?.statusBarManager

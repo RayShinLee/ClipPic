@@ -14,7 +14,10 @@ protocol PostListCollectionViewDelegate: AnyObject {
 
 class PostListCollectionView: UICollectionView {
     
+    // MARK: - Properties
+    
     weak var interactionDelegate: PostListCollectionViewDelegate?
+    
     var posts: [Post] = [] {
         didSet {
             reloadData()
@@ -42,7 +45,7 @@ class PostListCollectionView: UICollectionView {
     }
 }
 
-// MARK: - CollectionView DataSource & Delegate
+    // MARK: - CollectionView DataSource & Delegate
 extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: DataSource
@@ -73,9 +76,10 @@ extension PostListCollectionView: UICollectionViewDataSource, UICollectionViewDe
     }
 }
 
+    // MARK: - WaterFallLayoutDelegate
 extension PostListCollectionView: WaterFallLayoutDelegate {
     func waterFlowLayout(_ waterFlowLayout: WaterFallFlowLayout, itemHeight indexPath: IndexPath) -> CGFloat {
-        let pool: [CGFloat] = [300, 250, 320, 280]
+        let pool: [CGFloat] = [350, 300, 250, 200]
         let randomIndex = Int.random(in: 0...2)
         let dynamicHeight = pool[randomIndex]
         return dynamicHeight

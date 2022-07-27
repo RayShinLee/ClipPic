@@ -162,9 +162,9 @@ class SignInViewController: UIViewController {
     @objc func taptermsButton() {
         guard let url = URL(
             string: "https://www.privacypolicies.com/live/67f30222-1200-4518-82cd-2408a0ea3728") else {
-            showAlert(title: "Error", message: "Something went wrong.\nPlease try again.", optionTitle: "")
-            return
-        }
+                self.showError(message: "Something went wrong.\nPlease try again.")
+                return
+            }
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
     }
@@ -172,9 +172,9 @@ class SignInViewController: UIViewController {
     @objc func tapEULAButton() {
         guard let url = URL(
             string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") else {
-            showAlert(title: "Error", message: "Something went wrong.\nPlease try again.", optionTitle: "")
-            return
-        }
+                self.showError(message: "Something went wrong.\nPlease try again.")
+                return
+            }
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
     }
@@ -187,13 +187,6 @@ class SignInViewController: UIViewController {
             self.backgroundVideoPlayer.seek(to: .zero)
             self.backgroundVideoPlayer.play()
         }
-    }
-    
-    func showAlert(title: String, message: String, optionTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
     }
     
     func setUpView() {
@@ -246,6 +239,8 @@ class SignInViewController: UIViewController {
         siwaButton.heightAnchor.constraint(equalTo: googleButton.heightAnchor).isActive = true
     }
 }
+
+    // MARK: - AccountManagerDelegate
 
 extension SignInViewController: AccountManagerDelegate {
     func sigInSuccess(shouldSetUpAccount: Bool) {

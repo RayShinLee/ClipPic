@@ -13,6 +13,7 @@ class PublishViewController: UIViewController {
     
     // MARK: - Properties
     var categories: [Category] = []
+    
     var selectedCategory: Category? = nil
     
     var fullScreenSize: CGSize!
@@ -52,33 +53,38 @@ class PublishViewController: UIViewController {
         imageToPost.translatesAutoresizingMaskIntoConstraints = false
         imageToPost.isUserInteractionEnabled = true
         imageToPost.backgroundColor = .systemFill
+        imageToPost.contentMode = .scaleAspectFill
+        imageToPost.clipsToBounds = true
         return imageToPost
     }()
     
-    var backButton: UIButton = {
+    lazy var backButton: UIButton = {
         let backButton = UIButton.init(type: .custom)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(UIImage(named: "Icons_24px_Back02"), for: .normal)
         backButton.imageView?.tintColor = .white
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         return backButton
     }()
     
-    var addImageButton: UIButton = {
+    lazy var addImageButton: UIButton = {
         let addImageButton = UIButton()
         addImageButton.translatesAutoresizingMaskIntoConstraints = false
         addImageButton.setTitle("Select an image", for: .normal)
         addImageButton.layer.cornerRadius = 10
         addImageButton.backgroundColor = .systemFill
+        addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
         return addImageButton
     }()
     
-    var publishButton: UIButton = {
+    lazy var publishButton: UIButton = {
         let publishButton = UIButton()
         publishButton.translatesAutoresizingMaskIntoConstraints = false
         publishButton.setTitle("Publish", for: .normal)
         publishButton.setTitleColor(.systemBackground, for: .normal)
         publishButton.layer.cornerRadius = 5
         publishButton.backgroundColor = .label
+        publishButton.addTarget(self, action: #selector(publish), for: .touchUpInside)
         return publishButton
     }()
     
@@ -174,22 +180,7 @@ class PublishViewController: UIViewController {
         setUpBaseView()
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
-        addImageButton.addTarget(self, action: #selector(uploadImage), for: .touchUpInside)
-        publishButton.addTarget(self, action: #selector(publish), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
-        
         fetchCategories()
-    }
-    
-    func fetchCategories() {
-        FireStoreManager.shared.fetchCategories() { (categories, error) in
-            if let error = error {
-                print("Fail to fetch categories with error: \(error)")
-            } else {
-                self.categories = categories ?? []
-                self.categoryCollectionView.reloadData()
-            }
-        }
     }
     
     // MARK: - Action methods
@@ -215,7 +206,7 @@ class PublishViewController: UIViewController {
               !description.isEmpty,
               let imageData = toPostImageView.image?.jpegData(compressionQuality: 1.0),
               let category = selectedCategory else {
-                  showErrorAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+                  self.showError(message: "Empty Input")
                   return
               }
         // 1. Upload image to firebase storage
@@ -235,11 +226,16 @@ class PublishViewController: UIViewController {
     }
     
     // MARK: - methods
-    func showErrorAlert(title: String, message: String, optionTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
+    
+    func fetchCategories() {
+        FireStoreManager.shared.fetchCategories() { (categories, error) in
+            if let error = error {
+                print("Fail to fetch categories with error: \(error)")
+            } else {
+                self.categories = categories ?? []
+                self.categoryCollectionView.reloadData()
+            }
+        }
     }
     
     func showSuccesAlert(title: String, message: String, optionTitle: String) {
@@ -360,7 +356,7 @@ extension PublishViewController: UICollectionViewDelegateFlowLayout {
             height: 30)
     }
 }
-
+    // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 extension PublishViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categories.count
@@ -395,12 +391,9 @@ extension PublishViewController: UICollectionViewDataSource, UICollectionViewDel
 
     // MARK: - UIImagePickerController Delegate
 extension PublishViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            toPostImageView.contentMode = .scaleAspectFill
-            toPostImageView.clipsToBounds = true
             toPostImageView.image = pickedImage
         }
         picker.dismiss(animated: true, completion: nil)

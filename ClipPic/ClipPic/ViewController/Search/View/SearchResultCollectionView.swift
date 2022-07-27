@@ -13,6 +13,7 @@ protocol SearchResultCollectionViewDelegate: AnyObject {
 }
 
 class SearchResultCollectionView: UICollectionView {
+    
     // MARK: - Properties
     weak var interactionDelegate: SearchResultCollectionViewDelegate?
     
@@ -37,10 +38,9 @@ class SearchResultCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
-// MARK: - CollectionView DataSource & Delegate
+    // MARK: - CollectionView DataSource & Delegate
 
 extension SearchResultCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     

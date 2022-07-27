@@ -259,7 +259,7 @@ class PostViewController: UIViewController {
     @objc func postCommentAction() {
         guard let comment = addCommentView.commentTextView.text,
               !comment.isEmpty else {
-                  showAlert(title: "Error", message: "Empty Input", optionTitle: "Ok")
+                  self.showError(message: "Empty Input")
                   return
               }
         
@@ -375,17 +375,17 @@ class PostViewController: UIViewController {
         }
     }
     
-    func gestures() {
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        rightSwipe.direction = .right
-        view.addGestureRecognizer(rightSwipe)
-    }
-    
     func showAlert(title: String, message: String, optionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: optionTitle, style: .default, handler: nil)
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func gestures() {
+        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        rightSwipe.direction = .right
+        view.addGestureRecognizer(rightSwipe)
     }
     
     func setUpView() {

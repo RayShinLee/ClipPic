@@ -9,6 +9,8 @@ import UIKit
 
 class EditProfileTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
     var textChangeHandler: ((String) -> Void)?
     
     // MARK: - UI properties
@@ -63,6 +65,8 @@ class EditProfileTableViewCell: UITableViewCell {
         separatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
     }
 }
+
+    // MARK: - UITextFieldDelegate
 
 extension EditProfileTableViewCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
