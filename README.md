@@ -1,5 +1,5 @@
 # ClipPic 
-![](https://img.shields.io/badge/platform-iOS-lightgray) ![](https://img.shields.io/badge/release-v1.0.0-green)
+![](https://img.shields.io/badge/platform-iOS-lightgray) ![](https://img.shields.io/badge/release-v1.0.0-green) ![](https://img.shields.io/badge/license-MIT-blue)
 
 <table>
 <h3>About ClipPic</h3>
@@ -20,7 +20,12 @@
         </p>
 </td>
 <td>
-<img src="https://i.imgur.com/e3Z5gyn.png" alt="Longtail boat in Thailand">
+<img src="https://i.imgur.com/e3Z5gyn.png" alt="ClipPic Logo">
+    </br>
+    </br>
+<p align="center"><a href="https://apps.apple.com/tw/app/clippic/id1630702787?l=en">
+<img src="https://i.imgur.com/X9tPvTS.png" width="120" height="40"/>
+</a></p>
 </td>
 </tr>
 </table>
@@ -75,3 +80,6 @@ Rayshin Lee
 
 - email: <lee.rayshin@gmail.com>
 - [My LinkedIn](www.linkedin.com/in/rayshinlee)
+
+## License
+ClipPic is released under the MIT license. See [LICENSE](https://github.com/RayShinLee/ClipPic/blob/main/LICENSE) for details.
