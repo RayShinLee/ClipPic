@@ -36,6 +36,16 @@ class ImageSearchViewController: UIViewController {
         return addImageButton
     }()
     
+    lazy var backButton: UIButton = {
+        let backButton = UIButton.init(type: .custom)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.layer.cornerRadius = 20
+        backButton.imageView?.tintColor = .label
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        return backButton
+    }()
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -69,6 +79,10 @@ class ImageSearchViewController: UIViewController {
         }
     }
     
+    @objc func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     // MARK: - Methods
     
     func setUpView() {
@@ -90,6 +104,12 @@ class ImageSearchViewController: UIViewController {
         addImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         addImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        view.addSubview(backButton)
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
     }
     
     func uploadAndSearchImage() {

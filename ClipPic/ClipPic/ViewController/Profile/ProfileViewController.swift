@@ -133,13 +133,13 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        fetchPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         refresh()
+        fetchPosts()
         fetchFollowersCount()
         collectionView.reloadData()
     }
