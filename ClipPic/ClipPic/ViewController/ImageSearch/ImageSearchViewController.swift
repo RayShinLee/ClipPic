@@ -129,6 +129,7 @@ class ImageSearchViewController: UIViewController {
                 if let error = error {
                     print(error)
                     ClipPicProgressHUD.hide()
+                    self.showError(message: "Please check your connection.")
                     return
                 }
                 self.serpImages = serpImages ?? []
@@ -174,7 +175,7 @@ extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let url = URL(string: serpImages[indexPath.item].link) else { return }
+        guard let url = URL(string: serpImages[indexPath.item].source) else { return }
         let safariViewContorller = SFSafariViewController(url: url)
         present(safariViewContorller, animated: true, completion: nil)
     }
