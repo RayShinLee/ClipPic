@@ -73,6 +73,7 @@
 ## Release Notes
 | Version | Notes |
 | :-----: | ----- |
+| 1.0.1   | Bug fixes |
 | 1.0.0   | Submitted to the App Store |
 
 ## Contact
