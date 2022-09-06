@@ -127,7 +127,7 @@ class ProfileViewController: UIViewController {
         return settingsButton
     }()
     
-    // MARK: - Lifecyle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,6 +180,7 @@ class ProfileViewController: UIViewController {
         postsTabButton.backgroundColor = .systemBackground
         postsTabButton.setTitleColor(.label, for: .normal)
         savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .label
     }
     
     func fetchPosts() {

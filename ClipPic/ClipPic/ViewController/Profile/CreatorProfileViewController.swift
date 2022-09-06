@@ -147,7 +147,7 @@ class CreatorProfileViewController: UIViewController {
         return backButton
     }()
 
-    // MARK: - Lifecyle
+    // MARK: - Lifecycle
     
     init(userId: String) {
         self.userId = userId
@@ -162,16 +162,15 @@ class CreatorProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        gestures()
         fetchProfile()
+        gestures()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        postsTabButton.backgroundColor = .label
-        postsTabButton.setTitleColor(.systemBackground, for: .normal)
-        savedTabButton.setTitleColor(.label, for: .normal)
+        refresh()
+        fetchPosts()
         fetchFollowersCount()
         collectionView.reloadData()
     }
@@ -264,15 +263,17 @@ class CreatorProfileViewController: UIViewController {
             }
             self.user = user
             self.updateFollowButton()
-            
-            let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
-            FireStoreManager.shared.fetchPosts(with: author) { posts, error in
-                let items = (posts ?? []).compactMap {
-                    return User.Collection(id: $0.id, imageURL: $0.imageUrl)
-                }
-                self.userPosts = items
-                self.collectionView.items = items
+        }
+    }
+    
+    func fetchPosts() {
+        let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
+        FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+            let items = (posts ?? []).compactMap {
+                return User.Collection(id: $0.id, imageURL: $0.imageUrl)
             }
+            self.userPosts = items
+            self.collectionView.items = items
         }
     }
     
@@ -294,6 +295,13 @@ class CreatorProfileViewController: UIViewController {
         } else {
             followButton.setTitle("Follow", for: .normal)
         }
+    }
+    
+    func refresh() {
+        postsTabButton.backgroundColor = .label
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .systemBackground
+        savedTabButton.setTitleColor(.label, for: .normal)
     }
 
     func gestures() {
