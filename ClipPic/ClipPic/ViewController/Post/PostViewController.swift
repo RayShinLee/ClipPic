@@ -307,7 +307,7 @@ class PostViewController: UIViewController {
     // MARK: - Methods
     
     func fetchPost() {
-        FireStoreManager.shared.fetchPost(postId: postId) { post, error in
+        FireStoreManager.shared.fetchPostDetails(postId: postId) { post, error in
             if let error = error {
                 print("Fail to fetch post with error: \(error)")
             }

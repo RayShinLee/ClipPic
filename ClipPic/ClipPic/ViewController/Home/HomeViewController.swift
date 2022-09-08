@@ -57,9 +57,7 @@ class HomeViewController: UIViewController {
         setUpViews()
         fetchPosts()
         fetchCategories()
-        
-        homeCollectionView.mj_header = header
-        header.lastUpdatedTimeLabel?.isHidden = true        
+        refreshHeader()
     }
     
     // MARK: - Action methods
@@ -80,7 +78,7 @@ class HomeViewController: UIViewController {
     func fetchPosts() {
         let category = categoryCollectionView.selectedCategory ?? Category.all
         
-        FireStoreManager.shared.fetchPosts(with: category, completion: { (posts, error) in
+        FireStoreManager.shared.homeFetchPosts(with: category, completion: { (posts, error) in
             if let error = error {
                 print("Fail to fetch posts with error: \(error)")
             } else {
@@ -100,6 +98,14 @@ class HomeViewController: UIViewController {
                 self.categoryCollectionView.reloadData()
             }
         }
+    }
+    
+    func refreshHeader() {
+        homeCollectionView.mj_header = header
+        header.lastUpdatedTimeLabel?.isHidden = true
+        header.setTitle("Pull down to refresh", for: .idle)
+        header.setTitle("Loading", for: .refreshing)
+        header.setTitle("Release to refresh", for: .pulling)
     }
     
     func setUpViews() {

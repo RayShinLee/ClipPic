@@ -188,7 +188,7 @@ extension FireStoreManager {
 // MARK: - Post
 extension FireStoreManager {
     
-    func fetchPost(postId: String, completion: @escaping ((Post?, Error?) -> Void)) {
+    func fetchPostDetails(postId: String, completion: @escaping ((Post?, Error?) -> Void)) {
         dataBase.collection("Post").document(postId).getDocument { snapShot, error in
             guard let snapshot = snapShot,
                   let data = snapshot.data() else {
@@ -197,11 +197,12 @@ extension FireStoreManager {
             }
             
             let post = Post(documentId: postId, dictionary: data)
+        
             completion(post, nil)
         }
     }
     
-    func fetchPosts(with category: Category, completion: @escaping (([Post]?, Error?) -> Void)) {
+    func homeFetchPosts(with category: Category, completion: @escaping (([Post]?, Error?) -> Void)) {
         let reference = (category == Category.all) ?
         dataBase.collection("Post") :
         dataBase.collection("Post")
@@ -229,11 +230,15 @@ extension FireStoreManager {
                 }
             })
             
+            posts.sort { data0, data1 in
+                return data0.createdTime ?? Date().timeIntervalSince1970 < data1.createdTime ?? Date().timeIntervalSince1970
+            }
+            
             completion(posts, nil)
         }
     }
     
-    func fetchPosts(with author: SimpleUser, completion: @escaping (([Post]?, Error?) -> Void)) {
+    func profileFetchPosts(with author: SimpleUser, completion: @escaping (([Post]?, Error?) -> Void)) {
         let reference = dataBase.collection("Post").whereField("author", isEqualTo: author.rawValue)
         
         reference.getDocuments { snapShot, error in
@@ -248,6 +253,10 @@ extension FireStoreManager {
                 posts.append(post)
             }
             
+            posts.sort { data0, data1 in
+                return data0.createdTime ?? Date().timeIntervalSince1970 < data1.createdTime ?? Date().timeIntervalSince1970
+            }
+            
             completion(posts, nil)
         }
     }
@@ -255,6 +264,8 @@ extension FireStoreManager {
     func publishPost(imageURL: String, title: String, category: Category, referenceLink: String?, description: String) {
         guard let user = AccountManager.shared.appUser else { return }
         let newDocument = Firestore.firestore().collection("Post").document()
+        let timeStamp = Date().timeIntervalSince1970
+        
         let data: [String: Any] = [
            "author": ["id": user.id,
                       "name": user.userName,
@@ -264,7 +275,8 @@ extension FireStoreManager {
            "image_url": imageURL,
            "description": description,
            "reference_link": referenceLink,
-           "category": ["id": category.id, "name": category.name]
+           "category": ["id": category.id, "name": category.name],
+           "created_time": timeStamp
         ]
         newDocument.setData(data) { error in
             if let error = error {

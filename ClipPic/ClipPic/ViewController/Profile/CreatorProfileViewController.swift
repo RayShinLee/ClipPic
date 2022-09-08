@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MJRefresh
 import Kingfisher
 
 class CreatorProfileViewController: UIViewController {
@@ -13,6 +14,7 @@ class CreatorProfileViewController: UIViewController {
     // MARK: - Properties
     
     let userId: String
+    
     var user: User! {
         didSet {
             profileImageView.kf.setImage(with: URL(string: user.avatar))
@@ -23,7 +25,12 @@ class CreatorProfileViewController: UIViewController {
     }
     
     var userPosts: [User.Collection] = []
+    
     var post: Post!
+    
+    lazy var header = MJRefreshStateHeader(refreshingBlock: { [weak self] in
+        self?.fetchPosts()
+    })
     
     // MARK: - UI Properties
     
@@ -162,17 +169,17 @@ class CreatorProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        fetchProfile()
         gestures()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchProfile()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        refresh()
-        fetchPosts()
-        fetchFollowersCount()
-        collectionView.reloadData()
     }
     
     // MARK: - Action Methods
@@ -263,17 +270,23 @@ class CreatorProfileViewController: UIViewController {
             }
             self.user = user
             self.updateFollowButton()
+            
+            self.fetchPosts()
+            self.fetchFollowersCount()
         }
     }
     
     func fetchPosts() {
         let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
-        FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+        FireStoreManager.shared.profileFetchPosts(with: author) { posts, error in
             let items = (posts ?? []).compactMap {
                 return User.Collection(id: $0.id, imageURL: $0.imageUrl)
             }
             self.userPosts = items
             self.collectionView.items = items
+            self.collectionView.reloadData()
+            self.collectionView.mj_header?.endRefreshing()
+            self.refreshTabs()
         }
     }
     
@@ -297,7 +310,15 @@ class CreatorProfileViewController: UIViewController {
         }
     }
     
-    func refresh() {
+    func refreshHeader() {
+        collectionView.mj_header = header
+        header.lastUpdatedTimeLabel?.isHidden = true
+        header.setTitle("Pull down to refresh", for: .idle)
+        header.setTitle("Loading", for: .refreshing)
+        header.setTitle("Release to refresh", for: .pulling)
+    }
+    
+    func refreshTabs() {
         postsTabButton.backgroundColor = .label
         postsTabButton.setTitleColor(.systemBackground, for: .normal)
         savedTabButton.backgroundColor = .systemBackground

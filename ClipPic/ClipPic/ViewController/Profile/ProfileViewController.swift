@@ -7,11 +7,16 @@
 
 import UIKit
 import Kingfisher
+import MJRefresh
 
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     var userPosts: [User.Collection] = []
+    
+    lazy var header = MJRefreshStateHeader(refreshingBlock: { [weak self] in
+        self?.fetchPosts()
+    })
     
     // MARK: - UI Properties
     
@@ -133,12 +138,13 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
+        refreshHeader()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        refresh()
+        refreshTabs()
         fetchPosts()
         fetchFollowersCount()
         collectionView.reloadData()
@@ -168,7 +174,7 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - Methods
-    func refresh() {
+    func refreshTabs() {
         guard let user = AccountManager.shared.appUser else {
             return
         }
@@ -183,15 +189,24 @@ class ProfileViewController: UIViewController {
         savedTabButton.backgroundColor = .label
     }
     
+    func refreshHeader() {
+        collectionView.mj_header = header
+        header.lastUpdatedTimeLabel?.isHidden = true
+        header.setTitle("Pull down to refresh", for: .idle)
+        header.setTitle("Loading", for: .refreshing)
+        header.setTitle("Release to refresh", for: .pulling)
+    }
+    
     func fetchPosts() {
         guard let user = AccountManager.shared.appUser else { return }
         let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
-        FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+        FireStoreManager.shared.profileFetchPosts(with: author) { posts, error in
             let items = (posts ?? []).compactMap {
                 return User.Collection(id: $0.id, imageURL: $0.imageUrl)
             }
             self.userPosts = items
             self.collectionView.items = items
+            self.collectionView.mj_header?.endRefreshing()
         }
     }
     
