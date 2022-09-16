@@ -46,6 +46,12 @@ class SearchViewController: UIViewController {
         setUpViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        searchTextField.text = ""
+    }
+    
+    // MARK: - Methods
+    
     func searchKeyword(keyword: String) {
         guard !keyword.isEmpty else {
             return

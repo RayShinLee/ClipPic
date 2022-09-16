@@ -8,7 +8,7 @@
 import Foundation
 
 struct SerpImage: Decodable {
-    let link: String
+    //let link: String?
     let source: String
     let thumbnail: String
 }

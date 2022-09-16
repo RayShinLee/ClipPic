@@ -32,6 +32,16 @@ class TranslateTextViewController: UIViewController {
         return addImageButton
     }()
     
+    lazy var backButton: UIButton = {
+        let backButton = UIButton.init(type: .custom)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.layer.cornerRadius = 20
+        backButton.imageView?.tintColor = .label
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        return backButton
+    }()
+    
     var resultTextView: UITextView = {
         let resultTextView = UITextView()
         resultTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +66,10 @@ class TranslateTextViewController: UIViewController {
         DispatchQueue.main.async {
             self.present(imagePicker, animated: true)
         }
+    }
+    
+    @objc func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Methods
@@ -108,6 +122,12 @@ class TranslateTextViewController: UIViewController {
         resultTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         resultTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
         resultTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
+        
+        view.addSubview(backButton)
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
     }
 }
 

@@ -15,6 +15,7 @@ struct Post {
     let imageUrl: String
     let referenceLink: String?
     let title: String
+    let createdTime: Double?
     
     init(documentId: String, dictionary: [String: Any]) {
         guard let description = dictionary["description"] as? String,
@@ -34,5 +35,6 @@ struct Post {
         self.referenceLink = dictionary["reference_link"] as? String
         self.title = title
         self.author = SimpleUser(documentId: authorId, dictionary: author)
+        self.createdTime = dictionary["created_time"] as? Double
     }
 }

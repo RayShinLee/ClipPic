@@ -36,6 +36,16 @@ class ImageSearchViewController: UIViewController {
         return addImageButton
     }()
     
+    lazy var backButton: UIButton = {
+        let backButton = UIButton.init(type: .custom)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.layer.cornerRadius = 20
+        backButton.imageView?.tintColor = .label
+        backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
+        return backButton
+    }()
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -69,6 +79,10 @@ class ImageSearchViewController: UIViewController {
         }
     }
     
+    @objc func tapBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     // MARK: - Methods
     
     func setUpView() {
@@ -90,6 +104,12 @@ class ImageSearchViewController: UIViewController {
         addImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         addImageButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
         addImageButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        view.addSubview(backButton)
+        backButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
     }
     
     func uploadAndSearchImage() {
@@ -109,6 +129,7 @@ class ImageSearchViewController: UIViewController {
                 if let error = error {
                     print(error)
                     ClipPicProgressHUD.hide()
+                    self.showError(message: "Please check your connection.")
                     return
                 }
                 self.serpImages = serpImages ?? []
@@ -154,7 +175,7 @@ extension ImageSearchViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let url = URL(string: serpImages[indexPath.item].link) else { return }
+        guard let url = URL(string: serpImages[indexPath.item].source) else { return }
         let safariViewContorller = SFSafariViewController(url: url)
         present(safariViewContorller, animated: true, completion: nil)
     }

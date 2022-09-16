@@ -77,7 +77,6 @@ class ProfileViewController: UIViewController {
     var followersCountLabel: UILabel = {
         let followersCountLabel = UILabel()
         followersCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        followersCountLabel.text = "100"
         followersCountLabel.textColor = .systemBackground
         return followersCountLabel
     }()
@@ -127,7 +126,7 @@ class ProfileViewController: UIViewController {
         return settingsButton
     }()
     
-    // MARK: - Lifecyle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,8 +138,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        refresh()
-        fetchFollowersCount()
+        fetchProfileInfo()
         collectionView.reloadData()
     }
     
@@ -168,7 +166,7 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - Methods
-    func refresh() {
+    func fetchProfileInfo() {
         guard let user = AccountManager.shared.appUser else {
             return
         }
@@ -177,15 +175,13 @@ class ProfileViewController: UIViewController {
         userNameLabel.text = "@\(user.userName)"
         profileImageView.kf.setImage(with: URL(string: user.avatar))
         totalSavedCountLabel.text = "\(user.collections.count)"
-        postsTabButton.backgroundColor = .systemBackground
-        postsTabButton.setTitleColor(.label, for: .normal)
-        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        fetchFollowersCount()
     }
     
     func fetchPosts() {
         guard let user = AccountManager.shared.appUser else { return }
         let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
-        FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+        FireStoreManager.shared.profileFetchPosts(with: author) { posts, error in
             let items = (posts ?? []).compactMap {
                 return User.Collection(id: $0.id, imageURL: $0.imageUrl)
             }
@@ -206,6 +202,11 @@ class ProfileViewController: UIViewController {
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85).isActive = true
+        
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .label
         
         setUpHeaderView()
         setUpCollectionView()

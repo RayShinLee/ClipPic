@@ -13,6 +13,7 @@ class CreatorProfileViewController: UIViewController {
     // MARK: - Properties
     
     let userId: String
+    
     var user: User! {
         didSet {
             profileImageView.kf.setImage(with: URL(string: user.avatar))
@@ -23,6 +24,7 @@ class CreatorProfileViewController: UIViewController {
     }
     
     var userPosts: [User.Collection] = []
+    
     var post: Post!
     
     // MARK: - UI Properties
@@ -147,7 +149,7 @@ class CreatorProfileViewController: UIViewController {
         return backButton
     }()
 
-    // MARK: - Lifecyle
+    // MARK: - Lifecycle
     
     init(userId: String) {
         self.userId = userId
@@ -162,18 +164,17 @@ class CreatorProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        gestures()
+        fetchPosts()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchProfile()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        postsTabButton.backgroundColor = .label
-        postsTabButton.setTitleColor(.systemBackground, for: .normal)
-        savedTabButton.setTitleColor(.label, for: .normal)
-        fetchFollowersCount()
-        collectionView.reloadData()
     }
     
     // MARK: - Action Methods
@@ -264,14 +265,24 @@ class CreatorProfileViewController: UIViewController {
             }
             self.user = user
             self.updateFollowButton()
-            
+            self.fetchFollowersCount()
+        }
+    }
+    
+    func fetchPosts() {
+        FireStoreManager.shared.fetchProfile(userUID: userId) { user, error in
+            guard let user = user else {
+                print("error")
+                return
+            }
             let author = SimpleUser(id: user.id, name: user.userName, avatar: user.avatar)
-            FireStoreManager.shared.fetchPosts(with: author) { posts, error in
+            FireStoreManager.shared.profileFetchPosts(with: author) { posts, error in
                 let items = (posts ?? []).compactMap {
                     return User.Collection(id: $0.id, imageURL: $0.imageUrl)
                 }
                 self.userPosts = items
                 self.collectionView.items = items
+                self.collectionView.reloadData()
             }
         }
     }
@@ -296,7 +307,7 @@ class CreatorProfileViewController: UIViewController {
         }
     }
 
-    func gestures() {
+    func setUpHandGestures() {
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
         rightSwipe.direction = .right
         view.addGestureRecognizer(rightSwipe)
@@ -315,6 +326,12 @@ class CreatorProfileViewController: UIViewController {
         profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         profileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
+        postsTabButton.backgroundColor = .label
+        postsTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .systemBackground
+        savedTabButton.setTitleColor(.label, for: .normal)
+        
+        setUpHandGestures()
         setUpHeaderView()
         setUpCollectionView()
     }
