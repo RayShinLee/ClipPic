@@ -7,16 +7,11 @@
 
 import UIKit
 import Kingfisher
-import MJRefresh
 
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     var userPosts: [User.Collection] = []
-    
-    lazy var header = MJRefreshStateHeader(refreshingBlock: { [weak self] in
-        self?.fetchPosts()
-    })
     
     // MARK: - UI Properties
     
@@ -82,7 +77,6 @@ class ProfileViewController: UIViewController {
     var followersCountLabel: UILabel = {
         let followersCountLabel = UILabel()
         followersCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        followersCountLabel.text = "100"
         followersCountLabel.textColor = .systemBackground
         return followersCountLabel
     }()
@@ -138,15 +132,13 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpView()
-        refreshHeader()
+        fetchPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        refreshTabs()
-        fetchPosts()
-        fetchFollowersCount()
+        fetchProfileInfo()
         collectionView.reloadData()
     }
     
@@ -174,7 +166,7 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - Methods
-    func refreshTabs() {
+    func fetchProfileInfo() {
         guard let user = AccountManager.shared.appUser else {
             return
         }
@@ -183,18 +175,7 @@ class ProfileViewController: UIViewController {
         userNameLabel.text = "@\(user.userName)"
         profileImageView.kf.setImage(with: URL(string: user.avatar))
         totalSavedCountLabel.text = "\(user.collections.count)"
-        postsTabButton.backgroundColor = .systemBackground
-        postsTabButton.setTitleColor(.label, for: .normal)
-        savedTabButton.setTitleColor(.systemBackground, for: .normal)
-        savedTabButton.backgroundColor = .label
-    }
-    
-    func refreshHeader() {
-        collectionView.mj_header = header
-        header.lastUpdatedTimeLabel?.isHidden = true
-        header.setTitle("Pull down to refresh", for: .idle)
-        header.setTitle("Loading", for: .refreshing)
-        header.setTitle("Release to refresh", for: .pulling)
+        fetchFollowersCount()
     }
     
     func fetchPosts() {
@@ -206,7 +187,6 @@ class ProfileViewController: UIViewController {
             }
             self.userPosts = items
             self.collectionView.items = items
-            self.collectionView.mj_header?.endRefreshing()
         }
     }
     
@@ -222,6 +202,11 @@ class ProfileViewController: UIViewController {
         backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         backgroundView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85).isActive = true
+        
+        postsTabButton.backgroundColor = .systemBackground
+        postsTabButton.setTitleColor(.label, for: .normal)
+        savedTabButton.setTitleColor(.systemBackground, for: .normal)
+        savedTabButton.backgroundColor = .label
         
         setUpHeaderView()
         setUpCollectionView()

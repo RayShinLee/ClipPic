@@ -230,10 +230,9 @@ extension FireStoreManager {
                 }
             })
             
-            posts.sort { data0, data1 in
-                return data0.createdTime ?? Date().timeIntervalSince1970 < data1.createdTime ?? Date().timeIntervalSince1970
+            posts.sort { $0.createdTime ?? Date().timeIntervalSince1970 < $1.createdTime ?? Date().timeIntervalSince1970
             }
-            
+                        
             completion(posts, nil)
         }
     }
